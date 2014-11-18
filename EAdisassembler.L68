@@ -1,0 +1,66 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.02
+Created On: 18-Nov-14 12:26:46
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :  Week one EA
+00000000                             3  * Written by :  Greg Kitzmiller
+00000000                             4  * Date       :  11/18/14
+00000000                             5  * Description:  Subroutines for the week one procudures
+00000000                             6  *-----------------------------------------------------------
+00000000  =000000FF                  7  and_mask   EQU   $00FF    
+00000000  =0000AE45                  8  testString  EQU  $AE45 
+00000000  =000000FF                  9  FFFcomp  EQU  $000000FF   
+00000000  =00007000                 10  saveAddress EQU  $00007000
+00000000                            11      
+00000000                            12      
+00000000                            13      
+00001000                            14  START:  ORG    $1000         ; first instruction of program
+00001000                            15  
+00001000  323C AE45                 16     move.w  #testString,D1   ;put test string in data register 
+00001004                            17     
+00001004                            18  
+00001004  4EB9 0000100A             19      JSR   BRA   ;Jumps to the branch always subroutine
+0000100A                            20      
+0000100A                            21      
+0000100A                            22      
+0000100A                            23      
+0000100A                            24      
+0000100A  0281 000000FF             25  BRA   andi.l  #and_mask,D1  ;grab the least significant 8-bits
+00001010  B2BC 000000FF             26        CMP.L   #FFFcomp,D1   ;if they're all F's then grab the 32 displacement
+00001016  6700 0006                 27        BEQ   thirty_two_displace   ;  and store the 32 bit displacement
+0000101A  6000 0004                 28        BRA   sixteen_displace   ;otherwise, store the displacement address as hex 
+0000101E                            29        ;retun   
+0000101E                            30  
+0000101E                            31  thirty_two_displace 
+0000101E                            32           ;grabs the 32-bit displacement
+0000101E  4E75                      33     RTS   ;returns to the caller
+00001020                            34  
+00001020                            35  sixteen_displace
+00001020  45F8 7000                 36      LEA   saveAddress,A2   ;   saves info into memory 
+00001024  24F9 00001032             37      MOVE.L  sixteen,(A2)+    ;   moves the sixteen bit displacement message
+0000102A  24C1                      38      MOVE.L  D1,(A2)+   ;   loads the displacement into the next slot   
+0000102C  4E75                      39      RTS   ;returns to the caller
+0000102E                            40  
+0000102E  FFFF FFFF                 41      SIMHALT             ; halt simulator
+00001032                            42  
+00001032= 31362062 69742064 ...     43  sixteen  DC.L   '16 bit displacement for PC: ',0   ;   string for 16-bit displacement   
+00001052                            44  
+00001052                            45      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+AND_MASK            FF
+BRA                 100A
+FFFCOMP             FF
+SAVEADDRESS         7000
+SIXTEEN             1032
+SIXTEEN_DISPLACE    1020
+START               1000
+TESTSTRING          AE45
+THIRTY_TWO_DISPLACE  101E
