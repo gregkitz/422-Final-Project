@@ -1,7 +1,6 @@
 *-----------------------------------------------------------------
 * Title      :  EA
 * Written by :  Greg Kitzmiller
-
 * Date       :  11/18/14
 * Description:  EA
 *-----------------------------------------------------------------
@@ -19,10 +18,15 @@ START:  ORG    $1000         ; first instruction of program
    move.w  #testString,D1   ;put test string in data register 
    
 
-    JSR   BRA   ;Jumps to the branch always subroutine
+    JSR   BRA   ;   Jumps to the branch always subroutine
+    move   (SP)+,D0   ;
+    move   (SP)+,D1   ; 
+    lea   (8,SP),SP    ;  cleans stack 
     
+    move   #14,D0   ;   14, display string 
+    trap   #15   ;   display the string in A1     
     
-    
+    stop    #$2700
     
 ******************************************************************
 * Subroutine: Branch always
@@ -61,7 +65,7 @@ message        dc.l   'offset:',$d
 SIXTEEN_DISPLACE
     link   A0,#0    ;   create stack frame
     move.w   (A1)+,D1   ;   saves offset 
-    move.w   D1,(returnString,A0)   ;   save 16bit offset into string parameter
+    move.l   D1,(returnString,A0)   ;   save 16bit offset into string parameter
     move.l   (SP)+,D0  restore D0     
     unlk   A0
     rts   ;returns to the caller
@@ -76,11 +80,14 @@ NEG
 
 *******************************************************************
 
-    SIMHALT             ; halt simulator
+
+   END   START   ; 
+
+   SIMHALT   ;   end simulation 
 
 sixteen  DC.L   '16 bit displacement for PC: ',0   ;   string for 16-bit displacement   
 
-    END    START        ; last line of source
+ 
 
 
 
