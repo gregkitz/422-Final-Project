@@ -5,6 +5,7 @@
 * Description:  EA
 *-----------------------------------------------------------------
 starting_address   EQU   $6000   ; 
+save_space   EQU   $7000   ; 
 and_mask_ls_eight   EQU   $00FF    ;
 testString  EQU  $AE45   ;
 FFFcomp  EQU  $000000FF  ; ending 
@@ -19,8 +20,7 @@ START:  ORG    $1000         ; first instruction of program
    
 
     JSR   BRA   ;   Jumps to the branch always subroutine
-    move   (SP)+,D0   ;
-    move   (SP)+,D1   ; 
+    movea   (SP)+,A1   ;   grabs the pointer to the string 
     lea   (8,SP),SP    ;  cleans stack 
     
     move   #14,D0   ;   14, display string 
@@ -55,20 +55,20 @@ THIRTY_TWO_DISPLACE          ;grabs the 32-bit displacement
    RTS   ;returns to the caller
 
 *******************************************************************
-    offset   4+4
-returnString   ds.l   1
-message        dc.l   'offset:',$d
-      org   *   end of offset
-
 
 
 SIXTEEN_DISPLACE
-    link   A0,#0    ;   create stack frame
-    move.w   (A1)+,D1   ;   saves offset 
-    move.l   D1,(returnString,A0)   ;   save 16bit offset into string parameter
-    move.l   (SP)+,D0  restore D0     
-    unlk   A0
-    rts   ;returns to the caller
+    movea.l  A1,A2   ;   save a1
+    lea   sixteen_offset,A1   ;   loads 'offest' into A1
+    move.b   #14,D0   ; print string with no newline 
+    trap   #15   ;   trap call 
+    movea.l   A2,A1   ; move a2 back to a1
+    clr    D1   ;   clears register for printing offset 
+    move.w   (A1)+,D1   ;   saves offset and increments
+    move.b   #3,D0   ;   moves whatever is in D1.L
+    trap     #15   ;
+    move.l  A1,-(SP)   ;  saves the address on the stack 
+    rts   ; return to subroutine 
 *******************************************************************
     
 EIGHT_DISPLACE   
@@ -79,7 +79,9 @@ EIGHT_DISPLACE
 NEG
 
 *******************************************************************
-
+   SIMHALT   ; 
+   
+sixteen_offset   dc.l   'displacement (in hex):  ',0   ; message to write out with displacement 
 
    END   START   ; 
 
@@ -88,6 +90,9 @@ NEG
 sixteen  DC.L   '16 bit displacement for PC: ',0   ;   string for 16-bit displacement   
 
  
+
+
+
 
 
 

@@ -1,52 +1,93 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.15.02
-Created On: 18-Nov-14 12:26:46
+Created On: 11/25/2014 11:28:33 AM
 
-00000000                             1  *-----------------------------------------------------------
-00000000                             2  * Title      :  Week one EA
+00000000                             1  *-----------------------------------------------------------------
+00000000                             2  * Title      :  EA
 00000000                             3  * Written by :  Greg Kitzmiller
 00000000                             4  * Date       :  11/18/14
-00000000                             5  * Description:  Subroutines for the week one procudures
-00000000                             6  *-----------------------------------------------------------
-00000000  =000000FF                  7  and_mask   EQU   $00FF    
-00000000  =0000AE45                  8  testString  EQU  $AE45 
-00000000  =000000FF                  9  FFFcomp  EQU  $000000FF   
-00000000  =00007000                 10  saveAddress EQU  $00007000
-00000000                            11      
-00000000                            12      
-00000000                            13      
-00001000                            14  START:  ORG    $1000         ; first instruction of program
-00001000                            15  
-00001000  323C AE45                 16     move.w  #testString,D1   ;put test string in data register 
-00001004                            17     
-00001004                            18  
-00001004  4EB9 0000100A             19      JSR   BRA   ;Jumps to the branch always subroutine
-0000100A                            20      
-0000100A                            21      
-0000100A                            22      
-0000100A                            23      
-0000100A                            24      
-0000100A  0281 000000FF             25  BRA   andi.l  #and_mask,D1  ;grab the least significant 8-bits
-00001010  B2BC 000000FF             26        CMP.L   #FFFcomp,D1   ;if they're all F's then grab the 32 displacement
-00001016  6700 0006                 27        BEQ   thirty_two_displace   ;  and store the 32 bit displacement
-0000101A  6000 0004                 28        BRA   sixteen_displace   ;otherwise, store the displacement address as hex 
-0000101E                            29        ;retun   
-0000101E                            30  
-0000101E                            31  thirty_two_displace 
-0000101E                            32           ;grabs the 32-bit displacement
-0000101E  4E75                      33     RTS   ;returns to the caller
-00001020                            34  
-00001020                            35  sixteen_displace
-00001020  45F8 7000                 36      LEA   saveAddress,A2   ;   saves info into memory 
-00001024  24F9 00001032             37      MOVE.L  sixteen,(A2)+    ;   moves the sixteen bit displacement message
-0000102A  24C1                      38      MOVE.L  D1,(A2)+   ;   loads the displacement into the next slot   
-0000102C  4E75                      39      RTS   ;returns to the caller
-0000102E                            40  
-0000102E  FFFF FFFF                 41      SIMHALT             ; halt simulator
-00001032                            42  
-00001032= 31362062 69742064 ...     43  sixteen  DC.L   '16 bit displacement for PC: ',0   ;   string for 16-bit displacement   
-00001052                            44  
-00001052                            45      END    START        ; last line of source
+00000000                             5  * Description:  EA
+00000000                             6  *-----------------------------------------------------------------
+00000000  =00006000                  7  starting_address   EQU   $6000   ; 
+00000000  =00007000                  8  save_space   EQU   $7000   ; 
+00000000  =000000FF                  9  and_mask_ls_eight   EQU   $00FF    ;
+00000000  =0000AE45                 10  testString  EQU  $AE45   ;
+00000000  =000000FF                 11  FFFcomp  EQU  $000000FF  ; ending 
+00000000  =00000000                 12  comp_zero  EQU  $00000000   ;
+00000000  =00007000                 13  saveAddress EQU  $00007000   ;
+00000000                            14      
+00000000                            15      
+00000000                            16      
+00001000                            17  START:  ORG    $1000         ; first instruction of program
+00001000                            18  
+00001000  323C AE45                 19     move.w  #testString,D1   ;put test string in data register 
+00001004                            20     
+00001004                            21  
+00001004  4EB9 0000101A             22      JSR   BRA   ;   Jumps to the branch always subroutine
+0000100A  325F                      23      movea   (SP)+,A1   ;   grabs the pointer to the string 
+0000100C  4FEF 0008                 24      lea   (8,SP),SP    ;  cleans stack 
+00001010                            25      
+00001010  303C 000E                 26      move   #14,D0   ;   14, display string 
+00001014  4E4F                      27      trap   #15   ;   display the string in A1     
+00001016                            28      
+00001016  4E72 2700                 29      stop    #$2700
+0000101A                            30      
+0000101A                            31  ******************************************************************
+0000101A                            32  * Subroutine: Branch always
+0000101A                            33  
+0000101A                            34  * By: GKITZ
+0000101A                            35  * Description: EA for BRA command - prints the PC offset that imm-
+0000101A                            36  * idiately follows the instruction whether 8,16, or 32.    
+0000101A                            37  ******************************************************************
+0000101A  43F8 6000                 38  BRA   lea   starting_address,A1   ;point to where we're reading 
+0000101E  3219                      39        move.w  (A1)+,D1   ; move the word into d1
+00001020  0281 000000FF             40        andi.l  #and_mask_ls_eight,D1  ;grab the least significant 8-bits
+00001026  B2BC 00000000             41        cmp.l   #comp_zero,D1   ;if they're all 0's then grab the 16-bit displacement 
+0000102C                            42  
+0000102C  6700 0014                 43        beq     SIXTEEN_DISPLACE
+00001030  B2BC 000000FF             44        cmp.l   #FFFcomp,D1   ;if they're all F's then grab the 32 displacement
+00001036  6700 0008                 45        beq   THIRTY_TWO_DISPLACE   ;  and store the 32 bit displacement
+0000103A  6000 0024                 46        bra   EIGHT_DISPLACE   ;otherwise, store the displacement address as hex 
+0000103E                            47        ;retun   
+0000103E                            48  *******************************************************************     
+0000103E                            49  * 
+0000103E                            50  NOP   * NOP subroutine 
+0000103E  4E75                      51        RTS   ; literally, no EA is done for NOP - cool 
+00001040                            52  
+00001040                            53  *******************************************************************
+00001040                            54  THIRTY_TWO_DISPLACE          ;grabs the 32-bit displacement
+00001040  4E75                      55     RTS   ;returns to the caller
+00001042                            56  
+00001042                            57  *******************************************************************
+00001042                            58  
+00001042                            59  
+00001042                            60  SIXTEEN_DISPLACE
+00001042  2449                      61      movea.l  A1,A2   ;   save a1
+00001044  43F9 00001064             62      lea   sixteen_offset,A1   ;   loads 'offest' into A1
+0000104A  103C 000E                 63      move.b   #14,D0   ; print string with no newline 
+0000104E  4E4F                      64      trap   #15   ;   trap call 
+00001050  224A                      65      movea.l   A2,A1   ; move a2 back to a1
+00001052  4241                      66      clr    D1   ;   clears register for printing offset 
+00001054  3219                      67      move.w   (A1)+,D1   ;   saves offset and increments
+00001056  103C 0003                 68      move.b   #3,D0   ;   moves whatever is in D1.L
+0000105A  4E4F                      69      trap     #15   ;
+0000105C  2F09                      70      move.l  A1,-(SP)   ;  saves the address on the stack 
+0000105E  4E75                      71      rts   ; return to subroutine 
+00001060                            72  *******************************************************************
+00001060                            73      
+00001060                            74  EIGHT_DISPLACE   
+00001060                            75      
+00001060                            76  *******************************************************************
+00001060                            77  * Subroutine: NEG
+00001060                            78  * Descritpion: 
+00001060                            79  NEG
+00001060                            80  
+00001060                            81  *******************************************************************
+00001060  FFFF FFFF                 82     SIMHALT   ; 
+00001064                            83     
+00001064= 64697370 6C616365 ...     84  sixteen_offset   dc.l   'displacement (in hex):  ',0   ; message to write out with displacement 
+00001080                            85  
+00001080                            86     END   START   ; 
 
 No errors detected
 No warnings generated
@@ -55,12 +96,18 @@ No warnings generated
 SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
-AND_MASK            FF
-BRA                 100A
+AND_MASK_LS_EIGHT   FF
+BRA                 101A
+COMP_ZERO           0
+EIGHT_DISPLACE      1060
 FFFCOMP             FF
+NEG                 1060
+NOP                 103E
 SAVEADDRESS         7000
-SIXTEEN             1032
-SIXTEEN_DISPLACE    1020
+SAVE_SPACE          7000
+SIXTEEN_DISPLACE    1042
+SIXTEEN_OFFSET      1064
 START               1000
+STARTING_ADDRESS    6000
 TESTSTRING          AE45
-THIRTY_TWO_DISPLACE  101E
+THIRTY_TWO_DISPLACE  1040
