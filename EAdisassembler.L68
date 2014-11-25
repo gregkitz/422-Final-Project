@@ -1,6 +1,6 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.15.02
-Created On: 11/25/2014 11:28:33 AM
+Created On: 11/25/2014 12:18:45 PM
 
 00000000                             1  *-----------------------------------------------------------------
 00000000                             2  * Title      :  EA
@@ -8,7 +8,7 @@ Created On: 11/25/2014 11:28:33 AM
 00000000                             4  * Date       :  11/18/14
 00000000                             5  * Description:  EA
 00000000                             6  *-----------------------------------------------------------------
-00000000  =00006000                  7  starting_address   EQU   $6000   ; 
+00000000  =00006000                  7  starting_address   EQU   $00006000   ; 
 00000000  =00007000                  8  save_space   EQU   $7000   ; 
 00000000  =000000FF                  9  and_mask_ls_eight   EQU   $00FF    ;
 00000000  =0000AE45                 10  testString  EQU  $AE45   ;
@@ -20,74 +20,85 @@ Created On: 11/25/2014 11:28:33 AM
 00000000                            16      
 00001000                            17  START:  ORG    $1000         ; first instruction of program
 00001000                            18  
-00001000  323C AE45                 19     move.w  #testString,D1   ;put test string in data register 
-00001004                            20     
-00001004                            21  
-00001004  4EB9 0000101A             22      JSR   BRA   ;   Jumps to the branch always subroutine
-0000100A  325F                      23      movea   (SP)+,A1   ;   grabs the pointer to the string 
-0000100C  4FEF 0008                 24      lea   (8,SP),SP    ;  cleans stack 
-00001010                            25      
-00001010  303C 000E                 26      move   #14,D0   ;   14, display string 
-00001014  4E4F                      27      trap   #15   ;   display the string in A1     
-00001016                            28      
-00001016  4E72 2700                 29      stop    #$2700
-0000101A                            30      
-0000101A                            31  ******************************************************************
-0000101A                            32  * Subroutine: Branch always
-0000101A                            33  
-0000101A                            34  * By: GKITZ
-0000101A                            35  * Description: EA for BRA command - prints the PC offset that imm-
-0000101A                            36  * idiately follows the instruction whether 8,16, or 32.    
-0000101A                            37  ******************************************************************
-0000101A  43F8 6000                 38  BRA   lea   starting_address,A1   ;point to where we're reading 
-0000101E  3219                      39        move.w  (A1)+,D1   ; move the word into d1
-00001020  0281 000000FF             40        andi.l  #and_mask_ls_eight,D1  ;grab the least significant 8-bits
-00001026  B2BC 00000000             41        cmp.l   #comp_zero,D1   ;if they're all 0's then grab the 16-bit displacement 
-0000102C                            42  
-0000102C  6700 0014                 43        beq     SIXTEEN_DISPLACE
-00001030  B2BC 000000FF             44        cmp.l   #FFFcomp,D1   ;if they're all F's then grab the 32 displacement
-00001036  6700 0008                 45        beq   THIRTY_TWO_DISPLACE   ;  and store the 32 bit displacement
-0000103A  6000 0024                 46        bra   EIGHT_DISPLACE   ;otherwise, store the displacement address as hex 
-0000103E                            47        ;retun   
-0000103E                            48  *******************************************************************     
-0000103E                            49  * 
-0000103E                            50  NOP   * NOP subroutine 
-0000103E  4E75                      51        RTS   ; literally, no EA is done for NOP - cool 
-00001040                            52  
-00001040                            53  *******************************************************************
-00001040                            54  THIRTY_TWO_DISPLACE          ;grabs the 32-bit displacement
-00001040  4E75                      55     RTS   ;returns to the caller
-00001042                            56  
-00001042                            57  *******************************************************************
-00001042                            58  
-00001042                            59  
-00001042                            60  SIXTEEN_DISPLACE
-00001042  2449                      61      movea.l  A1,A2   ;   save a1
-00001044  43F9 00001064             62      lea   sixteen_offset,A1   ;   loads 'offest' into A1
-0000104A  103C 000E                 63      move.b   #14,D0   ; print string with no newline 
-0000104E  4E4F                      64      trap   #15   ;   trap call 
-00001050  224A                      65      movea.l   A2,A1   ; move a2 back to a1
-00001052  4241                      66      clr    D1   ;   clears register for printing offset 
-00001054  3219                      67      move.w   (A1)+,D1   ;   saves offset and increments
-00001056  103C 0003                 68      move.b   #3,D0   ;   moves whatever is in D1.L
-0000105A  4E4F                      69      trap     #15   ;
-0000105C  2F09                      70      move.l  A1,-(SP)   ;  saves the address on the stack 
-0000105E  4E75                      71      rts   ; return to subroutine 
-00001060                            72  *******************************************************************
-00001060                            73      
-00001060                            74  EIGHT_DISPLACE   
-00001060                            75      
-00001060                            76  *******************************************************************
-00001060                            77  * Subroutine: NEG
-00001060                            78  * Descritpion: 
-00001060                            79  NEG
-00001060                            80  
-00001060                            81  *******************************************************************
-00001060  FFFF FFFF                 82     SIMHALT   ; 
-00001064                            83     
-00001064= 64697370 6C616365 ...     84  sixteen_offset   dc.l   'displacement (in hex):  ',0   ; message to write out with displacement 
-00001080                            85  
-00001080                            86     END   START   ; 
+00001000  43F8 6000                 19      lea   starting_address,A1   ;   move starting address into A1
+00001004  2F09                      20      move.l   A1,-(SP)   ;   pass address on stack    
+00001006                            21  
+00001006  4EB9 0000101C             22      JSR   BRA   ;   Jumps to the branch always subroutine
+0000100C  325F                      23      movea   (SP)+,A1   ;   grabs the pointer to the string 
+0000100E  4FEF 0008                 24      lea   (8,SP),SP    ;  cleans stack 
+00001012                            25      
+00001012  303C 000E                 26      move   #14,D0   ;   14, display string 
+00001016  4E4F                      27      trap   #15   ;   display the string in A1     
+00001018                            28      
+00001018  4E72 2700                 29      stop    #$2700
+0000101C                            30      
+0000101C                            31  ******************************************************************
+0000101C                            32  * Subroutine: Branch always
+0000101C                            33  * By: GKITZ
+0000101C                            34  * Description: EA for BRA command - prints the PC offset that imm-
+0000101C                            35  * idiately follows the instruction whether 8,16, or 32.    
+0000101C                            36  ******************************************************************
+00000008=                           37      offset   4+4            
+00000008= 00000001                  38  address   dc.l   1 
+0000101C                            39      org     *      
+0000101C                            40      
+0000101C                            41      
+0000101C                            42  
+0000101C                            43  
+0000101C                            44  BRA   
+0000101C  4E50 0000                 45        link     A0,#0     ; create stack frame 
+00001020  2268 0008                 46        move.l   (address,A0),A1   ;  pop the address from the stack 
+00001024  3219                      47        move.w  (A1)+,D1   ; move the word into d1
+00001026  0281 000000FF             48        andi.l  #and_mask_ls_eight,D1  ;grab the least significant 8-bits
+0000102C  B2BC 00000000             49        cmp.l   #comp_zero,D1   ;if they're all 0's then grab the 16-bit displacement 
+00001032                            50  
+00001032  6700 0018                 51        beq     SIXTEEN_DISPLACE
+00001036  B2BC 000000FF             52        cmp.l   #FFFcomp,D1   ;if they're all F's then grab the 32 displacement
+0000103C  6700 000C                 53        beq   THIRTY_TWO_DISPLACE   ;  and store the 32 bit displacement
+00001040  6000 0028                 54        bra   EIGHT_DISPLACE   ;otherwise, store the displacement address as hex 
+00001044                            55        
+00001044                            56  
+00001044  4E58                      57        unlk   A0 
+00001046  4E75                      58        rts    ;   retun to OP-code   
+00001048                            59  *******************************************************************     
+00001048                            60  * 
+00001048                            61  NOP   * NOP subroutine 
+00001048  4E75                      62        RTS   ; literally, no EA is done for NOP - cool 
+0000104A                            63  
+0000104A                            64  *******************************************************************
+0000104A                            65  THIRTY_TWO_DISPLACE          ;grabs the 32-bit displacement
+0000104A  4E75                      66     RTS   ;returns to the caller
+0000104C                            67  
+0000104C                            68  *******************************************************************
+0000104C                            69  
+0000104C                            70  
+0000104C                            71  SIXTEEN_DISPLACE
+0000104C  2449                      72      movea.l  A1,A2   ;   save a1
+0000104E  43F9 0000106E             73      lea   sixteen_offset,A1   ;   loads 'offest' into A1
+00001054  103C 000E                 74      move.b   #14,D0   ; print string with no newline 
+00001058  4E4F                      75      trap   #15   ;   trap call 
+0000105A  224A                      76      movea.l   A2,A1   ; move a2 back to a1
+0000105C  4241                      77      clr    D1   ;   clears register for printing offset 
+0000105E  3219                      78      move.w   (A1)+,D1   ;   saves offset and increments
+00001060  103C 0003                 79      move.b   #3,D0   ;   moves whatever is in D1.L
+00001064  4E4F                      80      trap     #15   ;
+00001066  2F09                      81      move.l  A1,-(SP)   ;  saves the address on the stack 
+00001068  4E75                      82      rts   ; return to subroutine 
+0000106A                            83  *******************************************************************
+0000106A                            84      
+0000106A                            85  EIGHT_DISPLACE   
+0000106A                            86      
+0000106A                            87  *******************************************************************
+0000106A                            88  * Subroutine: NEG
+0000106A                            89  * Descritpion: 
+0000106A                            90  NEG
+0000106A                            91  
+0000106A                            92  *******************************************************************
+0000106A  FFFF FFFF                 93     SIMHALT   ; 
+0000106E                            94     
+0000106E= 64697370 6C616365 ...     95  sixteen_offset   dc.l   'displacement (in hex):  ',0   ; message to write out with displacement 
+0000108A                            96  
+0000108A                            97     END   START   ; 
 
 No errors detected
 No warnings generated
@@ -96,18 +107,19 @@ No warnings generated
 SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
+ADDRESS             8
 AND_MASK_LS_EIGHT   FF
-BRA                 101A
+BRA                 101C
 COMP_ZERO           0
-EIGHT_DISPLACE      1060
+EIGHT_DISPLACE      106A
 FFFCOMP             FF
-NEG                 1060
-NOP                 103E
+NEG                 106A
+NOP                 1048
 SAVEADDRESS         7000
 SAVE_SPACE          7000
-SIXTEEN_DISPLACE    1042
-SIXTEEN_OFFSET      1064
+SIXTEEN_DISPLACE    104C
+SIXTEEN_OFFSET      106E
 START               1000
 STARTING_ADDRESS    6000
 TESTSTRING          AE45
-THIRTY_TWO_DISPLACE  1040
+THIRTY_TWO_DISPLACE  104A

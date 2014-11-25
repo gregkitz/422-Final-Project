@@ -4,7 +4,7 @@
 * Date       :  11/18/14
 * Description:  EA
 *-----------------------------------------------------------------
-starting_address   EQU   $6000   ; 
+starting_address   EQU   $00006000   ; 
 save_space   EQU   $7000   ; 
 and_mask_ls_eight   EQU   $00FF    ;
 testString  EQU  $AE45   ;
@@ -16,8 +16,8 @@ saveAddress EQU  $00007000   ;
     
 START:  ORG    $1000         ; first instruction of program
 
-   move.w  #testString,D1   ;put test string in data register 
-   
+    lea   starting_address,A1   ;   move starting address into A1
+    move.l   A1,-(SP)   ;   pass address on stack    
 
     JSR   BRA   ;   Jumps to the branch always subroutine
     movea   (SP)+,A1   ;   grabs the pointer to the string 
@@ -30,12 +30,20 @@ START:  ORG    $1000         ; first instruction of program
     
 ******************************************************************
 * Subroutine: Branch always
-
 * By: GKITZ
 * Description: EA for BRA command - prints the PC offset that imm-
 * idiately follows the instruction whether 8,16, or 32.    
 ******************************************************************
-BRA   lea   starting_address,A1   ;point to where we're reading 
+    offset   4+4            
+address   dc.l   1 
+    org     *      
+    
+    
+
+
+BRA   
+      link     A0,#0     ; create stack frame 
+      move.l   (address,A0),A1   ;  pop the address from the stack 
       move.w  (A1)+,D1   ; move the word into d1
       andi.l  #and_mask_ls_eight,D1  ;grab the least significant 8-bits
       cmp.l   #comp_zero,D1   ;if they're all 0's then grab the 16-bit displacement 
@@ -44,7 +52,10 @@ BRA   lea   starting_address,A1   ;point to where we're reading
       cmp.l   #FFFcomp,D1   ;if they're all F's then grab the 32 displacement
       beq   THIRTY_TWO_DISPLACE   ;  and store the 32 bit displacement
       bra   EIGHT_DISPLACE   ;otherwise, store the displacement address as hex 
-      ;retun   
+      
+
+      unlk   A0 
+      rts    ;   retun to OP-code   
 *******************************************************************     
 * 
 NOP   * NOP subroutine 
@@ -90,6 +101,9 @@ sixteen_offset   dc.l   'displacement (in hex):  ',0   ; message to write out wi
 sixteen  DC.L   '16 bit displacement for PC: ',0   ;   string for 16-bit displacement   
 
  
+
+
+
 
 
 
