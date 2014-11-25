@@ -40,7 +40,6 @@ address   dc.l   1
     
     
 
-
 BRA   
       link     A0,#0     ; create stack frame 
       move.l   (address,A0),A1   ;  pop the address from the stack 
@@ -79,6 +78,7 @@ SIXTEEN_DISPLACE
     move.b   #3,D0   ;   moves whatever is in D1.L
     trap     #15   ;
     move.l  A1,-(SP)   ;  saves the address on the stack 
+    unlk   A0   ;   unlink A0 
     rts   ; return to subroutine 
 *******************************************************************
     
@@ -101,6 +101,7 @@ sixteen_offset   dc.l   'displacement (in hex):  ',0   ; message to write out wi
 sixteen  DC.L   '16 bit displacement for PC: ',0   ;   string for 16-bit displacement   
 
  
+
 
 
 
