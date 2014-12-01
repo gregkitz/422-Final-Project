@@ -1,2 +1,10 @@
+1. git clone https://github.com/gregkitz/422-Final-Project
+2. make your changes in the file you want to add.
+3. move it to your git repository
+
+for me its E:\Programs\Cygwin\home\422-Final-Project
 
 
+4. git add <filename>
+5. git commit -m 'Comment about what you added'
+6. git push origin master
