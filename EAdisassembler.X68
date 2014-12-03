@@ -11,7 +11,7 @@ testString  EQU  $AE45   ;
 FFFcomp  EQU  $000000FF  ; ending 
 comp_zero  EQU  $00000000   ;
 saveAddress EQU  $00007000   ;
-grab_seven_and_eight  EQU   $00000090     ; 
+
 
 
 ******************************************************************
@@ -21,6 +21,25 @@ grab_seven_and_eight  EQU   $00000090     ;
 size_word_NEG   EQU   $00000040 *  01 word
 size_long_NEG   EQU   $00000080 *  10 long 
 ******************************************************************
+
+
+******************************************************************
+*      BIT ISOLATORS
+******************************************************************
+i_three_four_five   EQU   $00000038       ;
+grab_seven_and_eight  EQU   $00000090     ; 
+******************************************************************
+
+******************************************************************
+*      ADDRESSING MODES in bits 3,4,&5
+ad_direct   EQU  $00000000   ;
+ad_in   EQU   $00000010   ; 
+ad_pre  EQU  $00000020   ; 
+ad_post EQU   $00000018   ; 
+ad_abs   EQU  $00000038       ;
+******************************************************************
+
+
     
     
 START:  ORG    $1000         ; first instruction of program
@@ -98,24 +117,72 @@ NEG
      cmp.l    #size_long_NEG ; compare D4 with long, and branch
      beq      NEGLONG      ; 
      bra      NEGERROR    ; if still here BRA to error in size 
+     
      ; push error flag onto stack
      ; push (updated address pointer onto stack)
      
-     
+     rts     ;   return to subroutine
      
      
 NEGBYTE
+     lea   byte_message,A1   ;   loads 'offest' into A1
+     move.b   #14,D0   ; print string with no newline 
+     trap   #15   ;   trap call 
+     
+     clr   d4   * clear d4
+     move.b  d2,d4   * copy data again to d4
+     andi.l   #i_three_four_five,d4   * isolate mode bits
+     cmp.l   #ad_direct,d4    * compare direct
+     beq   NEGDIRECT   * beq
+     cmp.l   #ad_in,d4   * compare indirect
+      beq   NEGDINDIRECT   * beq
+     cmp.l   #ad_pre,d4    * compare pre
+      beq   NEGINDIRECTPRE   * beq
+     cmp.l   #ad_post,d4   * compare post 
+      beq   NEGINDIRECTPOST   * beq
+     cmp.l   #ad_abs,d4    * compare absolute
+      beq   NEGABSOLUTE   * beq
+     bra   NEGERRORREGISTER   * bra to error register
+
+
      rts     ;   return to subroutine 
+    
 
 NEGWORD
-     rts     ;   return to subroutine 
+     lea   word_message,A1   ;   loads 'offest' into A1
+     move.b   #14,D0   ; print string with no newline 
+     trap   #15   ;   trap call 
 
+      
+     rts     ;   return to subroutine 
 NEGLONG
+     lea   long_message,A1   ;   loads 'offest' into A1
+     move.b   #14,D0   ; print string with no newline 
+     trap   #15   ;   trap call 
+
+  
+     
      rts     ;   return to subroutine 
 
+NEGDIRECT
+
+NEGINDIRECT
+
+NEGINDIRECTPRE
+
+NEGINDIRECTPOST
+
+
+NEGABSOLUTE
 
 NEGERROR    *  not as deragatory as it sounds 
+     ; push error flag onto stack
+     ; push (updated address pointer onto stack)
+     
      rts     ;   return to subroutine 
+     
+     
+NEGERRORREGISTER
 
 ******************************************************************
 * Subroutine: MOVE
@@ -413,8 +480,63 @@ sixteen_offset   dc.l   'displacement (in hex):  ',0   ; message to write out wi
    SIMHALT   ;   end simulation 
 
 sixteen  DC.L   '16 bit displacement for PC: ',0   ;   string for 16-bit displacement   
+byte_message   dc.b  '.b',0    ; 
+word_message   dc.b  '.w',0    ;
+long_message   dc.b  '.l',0    ; 
 
- 
+*******************************************************************
+*  addressing print messages
+*******************************************************************
+*  single-operand register direct 
+*******************************************************************
+am_d0   dc.b   'D0',0    ;
+am_d1   dc.b   'D1',0    ;
+am_d2   dc.b   'D2',0    ;
+am_d3   dc.b   'D3',0    ;
+am_d4   dc.b   'D4',0    ;
+am_d5   dc.b   'D5',0    ;
+am_d6   dc.b   'D6',0    ;
+am_d7   dc.b   'D7',0    ;
+am_d8   dc.b   'D8',0    ;
+am_a0   dc.b   'A0',0    ; 
+am_a1   dc.b   'A1',0    ;
+am_a2   dc.b   'A2',0    ;
+am_a3   dc.b   'A3',0    ;
+am_a4   dc.b   'A4',0    ;
+am_a5   dc.b   'A5',0    ;
+am_a6   dc.b   'A6',0    ;
+
+*******************************************************************
+*  single-operand  indirect 
+*******************************************************************
+am_a0_i   dc.b   '(A0)',0    ; 
+am_a1_i   dc.b   '(A1)',0    ;
+am_a2_i   dc.b   '(A2)',0    ;
+am_a3_i   dc.b   '(A3)',0    ;
+am_a4_i   dc.b   '(A4)',0    ;
+am_a5_i   dc.b   '(A5)',0    ;
+am_a6_i   dc.b   '(A6)',0    ;
+*******************************************************************
+*  single-operand  indirect pre-decrement 
+*******************************************************************
+am_a0_id   dc.b   '-(A0)',0    ; 
+am_a1_id   dc.b   '-(A1)',0    ;
+am_a2_id   dc.b   '-(A2)',0    ;
+am_a3_id   dc.b   '-(A3)',0    ;
+am_a4_id   dc.b   '-(A4)',0    ;
+am_a5_id   dc.b   '-(A5)',0    ;
+am_a6_id   dc.b   '-(A6)',0    ;
+*******************************************************************
+*  single-operand  indirect post-increment
+*******************************************************************
+am_a0_ii   dc.b   '(A0)+',0    ; 
+am_a1_ii   dc.b   '(A1)+',0    ;
+am_a2_ii   dc.b   '(A2)+',0    ;
+am_a3_ii   dc.b   '(A3)+',0    ;
+am_a4_ii   dc.b   '(A4)+',0    ;
+am_a5_ii   dc.b   '(A5)+',0    ;
+am_a6_ii   dc.b   '(A6)+',0    ;
+
 
 
 
