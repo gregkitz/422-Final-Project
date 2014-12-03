@@ -11,7 +11,16 @@ testString  EQU  $AE45   ;
 FFFcomp  EQU  $000000FF  ; ending 
 comp_zero  EQU  $00000000   ;
 saveAddress EQU  $00007000   ;
-    
+grab_seven_and_eight  EQU   $00000090     ; 
+
+
+******************************************************************
+* sizes to compare in bits 7 & 8  - CURRENTLY NEG
+* currently used for NEG 
+* use comp 0 *  00 byte
+size_word_NEG   EQU   $00000040 *  01 word
+size_long_NEG   EQU   $00000080 *  10 long 
+******************************************************************
     
     
 START:  ORG    $1000         ; first instruction of program
@@ -29,7 +38,7 @@ START:  ORG    $1000         ; first instruction of program
     stop    #$2700
     
 ******************************************************************
-* Subroutine: Branch always
+* Subroutine: BRANCH ALWAYS
 * By: GKITZ
 * Description: EA for BRA command - prints the PC offset that imm-
 * idiately follows the instruction whether 8,16, or 32.    
@@ -55,18 +64,321 @@ BRA
 
       unlk   A0 
       rts    ;   retun to OP-code   
-*******************************************************************     
-* 
+******************************************************************
+* Subroutine: NO OPERATION 
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
 NOP   * NOP subroutine 
       RTS   ; literally, no EA is done for NOP - cool 
+
+
+
+    
+*******************************************************************
+* Subroutine: NEG
+* Descritpion: Subtracts destination operand from 0 and stores the
+* result in destination location. Size is byte,word,long. 
+* EA modes: DN, (AN) -/+, (xxx).l (xxx).w
+*******************************************************************
+NEG
+     
+     movea.b   (sp)+,a2  ; pop address pointer off stack
+     move.b    (sp)+,d3   ; pop error flag off stack 
+     clr       d3          ; clear D3
+     clr       d2         ; clear d2
+     move.b   (a2),d2    ; copy code to d2
+     move.b   d2,d4      ;   make a copy to work with for size
+     andi.l   #grab_seven_and_eight,d4   ;   isolate the necessary bits  
+     cmp.l    #comp_zero,d4   ; compare D4 with with byte, and branch 
+     beq      NEGBYTE
+     cmp.l    #size_word_NEG,D4   ; compare D4 with word, and branch
+     beq      NEGWORD
+     cmp.l    #size_long_NEG ; compare D4 with long, and branch
+     beq      NEGLONG      ; 
+     bra      NEGERROR    ; if still here BRA to error in size 
+     ; push error flag onto stack
+     ; push (updated address pointer onto stack)
+     
+     
+     
+     
+NEGBYTE
+     rts     ;   return to subroutine 
+
+NEGWORD
+     rts     ;   return to subroutine 
+
+NEGLONG
+     rts     ;   return to subroutine 
+
+
+NEGERROR    *  not as deragatory as it sounds 
+     rts     ;   return to subroutine 
+
+******************************************************************
+* Subroutine: MOVE
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+MOVE
+
+******************************************************************
+* Subroutine: MOVE ADDRESS
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+MOVEA
+
+
+******************************************************************
+* Subroutine: MOVE MULTIPLE REGISTERS
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+MOVEM
+
+
+******************************************************************
+* Subroutine: ADD
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+ADD
+
+
+******************************************************************
+* Subroutine: ADD ADDRESS
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+ADDA
+
+
+******************************************************************
+* Subroutine: SUBTRACT
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+SUB
+
+
+******************************************************************
+* Subroutine: SUBTRACT QUICK
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+SUBQ
+
+
+******************************************************************
+* Subroutine: SIGNED MULTIPLY 
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+MULS
+
+
+******************************************************************
+* Subroutine: SIGNED DIVISION
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+DIVS
+
+
+******************************************************************
+* Subroutine: LOAD EFFECTIVE ADDRESS
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+LEA
+
+
+******************************************************************
+* Subroutine: INCLUSIVE-OR LOGICAL (4-150)
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+OR 
+
+
+******************************************************************
+* Subroutine: OR IMMEDIATE
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+ORI 
+
+
+******************************************************************
+* Subroutine: NEGATE
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+NEG
+
+
+******************************************************************
+* Subroutine: EXCLUSIVE OR
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+EOR
+
+******************************************************************
+* Subroutine: LOGICAL SHIFT RIGHT
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+LSR
+
+
+******************************************************************
+* Subroutine: LOGICAL SHIFT LEFT
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+LSL
+
+
+******************************************************************
+* Subroutine: ARITHMETIC SHIFT RIGHT
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+ASR
+
+
+******************************************************************
+* Subroutine: ARITHMETIC SHIFT LEFT
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+ASL 
+
+
+******************************************************************
+* Subroutine: ROTATE LEFT
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+ROL
+
+
+******************************************************************
+* Subroutine: ROR
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+ROR
+
+******************************************************************
+* Subroutine: TEST A BIT AND CLEAR (4-30)B
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+BCLR
+
+******************************************************************
+* Subroutine: COMPARE
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+CMP
+
+******************************************************************
+* Subroutine: COMPARE IMMEDIATE
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+CMPI
+
+******************************************************************
+* Subroutine: BRANCH CARRY SET (129)
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+BCS
+
+******************************************************************
+* Subroutine: BRANCH GREATER THAN OR EQUAL 
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+BGE
+
+
+******************************************************************
+* Subroutine: BACON LETTUCE TOMATO (LESS/EQUAL)
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+BLT 
+
+
+******************************************************************
+* Subroutine: BRANCH OVERFLOW CLEAR
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+BVC
+
+
+******************************************************************
+* Subroutine: JUMP TO SUBROUTINE 
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+JSR
+
+
+******************************************************************
+* Subroutine:RETURN TO SUBROUTINE 
+* By: GKITZ
+* Description: EA for BRA command - prints the PC offset that imm-
+* idiately follows the instruction whether 8,16, or 32.    
+******************************************************************
+RTS
+
+******************************************************************
+*                   HELPER ROUTINES 
+******************************************************************
 
 *******************************************************************
 THIRTY_TWO_DISPLACE          ;grabs the 32-bit displacement
    RTS   ;returns to the caller
 
 *******************************************************************
-
-
 SIXTEEN_DISPLACE
     movea.l  A1,A2   ;   save a1
     lea   sixteen_offset,A1   ;   loads 'offest' into A1
@@ -83,13 +395,15 @@ SIXTEEN_DISPLACE
 *******************************************************************
     
 EIGHT_DISPLACE   
-    
-*******************************************************************
-* Subroutine: NEG
-* Descritpion: 
-NEG
+
+
 
 *******************************************************************
+
+
+
+
+
    SIMHALT   ; 
    
 sixteen_offset   dc.l   'displacement (in hex):  ',0   ; message to write out with displacement 
@@ -101,6 +415,8 @@ sixteen_offset   dc.l   'displacement (in hex):  ',0   ; message to write out wi
 sixteen  DC.L   '16 bit displacement for PC: ',0   ;   string for 16-bit displacement   
 
  
+
+
 
 
 
