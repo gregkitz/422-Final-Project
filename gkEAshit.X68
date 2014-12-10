@@ -181,31 +181,12 @@ Decode_ARI_PD
 *------------------------
 Decode_IMM
 *------------------------
-Decode_ABS_LONG
+Decode_ABS_LONG    *---code reuse, will make separate procudure if time 
+   clr   d1
+   clr   d2
    clr   d3
-   move.l   (a6)+,d3
-   move.b   #'#',(a4)+
-   move.b   #$00,(a4)+
-   move.b   #$00,(a4)+
-   move.b   #$00,(a4)+
-   move.l   d3,(a4)+
-   move.l   #$00000000,(a4)+
-   rts
-   
-
-*------------------------
-Absolute_Router  *-- branches to word or long subprocedures based on register info 
-    clr      d3
-    move.b   (a6)+,d3
-    andi.b   #%00000111,d3  grabs the register
-    cmp.b   #$00,d3
-    beq   DECODE_ABS_WORD
-    cmp.b   #$01,d3
-    beq   DECODE_ABS_LONG
-    bra   Absolute_Error
-*------------------------
-DECODE_ABS_WORD
-   clr   d3
+   clr   d4
+   clr   d5
    move.w   (a6)+,d3
    move.w   d3,d4
    move.w   d3,d2
@@ -222,7 +203,85 @@ DECODE_ABS_WORD
    andi.l   #$000000F0,d4
    ror      #4,d4
    addi.b   #$30,d4
-   andi.l   #$00000001,d5
+   andi.l   #$0000000F,d5
+   addi.b   #$30,d5
+   move.l   #'ab.l',(a4)+
+   move.l   #$00000000,(a4)+
+   move.b   d2,(a4)+
+   move.b   d3,(a4)+
+   move.w   #$0000,(a4)+
+   move.b   d4,(a4)+
+   move.b   d5,(a4)+
+   move.w   #$0000,(a4)+
+   
+   
+   
+   clr   d1
+   clr   d2
+   clr   d3
+   clr   d4
+   clr   d5
+   move.w   (a6)+,d3
+   move.w   d3,d4
+   move.w   d3,d2
+   move.w   d3,d5
+   move.w   d3,d1
+   andi.l   #$0000F000,d2
+   ror      #8,d2
+   ror      #4,d2
+   
+   addi.b   #$30,d2
+   andi.l   #$00000F00,d3
+   ror      #8,d3
+   addi.b   #$30,d3
+   andi.l   #$000000F0,d4
+   ror      #4,d4
+   addi.b   #$30,d4
+   andi.l   #$0000000F,d5
+   addi.b   #$30,d5
+   move.b   d2,(a4)+
+   move.b   d3,(a4)+
+   move.w   #$0000,(a4)+
+   move.b   d4,(a4)+
+   move.b   d5,(a4)+
+   move.w   #$0000,(a4)+
+   rts
+   
+
+*------------------------
+Absolute_Router  *-- branches to word or long subprocedures based on register info 
+    clr      d3
+    move.b   (a6)+,d3
+    andi.b   #%00000111,d3  grabs the register
+    cmp.b   #$00,d3
+    beq   DECODE_ABS_WORD
+    cmp.b   #$01,d3
+    beq   DECODE_ABS_LONG
+    bra   Absolute_Error
+*------------------------
+DECODE_ABS_WORD
+   clr   d1
+   clr   d2
+   clr   d3
+   clr   d4
+   clr   d5
+   move.w   (a6)+,d3
+   move.w   d3,d4
+   move.w   d3,d2
+   move.w   d3,d5
+   move.w   d3,d1
+   andi.l   #$0000F000,d2
+   ror      #8,d2
+   ror      #4,d2
+   
+   addi.b   #$30,d2
+   andi.l   #$00000F00,d3
+   ror      #8,d3
+   addi.b   #$30,d3
+   andi.l   #$000000F0,d4
+   ror      #4,d4
+   addi.b   #$30,d4
+   andi.l   #$0000000F,d5
    addi.b   #$30,d5
    move.l   #'ab.w',(a4)+
    move.l   #$00000000,(a4)+
