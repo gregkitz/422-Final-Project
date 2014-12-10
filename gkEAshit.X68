@@ -113,7 +113,8 @@ Decode_DRD  *-- A6 points to it
    addi.b   #$30,d3
    move.b   #'D',(a4)+
    move.b   d3,(a4)+
-  
+   move.b   #$FF,(a4)+
+   move.b   #$00,(a4)+
    rts
 
 *------------------------
@@ -122,11 +123,11 @@ Mode_Jump_Table *-- d3 has mode
     beq   Decode_DRD
     cmp.b   #$02,d3      *ari
     beq   Decode_ARI
-    cmp.b   #%00000011,d3     *ari pi
+    cmp.b   #$03,d3     *ari pi
     beq   Decode_ARI_PI
-    cmp.b   #%00000100,d3     *ari pd
+    cmp.b   #$04,d3     *ari pd
     beq   Decode_ARI_PD
-    cmp.b   #%00000111,d3      *ari
+    cmp.b   #$07,d3      *ari
     beq     Absolute_Router
     bra   Mode_Error 
 *------------------------
@@ -147,16 +148,94 @@ Mode_Error
 
 *------------------------
 Decode_ARI_PI
+    clr      d3
+    move.b   (a6),d3
+    andi.b   #%00000111,d3  grabs the register
+    addi.b   #$30,d3
+    move.b   #'(',(a4)+
+    move.b   #'A',(a4)+
+    move.b   d3,(a4)+
+    move.b   #$00,(a4)+
+    move.b   #')',(a4)+
+    move.b   #'+',(a4)+
+    move.b   #$00,(a4)+
+    move.b   #$00,(a4)+
+   rts
+
+
 *------------------------
 Decode_ARI_PD
+    clr      d3
+    move.b   (a6),d3
+    andi.b   #%00000111,d3  grabs the register
+    addi.b   #$30,d3
+    move.b   #'-',(a4)+
+    move.b   #'(',(a4)+
+    move.b   #'A',(a4)+
+    move.b   #$00,(a4)+
+    move.b   d3,(a4)+
+    move.b   #')',(a4)+
+    move.b   #$00,(a4)+
+    move.b   #$00,(a4)+
+    rts
 *------------------------
 Decode_IMM
 *------------------------
 Decode_ABS_LONG
+   clr   d3
+   move.l   (a6)+,d3
+   move.b   #'#',(a4)+
+   move.b   #$00,(a4)+
+   move.b   #$00,(a4)+
+   move.b   #$00,(a4)+
+   move.l   d3,(a4)+
+   move.l   #$00000000,(a4)+
+   rts
+   
+
 *------------------------
-Absolute_Router
+Absolute_Router  *-- branches to word or long subprocedures based on register info 
+    clr      d3
+    move.b   (a6)+,d3
+    andi.b   #%00000111,d3  grabs the register
+    cmp.b   #$00,d3
+    beq   DECODE_ABS_WORD
+    cmp.b   #$01,d3
+    beq   DECODE_ABS_LONG
+    bra   Absolute_Error
 *------------------------
 DECODE_ABS_WORD
+   clr   d3
+   move.w   (a6)+,d3
+   move.w   d3,d4
+   move.w   d3,d2
+   move.w   d3,d5
+   move.w   d3,d1
+   andi.l   #$0000F000,d2
+   ror      #8,d2
+   ror      #4,d2
+   
+   addi.b   #$30,d2
+   andi.l   #$00000F00,d3
+   ror      #8,d3
+   addi.b   #$30,d3
+   andi.l   #$000000F0,d4
+   ror      #4,d4
+   addi.b   #$30,d4
+   andi.l   #$00000001,d5
+   addi.b   #$30,d5
+   move.l   #'ab.w',(a4)+
+   move.l   #$00000000,(a4)+
+   move.b   d2,(a4)+
+   move.b   d3,(a4)+
+   move.w   #$0000,(a4)+
+   move.b   d4,(a4)+
+   move.b   d5,(a4)+
+   move.w   #$0000,(a4)+
+   rts
+*------------------------
+Absolute_Error
+
 *------------------------
 NOP
    
