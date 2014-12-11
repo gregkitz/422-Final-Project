@@ -4,13 +4,13 @@
 * Date       :   Mon Nov 24
 * Description:   Testing the EA stuff I do, using this as memory 
 *-----------------------------------------------------------
-  
+test   EQU   $73330
 START:  ORG    $6000               ; first instruction of program
 
 * BRA - w/ displacements afterward
 
-   BRA   TOBRANCH   ; branch test 
-
+   move.b   d2,d3   ; branch test 
+   
 
 TOBRANCH   move.b   #3,D0  
            ; just does something and branches to end 
@@ -26,6 +26,15 @@ TOBRANCH   move.b   #3,D0
 *~Font size~10~
 *~Tab type~1~
 *~Tab size~4~
+
+
+
+
+
+
+
+
+
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~
