@@ -1,6 +1,6 @@
 00001000 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.15.02
-Created On: 11/25/2014 1:05:46 PM
+Created On: 02-Dec-14 15:54:14
 
 00000000                             1  *-----------------------------------------------------------------
 00000000                             2  * Title      :  EA
@@ -33,7 +33,7 @@ Created On: 11/25/2014 1:05:46 PM
 00001018  4E72 2700                 29      stop    #$2700
 0000101C                            30      
 0000101C                            31  ******************************************************************
-0000101C                            32  * Subroutine: Branch always
+0000101C                            32  * Subroutine: BRANCH ALWAYS
 0000101C                            33  * By: GKITZ
 0000101C                            34  * Description: EA for BRA command - prints the PC offset that imm-
 0000101C                            35  * idiately follows the instruction whether 8,16, or 32.    
@@ -51,54 +51,326 @@ Created On: 11/25/2014 1:05:46 PM
 00001026  0281 000000FF             47        andi.l  #and_mask_ls_eight,D1  ;grab the least significant 8-bits
 0000102C  B2BC 00000000             48        cmp.l   #comp_zero,D1   ;if they're all 0's then grab the 16-bit displacement 
 00001032                            49  
-00001032  6700 0018                 50        beq     SIXTEEN_DISPLACE
+00001032  6700 0016                 50        beq     SIXTEEN_DISPLACE
 00001036  B2BC 000000FF             51        cmp.l   #FFFcomp,D1   ;if they're all F's then grab the 32 displacement
-0000103C  6700 000C                 52        beq   THIRTY_TWO_DISPLACE   ;  and store the 32 bit displacement
-00001040  6000 002A                 53        bra   EIGHT_DISPLACE   ;otherwise, store the displacement address as hex 
+0000103C  6700 000A                 52        beq   THIRTY_TWO_DISPLACE   ;  and store the 32 bit displacement
+00001040  6000 0028                 53        bra   EIGHT_DISPLACE   ;otherwise, store the displacement address as hex 
 00001044                            54        
 00001044                            55  
 00001044  4E58                      56        unlk   A0 
 00001046  4E75                      57        rts    ;   retun to OP-code   
-00001048                            58  *******************************************************************     
-00001048                            59  * 
-00001048                            60  NOP   * NOP subroutine 
-00001048  4E75                      61        RTS   ; literally, no EA is done for NOP - cool 
-0000104A                            62  
-0000104A                            63  *******************************************************************
-0000104A                            64  THIRTY_TWO_DISPLACE          ;grabs the 32-bit displacement
-0000104A  4E75                      65     RTS   ;returns to the caller
-0000104C                            66  
-0000104C                            67  *******************************************************************
-0000104C                            68  
-0000104C                            69  
-0000104C                            70  SIXTEEN_DISPLACE
-0000104C  2449                      71      movea.l  A1,A2   ;   save a1
-0000104E  43F9 00001070             72      lea   sixteen_offset,A1   ;   loads 'offest' into A1
-00001054  103C 000E                 73      move.b   #14,D0   ; print string with no newline 
-00001058  4E4F                      74      trap   #15   ;   trap call 
-0000105A  224A                      75      movea.l   A2,A1   ; move a2 back to a1
-0000105C  4241                      76      clr    D1   ;   clears register for printing offset 
-0000105E  3219                      77      move.w   (A1)+,D1   ;   saves offset and increments
-00001060  103C 0003                 78      move.b   #3,D0   ;   moves whatever is in D1.L
-00001064  4E4F                      79      trap     #15   ;
-00001066  2F09                      80      move.l  A1,-(SP)   ;  saves the address on the stack 
-00001068  4E58                      81      unlk   A0   ;   unlink A0 
-0000106A  4E75                      82      rts   ; return to subroutine 
-0000106C                            83  *******************************************************************
-0000106C                            84      
-0000106C                            85  EIGHT_DISPLACE   
-0000106C                            86      
-0000106C                            87  *******************************************************************
-0000106C                            88  * Subroutine: NEG
-0000106C                            89  * Descritpion: 
-0000106C                            90  NEG
-0000106C                            91  
-0000106C                            92  *******************************************************************
-0000106C  FFFF FFFF                 93     SIMHALT   ; 
-00001070                            94     
-00001070= 64697370 6C616365 ...     95  sixteen_offset   dc.l   'displacement (in hex):  ',0   ; message to write out with displacement 
-0000108C                            96  
-0000108C                            97     END   START   ; 
+00001048                            58  ******************************************************************
+00001048                            59  * Subroutine: NO OPERATION 
+00001048                            60  * By: GKITZ
+00001048                            61  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                            62  * idiately follows the instruction whether 8,16, or 32.    
+00001048                            63  ******************************************************************
+00001048                            64  
+00001048                            65  
+00001048                            66  
+00001048                            67  
+00001048                            68      
+00001048                            69  *******************************************************************
+00001048                            70  * Subroutine: NEG
+00001048                            71  * Descritpion: 
+00001048                            72  NEG
+00001048                            73  
+00001048                            74  *******************************************************************
+00001048                            75  
+00001048                            76  
+00001048                            77  
+00001048                            78  ******************************************************************
+00001048                            79  * Subroutine: MOVE
+00001048                            80  * By: GKITZ
+00001048                            81  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                            82  * idiately follows the instruction whether 8,16, or 32.    
+00001048                            83  ******************************************************************
+00001048                            84  MOVE
+00001048                            85  
+00001048                            86  ******************************************************************
+00001048                            87  * Subroutine: MOVE ADDRESS
+00001048                            88  * By: GKITZ
+00001048                            89  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                            90  * idiately follows the instruction whether 8,16, or 32.    
+00001048                            91  ******************************************************************
+00001048                            92  MOVEA
+00001048                            93  
+00001048                            94  
+00001048                            95  ******************************************************************
+00001048                            96  * Subroutine: MOVE MULTIPLE REGISTERS
+00001048                            97  * By: GKITZ
+00001048                            98  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                            99  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           100  ******************************************************************
+00001048                           101  MOVEM
+00001048                           102  
+00001048                           103  
+00001048                           104  ******************************************************************
+00001048                           105  * Subroutine: ADD
+00001048                           106  * By: GKITZ
+00001048                           107  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           108  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           109  ******************************************************************
+00001048                           110  ADD
+00001048                           111  
+00001048                           112  
+00001048                           113  ******************************************************************
+00001048                           114  * Subroutine: ADD ADDRESS
+00001048                           115  * By: GKITZ
+00001048                           116  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           117  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           118  ******************************************************************
+00001048                           119  ADDA
+00001048                           120  
+00001048                           121  
+00001048                           122  ******************************************************************
+00001048                           123  * Subroutine: SUBTRACT
+00001048                           124  * By: GKITZ
+00001048                           125  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           126  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           127  ******************************************************************
+00001048                           128  SUB
+00001048                           129  
+00001048                           130  
+00001048                           131  ******************************************************************
+00001048                           132  * Subroutine: SUBTRACT QUICK
+00001048                           133  * By: GKITZ
+00001048                           134  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           135  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           136  ******************************************************************
+00001048                           137  SUBQ
+00001048                           138  
+00001048                           139  
+00001048                           140  ******************************************************************
+00001048                           141  * Subroutine: SIGNED MULTIPLY 
+00001048                           142  * By: GKITZ
+00001048                           143  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           144  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           145  ******************************************************************
+00001048                           146  MULS
+00001048                           147  
+00001048                           148  
+00001048                           149  ******************************************************************
+00001048                           150  * Subroutine: SIGNED DIVISION
+00001048                           151  * By: GKITZ
+00001048                           152  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           153  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           154  ******************************************************************
+00001048                           155  DIVS
+00001048                           156  
+00001048                           157  
+00001048                           158  ******************************************************************
+00001048                           159  * Subroutine: LOAD EFFECTIVE ADDRESS
+00001048                           160  * By: GKITZ
+00001048                           161  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           162  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           163  ******************************************************************
+00001048                           164  LEA
+00001048                           165  
+00001048                           166  
+00001048                           167  ******************************************************************
+00001048                           168  * Subroutine: INCLUSIVE-OR LOGICAL (4-150)
+00001048                           169  * By: GKITZ
+00001048                           170  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           171  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           172  ******************************************************************
+00001048                           173  OR 
+00001048                           174  
+00001048                           175  
+00001048                           176  ******************************************************************
+00001048                           177  * Subroutine: OR IMMEDIATE
+00001048                           178  * By: GKITZ
+00001048                           179  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           180  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           181  ******************************************************************
+00001048                           182  ORI 
+00001048                           183  
+00001048                           184  
+00001048                           185  ******************************************************************
+00001048                           186  * Subroutine: NEGATE
+00001048                           187  * By: GKITZ
+00001048                           188  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           189  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           190  ******************************************************************
+00001048                           191  NEG
+00001048                           192  
+00001048                           193  
+00001048                           194  ******************************************************************
+00001048                           195  * Subroutine: EXCLUSIVE OR
+00001048                           196  * By: GKITZ
+00001048                           197  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           198  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           199  ******************************************************************
+00001048                           200  EOR
+00001048                           201  
+00001048                           202  ******************************************************************
+00001048                           203  * Subroutine: LOGICAL SHIFT RIGHT
+00001048                           204  * By: GKITZ
+00001048                           205  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           206  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           207  ******************************************************************
+00001048                           208  LSR
+00001048                           209  
+00001048                           210  
+00001048                           211  ******************************************************************
+00001048                           212  * Subroutine: LOGICAL SHIFT LEFT
+00001048                           213  * By: GKITZ
+00001048                           214  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           215  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           216  ******************************************************************
+00001048                           217  LSL
+00001048                           218  
+00001048                           219  
+00001048                           220  ******************************************************************
+00001048                           221  * Subroutine: ARITHMETIC SHIFT RIGHT
+00001048                           222  * By: GKITZ
+00001048                           223  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           224  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           225  ******************************************************************
+00001048                           226  ASR
+00001048                           227  
+00001048                           228  
+00001048                           229  ******************************************************************
+00001048                           230  * Subroutine: ARITHMETIC SHIFT LEFT
+00001048                           231  * By: GKITZ
+00001048                           232  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           233  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           234  ******************************************************************
+00001048                           235  ASL 
+00001048                           236  
+00001048                           237  
+00001048                           238  ******************************************************************
+00001048                           239  * Subroutine: ROTATE LEFT
+00001048                           240  * By: GKITZ
+00001048                           241  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           242  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           243  ******************************************************************
+00001048                           244  ROL
+00001048                           245  
+00001048                           246  
+00001048                           247  ******************************************************************
+00001048                           248  * Subroutine: ROR
+00001048                           249  * By: GKITZ
+00001048                           250  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           251  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           252  ******************************************************************
+00001048                           253  ROR
+00001048                           254  
+00001048                           255  ******************************************************************
+00001048                           256  * Subroutine: TEST A BIT AND CLEAR (4-30)B
+00001048                           257  * By: GKITZ
+00001048                           258  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           259  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           260  ******************************************************************
+00001048                           261  BCLR
+00001048                           262  
+00001048                           263  ******************************************************************
+00001048                           264  * Subroutine: COMPARE
+00001048                           265  * By: GKITZ
+00001048                           266  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           267  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           268  ******************************************************************
+00001048                           269  CMP
+00001048                           270  
+00001048                           271  ******************************************************************
+00001048                           272  * Subroutine: COMPARE IMMEDIATE
+00001048                           273  * By: GKITZ
+00001048                           274  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           275  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           276  ******************************************************************
+00001048                           277  CMPI
+00001048                           278  
+00001048                           279  ******************************************************************
+00001048                           280  * Subroutine: BRANCH CARRY SET (129)
+00001048                           281  * By: GKITZ
+00001048                           282  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           283  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           284  ******************************************************************
+00001048                           285  BCS
+00001048                           286  
+00001048                           287  ******************************************************************
+00001048                           288  * Subroutine: BRANCH GREATER THAN OR EQUAL 
+00001048                           289  * By: GKITZ
+00001048                           290  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           291  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           292  ******************************************************************
+00001048                           293  BGE
+00001048                           294  
+00001048                           295  
+00001048                           296  ******************************************************************
+00001048                           297  * Subroutine: BACON LETTUCE TOMATO (LESS/EQUAL)
+00001048                           298  * By: GKITZ
+00001048                           299  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           300  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           301  ******************************************************************
+00001048                           302  BLT 
+00001048                           303  
+00001048                           304  
+00001048                           305  ******************************************************************
+00001048                           306  * Subroutine: BRANCH OVERFLOW CLEAR
+00001048                           307  * By: GKITZ
+00001048                           308  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           309  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           310  ******************************************************************
+00001048                           311  BVC
+00001048                           312  
+00001048                           313  
+00001048                           314  ******************************************************************
+00001048                           315  * Subroutine: JUMP TO SUBROUTINE 
+00001048                           316  * By: GKITZ
+00001048                           317  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           318  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           319  ******************************************************************
+00001048                           320  JSR
+00001048                           321  
+00001048                           322  
+00001048                           323  ******************************************************************
+00001048                           324  * Subroutine:RETURN TO SUBROUTINE 
+00001048                           325  * By: GKITZ
+00001048                           326  * Description: EA for BRA command - prints the PC offset that imm-
+00001048                           327  * idiately follows the instruction whether 8,16, or 32.    
+00001048                           328  ******************************************************************
+00001048                           329  RTS
+00001048                           330  
+00001048                           331  ******************************************************************
+00001048                           332  *                   HELPER ROUTINES 
+00001048                           333  ******************************************************************
+00001048                           334  
+00001048                           335  *******************************************************************
+00001048                           336  THIRTY_TWO_DISPLACE          ;grabs the 32-bit displacement
+00001048  4E75                     337     RTS   ;returns to the caller
+0000104A                           338  
+0000104A                           339  *******************************************************************
+0000104A                           340  SIXTEEN_DISPLACE
+0000104A  2449                     341      movea.l  A1,A2   ;   save a1
+0000104C  43F9 0000106E            342      lea   sixteen_offset,A1   ;   loads 'offest' into A1
+00001052  103C 000E                343      move.b   #14,D0   ; print string with no newline 
+00001056  4E4F                     344      trap   #15   ;   trap call 
+00001058  224A                     345      movea.l   A2,A1   ; move a2 back to a1
+0000105A  4241                     346      clr    D1   ;   clears register for printing offset 
+0000105C  3219                     347      move.w   (A1)+,D1   ;   saves offset and increments
+0000105E  103C 0003                348      move.b   #3,D0   ;   moves whatever is in D1.L
+00001062  4E4F                     349      trap     #15   ;
+00001064  2F09                     350      move.l  A1,-(SP)   ;  saves the address on the stack 
+00001066  4E58                     351      unlk   A0   ;   unlink A0 
+00001068  4E75                     352      rts   ; return to subroutine 
+0000106A                           353  *******************************************************************
+0000106A                           354      
+0000106A                           355  EIGHT_DISPLACE   
+0000106A                           356  
+0000106A                           357  
+0000106A                           358  
+0000106A                           359  
+0000106A                           360  
+0000106A                           361  
+0000106A                           362  
+0000106A                           363  
+0000106A                           364  
+0000106A  FFFF FFFF                365     SIMHALT   ; 
+0000106E                           366     
+0000106E= 64697370 6C616365 ...    367  sixteen_offset   dc.l   'displacement (in hex):  ',0   ; message to write out with displacement 
+0000108A                           368  
+0000108A                           369     END   START   ; 
 
 No errors detected
 No warnings generated
@@ -107,19 +379,46 @@ No warnings generated
 SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
+ADD                 1048
+ADDA                1048
 ADDRESS             8
 AND_MASK_LS_EIGHT   FF
+ASL                 1048
+ASR                 1048
+BCLR                1048
+BCS                 1048
+BGE                 1048
+BLT                 1048
 BRA                 101C
+BVC                 1048
+CMP                 1048
+CMPI                1048
 COMP_ZERO           0
-EIGHT_DISPLACE      106C
+DIVS                1048
+EIGHT_DISPLACE      106A
+EOR                 1048
 FFFCOMP             FF
-NEG                 106C
-NOP                 1048
+JSR                 1048
+LEA                 1048
+LSL                 1048
+LSR                 1048
+MOVE                1048
+MOVEA               1048
+MOVEM               1048
+MULS                1048
+NEG                 1048
+OR                  1048
+ORI                 1048
+ROL                 1048
+ROR                 1048
+RTS                 1048
 SAVEADDRESS         7000
 SAVE_SPACE          7000
-SIXTEEN_DISPLACE    104C
-SIXTEEN_OFFSET      1070
+SIXTEEN_DISPLACE    104A
+SIXTEEN_OFFSET      106E
 START               1000
 STARTING_ADDRESS    6000
+SUB                 1048
+SUBQ                1048
 TESTSTRING          AE45
-THIRTY_TWO_DISPLACE  104A
+THIRTY_TWO_DISPLACE  1048
