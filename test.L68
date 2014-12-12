@@ -1,0 +1,38 @@
+00006000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.02
+Created On: 12/11/2014 6:12:07 PM
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :   Greg Tests
+00000000                             3  * Written by :   Greg Kitzmiller
+00000000                             4  * Date       :   Mon Nov 24
+00000000                             5  * Description:   Testing the EA stuff I do, using this as memory 
+00000000                             6  *-----------------------------------------------------------
+00000000  =00073330                  7  test   EQU   $73330
+00006000                             8  START:  ORG    $6000               ; first instruction of program
+00006000                             9  
+00006000                            10  * BRA - w/ displacements afterward
+00006000                            11  
+00006000  4440                      12     NEG.W    D0
+00006002  3642                      13     move   d2,a3   ; branch test 
+00006004                            14     
+00006004                            15  
+00006004  103C 0003                 16  TOBRANCH   move.b   #3,D0  
+00006008                            17             ; just does something and branches to end 
+00006008                            18  
+00006008  FFFF FFFF                 19      SIMHALT             ; halt simulator
+0000600C                            20  
+0000600C                            21  * Put variables and constants here
+0000600C                            22  
+0000600C                            23      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+START               6000
+TEST                73330
+TOBRANCH            6004
