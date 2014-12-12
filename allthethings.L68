@@ -1,6 +1,6 @@
 00000400 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.15.02
-Created On: 12/11/2014 6:25:16 PM
+Created On: 12/11/2014 6:31:10 PM
 
 00000000                             1  *-----------------------------------------------------------
 00000000                             2  * Title      : EA 
@@ -63,35 +63,35 @@ Created On: 12/11/2014 6:25:16 PM
 00000408  B07C 4E71                 59  WORD:       CMP         #nop_str,D0     * is it NOP?
 0000040C  6700 00DE                 60              BEQ         NOP_RT          * IF so, branch to NOP subroutine
 00000410  B07C 4E75                 61              CMP         #rts_str,D0     * is it RTS?
-00000414  6700 010A                 62              BEQ         RTS_RT          * If so, branch to RTS subroutine
+00000414  6700 010E                 62              BEQ         RTS_RT          * If so, branch to RTS subroutine
 00000418  3600                      63              MOVE.W      D0,D3
 0000041A                            64              * ---CHECKING 12 BIT LONG OPCODES--- *            
 0000041A  0203 00F0                 65              ANDI.B      #$F0,D3         * Clear very last digit
 0000041E  E843                      66              ASR.W       #4,D3           * Shift remaining digits right 
 00000420  B67C 013A                 67              CMP         #jsr_str,D3     * is it JSR?
-00000424  6700 00EA                 68              BEQ         JSR_RT          * If so, branch to JSR subroutine
+00000424  6700 00EE                 68              BEQ         JSR_RT          * If so, branch to JSR subroutine
 00000428                            69              
 00000428                            70  
 00000428  0242 FF00                 71  BYTE:       ANDI.W      #$FF00,D2       * Remove last 2 characters
 0000042C  E04A                      72              LSR         #8,D2
 0000042E  B47C 0065                 73              CMP         #bcs_str,D2     * is it BCS?
-00000432  6700 010C                 74              BEQ         BCS_RT          * If so, branch to BCS subroutine
+00000432  6700 0110                 74              BEQ         BCS_RT          * If so, branch to BCS subroutine
 00000436  B47C 006C                 75              CMP         #bge_str,D2     * is it BGE?
-0000043A  6700 0114                 76              BEQ         BGE_RT          * If so, branch to BGE subroutine
+0000043A  6700 0118                 76              BEQ         BGE_RT          * If so, branch to BGE subroutine
 0000043E  B47C 006D                 77              CMP         #blt_str,D2     * is it BLT?
-00000442  6700 011C                 78              BEQ         BLT_RT          * If so, branch to BLT subroutine
+00000442  6700 0120                 78              BEQ         BLT_RT          * If so, branch to BLT subroutine
 00000446  B47C 0068                 79              CMP         #bvc_str,D2     * is it BVC?
-0000044A  6700 0124                 80              BEQ         BVC_RT          * If so, branch to BVC subroutine
+0000044A  6700 0128                 80              BEQ         BVC_RT          * If so, branch to BVC subroutine
 0000044E  B47C 0060                 81              CMP         #bra_str,D2     * is it BRA?
-00000452  6700 012C                 82              BEQ         BRA_RT          * If so, branch to BRA subroutine
+00000452  6700 0130                 82              BEQ         BRA_RT          * If so, branch to BRA subroutine
 00000456  B47C 0044                 83              CMP         #neg_str,D2     * is it NEG?
-0000045A  6700 00A0                 84              BEQ         NEG_RT          * If so, branch to NEG subroutine            
+0000045A  6700 00A4                 84              BEQ         NEG_RT          * If so, branch to NEG subroutine            
 0000045E  B47C 0091                 85              CMP         #mmo_str,D2     * is it MOVEM?
-00000462  6700 033C                 86              BEQ         MMO_RT          * If so, branch to MOVEM subroutine            
+00000462  6700 0340                 86              BEQ         MMO_RT          * If so, branch to MOVEM subroutine            
 00000466  B47C 0099                 87              CMP         #rmo_str,D2     * is it MOVEM?
-0000046A  6700 0344                 88              BEQ         RMO_RT          * If so, branch to MOVEM subroutine            
+0000046A  6700 0348                 88              BEQ         RMO_RT          * If so, branch to MOVEM subroutine            
 0000046E  B47C 0000                 89              CMP         #ori_str,D2     * is it ORI?
-00000472  6700 035C                 90              BEQ         ORI_RT          * If so, branch to ORI subroutine            
+00000472  6700 0360                 90              BEQ         ORI_RT          * If so, branch to ORI subroutine            
 00000476                            91  
 00000476                            92  
 00000476                            93              
@@ -101,782 +101,784 @@ Created On: 12/11/2014 6:25:16 PM
 0000047C  E082                      97              ASR.L       #8,D2
 0000047E  E882                      98              ASR.L       #4,D2
 00000480  0C42 000B                 99              CMPI        #eor_str,D2     * Is it EOR?
-00000484  6700 010A                100              BEQ         EOR_RT
+00000484  6700 010E                100              BEQ         EOR_RT
 00000488  0C42 000E                101              CMPI        #shf_str,D2     * Is it a shift?
-0000048C  6700 0134                102              BEQ         SHF_RT                  
+0000048C  6700 0138                102              BEQ         SHF_RT                  
 00000490  0C42 0004                103              CMPI        #lea_str,D2     * Is it LEA?
-00000494  6700 01F8                104              BEQ         FOU_RT                                           
+00000494  6700 01FC                104              BEQ         FOU_RT                                           
 00000498  0C42 0008                105              CMPI        #or_str,D2      * Is it OR?
-0000049C  6700 0210                106              BEQ         OR_RT
+0000049C  6700 0214                106              BEQ         OR_RT
 000004A0  0C42 0000                107              CMPI        #bcl_str,D2     * Is it BCLR?
-000004A4  6700 0218                108              BEQ         ZER_RT
+000004A4  6700 021C                108              BEQ         ZER_RT
 000004A8  0C42 000D                109              CMPI        #add_str,D2     * Is it ADD?
-000004AC  6700 0242                110              BEQ         ADD_RT
+000004AC  6700 0246                110              BEQ         ADD_RT
 000004B0  0C42 0009                111              CMPI        #sub_str,D2     * Is it SUB?
-000004B4  6700 024A                112              BEQ         SUB_RT
+000004B4  6700 024E                112              BEQ         SUB_RT
 000004B8  0C42 000C                113              CMPI        #mul_str,D2     * Is it MULS?
-000004BC  6700 0252                114              BEQ         MUL_RT
+000004BC  6700 0256                114              BEQ         MUL_RT
 000004C0  0C42 0008                115              CMPI        #div_str,D2     * Is it DIVS?
-000004C4  6700 025A                116              BEQ         DIV_RT
+000004C4  6700 025E                116              BEQ         DIV_RT
 000004C8  0C42 0005                117              CMPI        #qsu_str,D2     * Is it SUBQ?
-000004CC  6700 02F2                118              BEQ         QSU_RT
+000004CC  6700 02F6                118              BEQ         QSU_RT
 000004D0  0C42 0001                119              CMPI        #bov_str,D2     * Is it MOVE.B?
-000004D4  6700 025A                120              BEQ         BOV_RT
+000004D4  6700 025E                120              BEQ         BOV_RT
 000004D8  0C42 0003                121              CMPI        #wov_str,D2     * Is it MOVE.W?
-000004DC  6700 0266                122              BEQ         WOV_RT
+000004DC  6700 026A                122              BEQ         WOV_RT
 000004E0  0C42 0002                123              CMPI        #lov_str,D2     * Is it MOVE.L?
-000004E4  6700 0272                124              BEQ         LOV_RT
-000004E8  6000 02F6                125              BRA         N_FOUND
+000004E4  6700 0276                124              BEQ         LOV_RT
+000004E8  6000 02FA                125              BRA         N_FOUND
 000004EC                           126              
 000004EC                           127              
-000004EC  43F9 00000B97            128  NOP_RT:     LEA         nop_message,A1  * Print NOP
+000004EC  43F9 00000BA1            128  NOP_RT:     LEA         nop_message,A1  * Print NOP
 000004F2  103C 000E                129              MOVE.B      #14,D0
 000004F6  4E4F                     130              TRAP        #15
-000004F8                           131              * Will branch to EA here            
-000004F8  6000 02F6                132              BRA         FINISH
-000004FC  43F9 00000B9D            133  NEG_RT:     LEA         neg_message,A1  * Print NEG
-00000502  103C 000E                134              MOVE.B      #14,D0
-00000506  4E4F                     135              TRAP        #15
-00000508                           136              * Will branch to EA here
-00000508  6100 05FC                137              BSR         NEG
-0000050C  6000 02E2                138              BRA         FINISH
-00000510  43F9 00000BA1            139  JSR_RT:     LEA         jsr_message,A1  * Print JSR
-00000516  103C 000E                140              MOVE.B      #14,D0
-0000051A  4E4F                     141              TRAP        #15
-0000051C                           142              * Will branch to EA here            
-0000051C  6000 02D2                143              BRA         FINISH
-00000520  43F9 00000BA7            144  RTS_RT:     LEA         rts_message,A1  * Print RTS
-00000526  103C 000E                145              MOVE.B      #14,D0
-0000052A  4E4F                     146              TRAP        #15
-0000052C                           147              * Will branch to EA here            
-0000052C  6000 02C2                148              BRA         FINISH
-00000530  43F9 00000BAD            149  BCC_RT:     LEA         bcc_message,A1  * Print BCC
-00000536  103C 000E                150              MOVE.B      #14,D0
-0000053A  4E4F                     151              TRAP        #15
-0000053C                           152              * Will branch to EA here         
-0000053C  6000 02B2                153              BRA         FINISH
-00000540  43F9 00000BB3            154  BCS_RT:     LEA         bcs_message,A1  * Print BCS
-00000546  103C 000E                155              MOVE.B      #14,D0
-0000054A  4E4F                     156              TRAP        #15
-0000054C                           157              * Will branch to EA here         
-0000054C  6000 02A2                158              BRA         FINISH
-00000550  43F9 00000BB9            159  BGE_RT:     LEA         bge_message,A1  * Print BGE
-00000556  103C 000E                160              MOVE.B      #14,D0
-0000055A  4E4F                     161              TRAP        #15
-0000055C                           162              * Will branch to EA here         
-0000055C  6000 0292                163              BRA         FINISH
-00000560  43F9 00000BBF            164  BLT_RT:     LEA         blt_message,A1  * Print BLT
-00000566  103C 000E                165              MOVE.B      #14,D0
-0000056A  4E4F                     166              TRAP        #15
-0000056C                           167              * Will branch to EA here         
-0000056C  6000 0282                168              BRA         FINISH
-00000570  43F9 00000BC5            169  BVC_RT:     LEA         bvc_message,A1  * Print BVC
-00000576  103C 000E                170              MOVE.B      #14,D0
-0000057A  4E4F                     171              TRAP        #15
-0000057C                           172              * Will branch to EA here         
-0000057C  6000 0272                173              BRA         FINISH                                                
-00000580  43F9 00000BCB            174  BRA_RT:     LEA         bra_message,A1  * Print BRA
-00000586  103C 000E                175              MOVE.B      #14,D0
-0000058A  4E4F                     176              TRAP        #15
-0000058C                           177              * Will branch to EA here
-0000058C  6000 0262                178              BRA         FINISH                        
-00000590                           179             
-00000590  EC4A                     180  EOR_RT     LSR         #6,D2           * Remove the last 6 bits from the string          
-00000592  1602                     181             MOVE.B      D2,D3           * Copy current string
-00000594  0203 000F                182             ANDI.B      #$0F,D3         * Clear second to last digit
-00000598  5143                     183             SUB         #8,D3           * Subtract 8 from string
-0000059A  0C43 0004                184             CMPI        #4,D3           * Is is a CMP function? 
-0000059E  6D00 0012                185             BLT         CMP_RT          * Branch to CMP routine
-000005A2  43F9 00000BD1            186             LEA         eor_message,A1  * Otherwise it's an EOR function 
-000005A8  103C 000E                187             MOVE.B      #14,D0
-000005AC  4E4F                     188             TRAP        #15
-000005AE  6000 0240                189             BRA         FINISH 
-000005B2                           190             
-000005B2  43F9 00000BD7            191  CMP_RT     LEA         cmp_message,A1
-000005B8  103C 000E                192             MOVE.B      #14,D0
-000005BC  4E4F                     193             TRAP        #15
-000005BE  6000 0230                194             BRA         FINISH
-000005C2                           195             
-000005C2  3400                     196  SHF_RT      MOVE.W      D0,D2
-000005C4  1602                     197              MOVE.B      D2,D3          * Copy string for manipulation
-000005C6  1803                     198              MOVE.B      D3,D4          * Copy again 
-000005C8  0204 000F                199              ANDI.B      #$0F,D4        * Clear second to last digit
-000005CC  89FC 0008                200              DIVS        #8,D4          * Get the least significant bit
-000005D0  0C44 0000                201              CMPI.W      #0,D4          * Is is zero?
-000005D4  6700 0006                202              BEQ         AS_RT          * If so, its an Arithemetic shift
-000005D8  6000 0038                203              BRA         LS_RT          * Otherwise, Logical Shift
-000005DC                           204              
-000005DC  1602                     205  AS_RT      MOVE.B       D2,D3          * Copy string 
-000005DE  0202 0000                206             ANDI.B       #00,D2         * Clear second half of the byte
-000005E2  E04A                     207             LSR          #8,D2          * Shift digits all the way right
-000005E4  0202 000F                208             ANDI.B       #$0F,D2        * Clear second to last digit
-000005E8  E24A                     209             LSR.W        #1,D2          * Shift one bit to the right
-000005EA  6500 0006                210             BCS          LA_RT          * If it's even, we have ASL
-000005EE  6000 0012                211             BRA          RA_RT          * Otherwise, it's ASR
-000005F2                           212             
-000005F2  43F9 00000BE3            213  LA_RT     LEA           asl_message,A1
-000005F8  103C 000E                214            MOVE.B        #14,D0
-000005FC  4E4F                     215            TRAP          #15
-000005FE  6000 01F0                216            BRA           FINISH
-00000602                           217  
-00000602  43F9 00000BDD            218  RA_RT     LEA           asr_message,A1
-00000608  103C 000E                219            MOVE.B        #14,D0
-0000060C  4E4F                     220            TRAP          #15
-0000060E  6000 01E0                221            BRA           FINISH
-00000612                           222              
-00000612                           223                         
-00000612  1E03                     224  LS_RT      MOVE.B       D3,D7          * Copy string to check if its a Rotate
-00000614  0247 00F0                225             ANDI         #$F0,D7        * Clear last character
-00000618  E84F                     226             LSR          #4,D7          * Shift 4 bits to the right
-0000061A  BE7C 0005                227             CMP          #5,D7          * If its a 5, we have a rotate
-0000061E  6700 0038                228             BEQ          RO_RT          * Branch to Rotate
-00000622  1602                     229             MOVE.B       D2,D3          * Copy string 
-00000624  0202 0000                230             ANDI.B       #00,D2         * Clear second half of the byte 
-00000628  E04A                     231             LSR          #8,D2          * Shift digits all the way right
-0000062A  0202 000F                232             ANDI.B       #$0F,D2        * Clear second to last digit
-0000062E  E24A                     233             LSR.W        #1,D2          * Shift least significant bit into the carry bit
-00000630  6500 0006                234             BCS          LL_RT          * If its the LSBit was 1, we have LSL
-00000634  6000 0012                235             BRA          RL_RT          * Otherwise, its LSR
-00000638                           236             
-00000638  43F9 00000BEF            237  LL_RT     LEA           lsl_message,A1
-0000063E  103C 000E                238            MOVE.B        #14,D0
-00000642  4E4F                     239            TRAP          #15
-00000644  6000 01AA                240            BRA           FINISH
-00000648                           241  
-00000648  43F9 00000BE9            242  RL_RT     LEA           lsr_message,A1
-0000064E  103C 000E                243            MOVE.B        #14,D0
-00000652  4E4F                     244            TRAP          #15
-00000654  6000 019A                245            BRA           FINISH
-00000658                           246            
-00000658  1602                     247  RO_RT     MOVE.B       D2,D3          * Copy string 
-0000065A  0202 0000                248            ANDI.B       #00,D2         * Clear second half of the byte 
-0000065E  E04A                     249            LSR          #8,D2          * Shift digits all the way right
-00000660  0202 000F                250            ANDI.B       #$0F,D2        * Clear second to last digit
-00000664  E24A                     251            LSR.W        #1,D2          * Shift least significant bit into the carry bit
-00000666  6500 0006                252            BCS          LR_RT          * If its the LSBit was 1, we have ROL
-0000066A  6000 0012                253            BRA          RR_RT          * Otherwise, its ROR
-0000066E                           254  
-0000066E                           255            
-0000066E  43F9 00000BF5            256  LR_RT    LEA           rol_message,A1
-00000674  103C 000E                257           MOVE.B        #14,D0
-00000678  4E4F                     258           TRAP          #15
-0000067A  6000 0174                259           BRA           FINISH   
-0000067E                           260  
-0000067E  43F9 00000BFB            261  RR_RT    LEA           ror_message,A1
-00000684  103C 000E                262           MOVE.B        #14,D0
-00000688  4E4F                     263           TRAP          #15   
-0000068A  6000 0164                264           BRA           FINISH
-0000068E                           265  
-0000068E  0243 00F0                266  FOU_RT   ANDI          #$0F0,D3        * Checking 2nd most significant nibble 
-00000692  E84B                     267           LSR.W         #4,D3           * Shift for consistency
-00000694  E20B                     268           LSR.B         #1,D3           * Shift 1 bit right to check parity bit
-00000696  6500 0006                269           BCS           LEA_RT          * If odd, its LEA
-0000069A  6000 00F0                270           BRA           MM_RT           * Otherwise it's MOVEM
-0000069E                           271           
-0000069E                           272           
-0000069E  43F9 00000C01            273  LEA_RT   LEA           lea_message,A1
-000006A4  103C 000E                274           MOVE.B        #14,D0
-000006A8  4E4F                     275           TRAP          #15   
-000006AA  6000 0144                276           BRA           FINISH
-000006AE                           277            
-000006AE  43F9 00000C07            278  OR_RT    LEA           or_message,A1
-000006B4  103C 000E                279           MOVE.B        #14,D0
-000006B8  4E4F                     280           TRAP          #15   
-000006BA  6000 0134                281           BRA           FINISH
-000006BE                           282           
-000006BE  3200                     283  ZER_RT   MOVE.W        D0,D1           * Copy original string
-000006C0  0241 FF00                284           ANDI.W        #$FF00,D1        * Clear the lower byte 
-000006C4  E049                     285           LSR.W         #8,D1           * Shift for consistency
-000006C6  E209                     286           LSR.B         #1,D1           * Move the lowest bit into the carry bit
-000006C8  6500 0006                287           BCS           BCL_RT          * If its a 1, its BCLR 
-000006CC  6000 0012                288           BRA           ICM_RT          * Otherwise its CMPI
-000006D0                           289           
-000006D0  43F9 00000C0C            290  BCL_RT   LEA           bcl_message,A1
-000006D6  103C 000E                291           MOVE.B        #14,D0
-000006DA  4E4F                     292           TRAP          #15   
-000006DC  6000 0112                293           BRA           FINISH
-000006E0                           294  
-000006E0  43F9 00000C97            295  ICM_RT   LEA           icm_message,A1
-000006E6  103C 000E                296           MOVE.B        #14,D0
-000006EA  4E4F                     297           TRAP          #15   
-000006EC  6000 0102                298           BRA           FINISH
-000006F0                           299        
-000006F0                           300  
-000006F0  43F9 00000C13            301  ADD_RT   LEA           add_message,A1
-000006F6  103C 000E                302           MOVE.B        #14,D0
-000006FA  4E4F                     303           TRAP          #15   
-000006FC  6000 00F2                304           BRA           FINISH
-00000700                           305  
-00000700  43F9 00000C19            306  SUB_RT   LEA           sub_message,A1
-00000706  103C 000E                307           MOVE.B        #14,D0
-0000070A  4E4F                     308           TRAP          #15   
-0000070C  6000 00E2                309           BRA           FINISH
-00000710                           310           
-00000710  43F9 00000C1F            311  MUL_RT   LEA           mul_message,A1
-00000716  103C 000E                312           MOVE.B        #14,D0
-0000071A  4E4F                     313           TRAP          #15   
-0000071C  6000 00D2                314           BRA           FINISH
-00000720                           315  
-00000720  43F9 00000C26            316  DIV_RT   LEA           div_message,A1
-00000726  103C 000E                317           MOVE.B        #14,D0
-0000072A  4E4F                     318           TRAP          #15   
-0000072C  6000 00C2                319           BRA           FINISH
-00000730                           320           
-00000730  43F9 00000C2B            321  BOV_RT   LEA           bov_message,A1
-00000736  103C 000E                322           MOVE.B        #14,D0
-0000073A  4E4F                     323           TRAP          #15   
-0000073C  6100 0406                324           BSR           MOVE
-00000740  6000 00AE                325           BRA           FINISH
-00000744                           326           
-00000744                           327  WOV_RT   *MOVE          D0,D1           * Copy original string
-00000744                           328  *         ANDI.W        #$0FF0,D1       * Clear top and bottom nibbles
-00000744                           329  *         LSR.W         #4,D1           * Shift for consistency 
-00000744                           330  *         LSR.B         #2,D1           * Shift last 2 bits out to check Destination mode 
-00000744                           331  *         ANDI.B        #$0F,D1         * Clear top nibble of the last byte 
-00000744                           332  *         CMPI.B        #1,D1           * If bottom nibble is 1, its MOVEA.W 
-00000744                           333  *         BEQ           AWO_RT          * Branch to MOVEA.W routine 
-00000744  43F9 00000C30            334           LEA           wov_message,A1  * Other wise it's just MOVE.W
-0000074A  103C 000E                335           MOVE.B        #14,D0
-0000074E  4E4F                     336           TRAP          #15   
-00000750  6100 03F2                337           BSR           MOVE
-00000754  6000 009A                338           BRA           FINISH
-00000758                           339  
-00000758                           340           
-00000758                           341  LOV_RT   *MOVE          D0,D1           * Copy original string
-00000758                           342  *         ANDI.W        #$0FF0,D1       * Clear top and bottom nibbles
-00000758                           343  *         LSR.W         #4,D1           * Shift for consistency 
-00000758                           344  *         LSR.B         #2,D1           * Shift last 2 bits out to check Destination mode 
-00000758                           345  *         ANDI.B        #$0F,D1         * Clear top nibble of the last byte 
-00000758                           346  *         CMPI.B        #1,D1           * If bottom nibble is 1, its MOVEA.L 
-00000758                           347  *         BEQ           ALO_RT          * Branch to MOVEA.L routine 
-00000758  43F9 00000C35            348           LEA           lov_message,A1  * Other wise it's just MOVE.L
-0000075E  103C 000E                349           MOVE.B        #14,D0
-00000762  4E4F                     350           TRAP          #15   
-00000764  6100 03DE                351           BSR           MOVE
-00000768  6000 0086                352           BRA           FINISH
-0000076C                           353           
-0000076C  43F9 00000C3C            354  AWO_RT   LEA           awo_message,A1  
-00000772  103C 000E                355           MOVE.B        #14,D0
-00000776  4E4F                     356           TRAP          #15   
-00000778  6000 0076                357           BRA           FINISH
-0000077C                           358  
-0000077C  43F9 00000C46            359  ALO_RT   LEA           alo_message,A1  
-00000782  103C 000E                360           MOVE.B        #14,D0
-00000786  4E4F                     361           TRAP          #15   
-00000788  6000 0066                362           BRA           FINISH
-0000078C                           363           
-0000078C  3200                     364  MM_RT    MOVE          D0,D1        * New copy of the original string
-0000078E  0241 FF00                365           ANDI.W        #$FF00,D1    * Get the upper byte
-00000792  E049                     366           LSR.W         #8,D1        * Shift for consistency
-00000794  E409                     367           LSR.B         #2,D1        * Shift 2 bits first
-00000796  E209                     368           LSR.B         #1,D1        * Shift 1 more bit to check which MOVEM
-00000798  6500 0006                369           BCS           MMO_RT       * If the 10th bit is set, its a MOVEM from memory to register
-0000079C  6000 0012                370           BRA           RMO_RT       * Otherwise, its a MOVEM from register to memory         
-000007A0  43F9 00000C50            371  MMO_RT   LEA           mmo_message,A1
-000007A6  103C 000E                372           MOVE.B        #14,D0
-000007AA  4E4F                     373           TRAP          #15   
-000007AC  6000 0042                374           BRA           FINISH
-000007B0                           375           
-000007B0  43F9 00000C6D            376  RMO_RT   LEA           rmo_message,A1
-000007B6  103C 000E                377           MOVE.B        #14,D0
-000007BA  4E4F                     378           TRAP          #15   
-000007BC  6000 0032                379           BRA           FINISH
-000007C0                           380             
-000007C0  43F9 00000C8A            381  QSU_RT   LEA           qsu_message,A1
-000007C6  103C 000E                382           MOVE.B        #14,D0
-000007CA  4E4F                     383           TRAP          #15   
-000007CC  6000 0022                384           BRA           FINISH
-000007D0                           385           
-000007D0  43F9 00000C91            386  ORI_RT   LEA           ori_message,A1
-000007D6  103C 000E                387           MOVE.B        #14,D0
-000007DA  4E4F                     388           TRAP          #15   
-000007DC  6000 0012                389           BRA           FINISH
-000007E0                           390               
-000007E0  43F9 00000B7F            391  N_FOUND:    LEA         not_found,A1
-000007E6  103C 000E                392              MOVE.B      #14,D0
-000007EA  4E4F                     393              TRAP        #15
-000007EC  6000 0002                394              BRA         FINISH 
-000007F0                           395      
-000007F0  43F9 00000B74            396  FINISH:     LEA         finished,A1
-000007F6  103C 000E                397              MOVE.B      #14,D0
-000007FA  4E4F                     398              TRAP        #15                       
-000007FC                           399  *            STOP        #EXIT           * Halt Execution            
-000007FC                           400     
-000007FC                           401     
-000007FC                           402     *bsr   EXIT_TEST
-000007FC                           403  *-----------------------
-000007FC                           404  EXIT_TEST
-000007FC  4E72 2700                405     STOP   #Exit
-00000800                           406  *-----------------------
-00000800                           407  Initialize_EA
-00000800  49F9 00070000            408     lea   EAbuffer,A4 
-00000806  4E75                     409     rts
-00000808                           410  *------------------------ 
-00000808                           411  Initialize_EA_Test_Pointer
-00000808  4DF8 6000                412     lea   TestLoc,A6
-0000080C  4E75                     413     rts
-0000080E                           414  *------------------------  
-0000080E                           415  *  A4 points to the string 
-0000080E                           416  Print_EA_String
-0000080E  61F0                     417                  bsr   Initialize_EA
-00000810  224C                     418               P_LOOP:   move.l      A4,A1
-00000812  0C91 FFFFFFFF            419                  cmp.l       #$ffffffff,(A1)      if nothing there don't print     
-00000818  6700 000A                420                  beq         EXIT_SR              exit
-0000081C  700E                     421                  move.l      #14,D0
-0000081E  4E4F                     422                  trap        #15                  print 
-00000820  588C                     423                  adda.l      #$00000004,A4        increment a4
-00000822  60EC                     424                  bra         P_LOOP     loop
-00000824                           425  *------------------------
-00000824                           426  EXIT_SR
-00000824  43F9 00000CA4            427     LEA      empty_lin,A1
-0000082A  103C 000E                428     MOVE.B   #14,D0
-0000082E  4E4F                     429     TRAP     #15
-00000830  4E75                     430     RTS
-00000832                           431  *------------------------
-00000832                           432  Decode_SIZE   *  register D3 has size bits
-00000832                           433  *---   sizes are byte:00, word:01, long:10
-00000832  B6BC 00000000            434      cmp.l   #$00000000,d3
-00000838  6700 0076                435      beq   PRINT_DOT_B
-0000083C  B6BC 00000001            436      cmp.l  #$00000001,d3
-00000842  6700 007E                437      beq   Print_DOT_W
-00000846  B6BC 00000002            438      cmp.l   #$00000002,d3
-0000084C  6700 0086                439      beq   Print_DOT_L
-00000850  6000 0024                440      bra   ERROR_SIZE
-00000854                           441  *------------------------
-00000854                           442  Decode_Size_Two   *---used in move
-00000854  B6BC 00000001            443      cmp.l   #$00000001,d3
-0000085A  6700 0054                444      beq   PRINT_DOT_B
-0000085E  B6BC 00000003            445      cmp.l  #$00000003,d3
-00000864  6700 005C                446      beq   Print_DOT_W
-00000868  B6BC 00000002            447      cmp.l   #$00000002,d3
-0000086E  6700 0064                448      beq   Print_DOT_L
-00000872  6000 0002                449      bra   ERROR_SIZE
-00000876                           450  
-00000876                           451  *------------------------
-00000876                           452  ERROR_SIZE
-00000876  4E75                     453     rts 
-00000878                           454  *------------------------
-00000878                           455  *---- passes size back in d3
-00000878                           456  Grab_Size_Bits_Seven_Eight  *--- a6 points to where size bits
-00000878                           457      
-00000878                           458      *--- adda.l   #$00000002,a5    
-00000878  3616                     459      move.w    (a6),d3  
-0000087A                           460      *-----adda.l   #$00000001,a6 
-0000087A  0243 00C0                461      andi.w   #$00C0,d3  
-0000087E  EC5B                     462      ror   #6,d3
-00000880  4E75                     463     rts  
-00000882                           464  *------------------------
-00000882                           465  Grab_Size_Bits_Two
-00000882  1616                     466     move.b   (a6),d3
-00000884  0203 0030                467     andi.b   #$30,d3
-00000888  E85B                     468     ror   #4,d3
-0000088A                           469     
-0000088A  4E75                     470     rts
-0000088C                           471  
-0000088C                           472  *------------------------
-0000088C                           473  Grab_Mode_Bits *--- grabs mode bits and stores in d3
-0000088C  4243                     474     clr   d3
-0000088E  3616                     475     move.w   (a6),d3
-00000890  0243 0038                476     andi.w   #%0000000000111000,d3
-00000894  E65B                     477     ror   #3,d3
-00000896  4E75                     478     rts 
-00000898                           479  *------------------------
-00000898                           480  Grab_Dest_Mode_Bits
-00000898  4243                     481     clr   d3
-0000089A  3616                     482     move.w   (a6),d3
-0000089C  0243 01C0                483     andi.w   #%0000000111000000,d3
-000008A0  EC5B                     484     ror   #6,d3
-000008A2  4E75                     485     rts
-000008A4                           486  *------------------------
-000008A4                           487  Grab_Source_Mode_Bits
-000008A4  4243                     488     clr   d3
-000008A6  3616                     489     move.w   (a6),d3
-000008A8  0243 0038                490     andi.w   #%00000000000111000,d3
-000008AC  E65B                     491     ror   #3,d3
-000008AE  4E75                     492     rts
-000008B0                           493  *------------------------
-000008B0                           494  PRINT_DOT_B
-000008B0  18FC 002E                495     move.b   #'.',(a4)+       dot to print
-000008B4  18FC 0042                496     move.b   #'B',(a4)+       "B" to print 
-000008B8  18FC 0009                497     move.b   #$09,(a4)+       prints spaces 
-000008BC  18FC 0000                498     move.b   #$00,(a4)+
-000008C0  4E75                     499     rts
-000008C2                           500  *------------------------
-000008C2                           501  Print_DOT_W
-000008C2  18FC 002E                502     move.b   #'.',(a4)+      dot to print
-000008C6  18FC 0057                503     move.b   #'W',(a4)+      "W" to print   
-000008CA  18FC 0009                504     move.b   #$09,(a4)+      prints spaces   
-000008CE  18FC 0000                505     move.b   #$00,(a4)+
-000008D2  4E75                     506     rts
-000008D4                           507  *------------------------
-000008D4                           508  Print_DOT_L
-000008D4  18FC 002E                509     move.b   #'.',(a4)+      dot to print
-000008D8  18FC 004C                510     move.b   #'L',(a4)+      "W" to print 
-000008DC  18FC 0009                511     move.b   #$09,(a4)+      prints spaces
-000008E0  18FC 0000                512     move.b   #$00,(a4)+
-000008E4  4E75                     513     rts
-000008E6                           514  *------------------------
-000008E6                           515  Print_Comma
-000008E6  18FC 002C                516     move.b   #',',(a4)+
-000008EA  18FC 0000                517     move.b   #$00,(a4)+
+000004F8                           131              * Will branch to EA here
+000004F8  6100 0610                132              BSR         NOP            
+000004FC  6000 02F6                133              BRA         FINISH
+00000500  43F9 00000BA5            134  NEG_RT:     LEA         neg_message,A1  * Print NEG
+00000506  103C 000E                135              MOVE.B      #14,D0
+0000050A  4E4F                     136              TRAP        #15
+0000050C                           137              * Will branch to EA here
+0000050C  6100 0602                138              BSR         NEG
+00000510  6000 02E2                139              BRA         FINISH
+00000514  43F9 00000BA9            140  JSR_RT:     LEA         jsr_message,A1  * Print JSR
+0000051A  103C 000E                141              MOVE.B      #14,D0
+0000051E  4E4F                     142              TRAP        #15
+00000520                           143              * Will branch to EA here            
+00000520  6000 02D2                144              BRA         FINISH
+00000524  43F9 00000BAF            145  RTS_RT:     LEA         rts_message,A1  * Print RTS
+0000052A  103C 000E                146              MOVE.B      #14,D0
+0000052E  4E4F                     147              TRAP        #15
+00000530                           148              * Will branch to EA here            
+00000530  6000 02C2                149              BRA         FINISH
+00000534  43F9 00000BB5            150  BCC_RT:     LEA         bcc_message,A1  * Print BCC
+0000053A  103C 000E                151              MOVE.B      #14,D0
+0000053E  4E4F                     152              TRAP        #15
+00000540                           153              * Will branch to EA here         
+00000540  6000 02B2                154              BRA         FINISH
+00000544  43F9 00000BBB            155  BCS_RT:     LEA         bcs_message,A1  * Print BCS
+0000054A  103C 000E                156              MOVE.B      #14,D0
+0000054E  4E4F                     157              TRAP        #15
+00000550                           158              * Will branch to EA here         
+00000550  6000 02A2                159              BRA         FINISH
+00000554  43F9 00000BC1            160  BGE_RT:     LEA         bge_message,A1  * Print BGE
+0000055A  103C 000E                161              MOVE.B      #14,D0
+0000055E  4E4F                     162              TRAP        #15
+00000560                           163              * Will branch to EA here         
+00000560  6000 0292                164              BRA         FINISH
+00000564  43F9 00000BC7            165  BLT_RT:     LEA         blt_message,A1  * Print BLT
+0000056A  103C 000E                166              MOVE.B      #14,D0
+0000056E  4E4F                     167              TRAP        #15
+00000570                           168              * Will branch to EA here         
+00000570  6000 0282                169              BRA         FINISH
+00000574  43F9 00000BCD            170  BVC_RT:     LEA         bvc_message,A1  * Print BVC
+0000057A  103C 000E                171              MOVE.B      #14,D0
+0000057E  4E4F                     172              TRAP        #15
+00000580                           173              * Will branch to EA here         
+00000580  6000 0272                174              BRA         FINISH                                                
+00000584  43F9 00000BD3            175  BRA_RT:     LEA         bra_message,A1  * Print BRA
+0000058A  103C 000E                176              MOVE.B      #14,D0
+0000058E  4E4F                     177              TRAP        #15
+00000590                           178              * Will branch to EA here
+00000590  6000 0262                179              BRA         FINISH                        
+00000594                           180             
+00000594  EC4A                     181  EOR_RT     LSR         #6,D2           * Remove the last 6 bits from the string          
+00000596  1602                     182             MOVE.B      D2,D3           * Copy current string
+00000598  0203 000F                183             ANDI.B      #$0F,D3         * Clear second to last digit
+0000059C  5143                     184             SUB         #8,D3           * Subtract 8 from string
+0000059E  0C43 0004                185             CMPI        #4,D3           * Is is a CMP function? 
+000005A2  6D00 0012                186             BLT         CMP_RT          * Branch to CMP routine
+000005A6  43F9 00000BD9            187             LEA         eor_message,A1  * Otherwise it's an EOR function 
+000005AC  103C 000E                188             MOVE.B      #14,D0
+000005B0  4E4F                     189             TRAP        #15
+000005B2  6000 0240                190             BRA         FINISH 
+000005B6                           191             
+000005B6  43F9 00000BDF            192  CMP_RT     LEA         cmp_message,A1
+000005BC  103C 000E                193             MOVE.B      #14,D0
+000005C0  4E4F                     194             TRAP        #15
+000005C2  6000 0230                195             BRA         FINISH
+000005C6                           196             
+000005C6  3400                     197  SHF_RT      MOVE.W      D0,D2
+000005C8  1602                     198              MOVE.B      D2,D3          * Copy string for manipulation
+000005CA  1803                     199              MOVE.B      D3,D4          * Copy again 
+000005CC  0204 000F                200              ANDI.B      #$0F,D4        * Clear second to last digit
+000005D0  89FC 0008                201              DIVS        #8,D4          * Get the least significant bit
+000005D4  0C44 0000                202              CMPI.W      #0,D4          * Is is zero?
+000005D8  6700 0006                203              BEQ         AS_RT          * If so, its an Arithemetic shift
+000005DC  6000 0038                204              BRA         LS_RT          * Otherwise, Logical Shift
+000005E0                           205              
+000005E0  1602                     206  AS_RT      MOVE.B       D2,D3          * Copy string 
+000005E2  0202 0000                207             ANDI.B       #00,D2         * Clear second half of the byte
+000005E6  E04A                     208             LSR          #8,D2          * Shift digits all the way right
+000005E8  0202 000F                209             ANDI.B       #$0F,D2        * Clear second to last digit
+000005EC  E24A                     210             LSR.W        #1,D2          * Shift one bit to the right
+000005EE  6500 0006                211             BCS          LA_RT          * If it's even, we have ASL
+000005F2  6000 0012                212             BRA          RA_RT          * Otherwise, it's ASR
+000005F6                           213             
+000005F6  43F9 00000BEB            214  LA_RT     LEA           asl_message,A1
+000005FC  103C 000E                215            MOVE.B        #14,D0
+00000600  4E4F                     216            TRAP          #15
+00000602  6000 01F0                217            BRA           FINISH
+00000606                           218  
+00000606  43F9 00000BE5            219  RA_RT     LEA           asr_message,A1
+0000060C  103C 000E                220            MOVE.B        #14,D0
+00000610  4E4F                     221            TRAP          #15
+00000612  6000 01E0                222            BRA           FINISH
+00000616                           223              
+00000616                           224                         
+00000616  1E03                     225  LS_RT      MOVE.B       D3,D7          * Copy string to check if its a Rotate
+00000618  0247 00F0                226             ANDI         #$F0,D7        * Clear last character
+0000061C  E84F                     227             LSR          #4,D7          * Shift 4 bits to the right
+0000061E  BE7C 0005                228             CMP          #5,D7          * If its a 5, we have a rotate
+00000622  6700 0038                229             BEQ          RO_RT          * Branch to Rotate
+00000626  1602                     230             MOVE.B       D2,D3          * Copy string 
+00000628  0202 0000                231             ANDI.B       #00,D2         * Clear second half of the byte 
+0000062C  E04A                     232             LSR          #8,D2          * Shift digits all the way right
+0000062E  0202 000F                233             ANDI.B       #$0F,D2        * Clear second to last digit
+00000632  E24A                     234             LSR.W        #1,D2          * Shift least significant bit into the carry bit
+00000634  6500 0006                235             BCS          LL_RT          * If its the LSBit was 1, we have LSL
+00000638  6000 0012                236             BRA          RL_RT          * Otherwise, its LSR
+0000063C                           237             
+0000063C  43F9 00000BF7            238  LL_RT     LEA           lsl_message,A1
+00000642  103C 000E                239            MOVE.B        #14,D0
+00000646  4E4F                     240            TRAP          #15
+00000648  6000 01AA                241            BRA           FINISH
+0000064C                           242  
+0000064C  43F9 00000BF1            243  RL_RT     LEA           lsr_message,A1
+00000652  103C 000E                244            MOVE.B        #14,D0
+00000656  4E4F                     245            TRAP          #15
+00000658  6000 019A                246            BRA           FINISH
+0000065C                           247            
+0000065C  1602                     248  RO_RT     MOVE.B       D2,D3          * Copy string 
+0000065E  0202 0000                249            ANDI.B       #00,D2         * Clear second half of the byte 
+00000662  E04A                     250            LSR          #8,D2          * Shift digits all the way right
+00000664  0202 000F                251            ANDI.B       #$0F,D2        * Clear second to last digit
+00000668  E24A                     252            LSR.W        #1,D2          * Shift least significant bit into the carry bit
+0000066A  6500 0006                253            BCS          LR_RT          * If its the LSBit was 1, we have ROL
+0000066E  6000 0012                254            BRA          RR_RT          * Otherwise, its ROR
+00000672                           255  
+00000672                           256            
+00000672  43F9 00000BFD            257  LR_RT    LEA           rol_message,A1
+00000678  103C 000E                258           MOVE.B        #14,D0
+0000067C  4E4F                     259           TRAP          #15
+0000067E  6000 0174                260           BRA           FINISH   
+00000682                           261  
+00000682  43F9 00000C03            262  RR_RT    LEA           ror_message,A1
+00000688  103C 000E                263           MOVE.B        #14,D0
+0000068C  4E4F                     264           TRAP          #15   
+0000068E  6000 0164                265           BRA           FINISH
+00000692                           266  
+00000692  0243 00F0                267  FOU_RT   ANDI          #$0F0,D3        * Checking 2nd most significant nibble 
+00000696  E84B                     268           LSR.W         #4,D3           * Shift for consistency
+00000698  E20B                     269           LSR.B         #1,D3           * Shift 1 bit right to check parity bit
+0000069A  6500 0006                270           BCS           LEA_RT          * If odd, its LEA
+0000069E  6000 00F0                271           BRA           MM_RT           * Otherwise it's MOVEM
+000006A2                           272           
+000006A2                           273           
+000006A2  43F9 00000C09            274  LEA_RT   LEA           lea_message,A1
+000006A8  103C 000E                275           MOVE.B        #14,D0
+000006AC  4E4F                     276           TRAP          #15   
+000006AE  6000 0144                277           BRA           FINISH
+000006B2                           278            
+000006B2  43F9 00000C0F            279  OR_RT    LEA           or_message,A1
+000006B8  103C 000E                280           MOVE.B        #14,D0
+000006BC  4E4F                     281           TRAP          #15   
+000006BE  6000 0134                282           BRA           FINISH
+000006C2                           283           
+000006C2  3200                     284  ZER_RT   MOVE.W        D0,D1           * Copy original string
+000006C4  0241 FF00                285           ANDI.W        #$FF00,D1        * Clear the lower byte 
+000006C8  E049                     286           LSR.W         #8,D1           * Shift for consistency
+000006CA  E209                     287           LSR.B         #1,D1           * Move the lowest bit into the carry bit
+000006CC  6500 0006                288           BCS           BCL_RT          * If its a 1, its BCLR 
+000006D0  6000 0012                289           BRA           ICM_RT          * Otherwise its CMPI
+000006D4                           290           
+000006D4  43F9 00000C14            291  BCL_RT   LEA           bcl_message,A1
+000006DA  103C 000E                292           MOVE.B        #14,D0
+000006DE  4E4F                     293           TRAP          #15   
+000006E0  6000 0112                294           BRA           FINISH
+000006E4                           295  
+000006E4  43F9 00000C9F            296  ICM_RT   LEA           icm_message,A1
+000006EA  103C 000E                297           MOVE.B        #14,D0
+000006EE  4E4F                     298           TRAP          #15   
+000006F0  6000 0102                299           BRA           FINISH
+000006F4                           300        
+000006F4                           301  
+000006F4  43F9 00000C1B            302  ADD_RT   LEA           add_message,A1
+000006FA  103C 000E                303           MOVE.B        #14,D0
+000006FE  4E4F                     304           TRAP          #15   
+00000700  6000 00F2                305           BRA           FINISH
+00000704                           306  
+00000704  43F9 00000C21            307  SUB_RT   LEA           sub_message,A1
+0000070A  103C 000E                308           MOVE.B        #14,D0
+0000070E  4E4F                     309           TRAP          #15   
+00000710  6000 00E2                310           BRA           FINISH
+00000714                           311           
+00000714  43F9 00000C27            312  MUL_RT   LEA           mul_message,A1
+0000071A  103C 000E                313           MOVE.B        #14,D0
+0000071E  4E4F                     314           TRAP          #15   
+00000720  6000 00D2                315           BRA           FINISH
+00000724                           316  
+00000724  43F9 00000C2E            317  DIV_RT   LEA           div_message,A1
+0000072A  103C 000E                318           MOVE.B        #14,D0
+0000072E  4E4F                     319           TRAP          #15   
+00000730  6000 00C2                320           BRA           FINISH
+00000734                           321           
+00000734  43F9 00000C33            322  BOV_RT   LEA           bov_message,A1
+0000073A  103C 000E                323           MOVE.B        #14,D0
+0000073E  4E4F                     324           TRAP          #15   
+00000740  6100 040C                325           BSR           MOVE
+00000744  6000 00AE                326           BRA           FINISH
+00000748                           327           
+00000748                           328  WOV_RT   *MOVE          D0,D1           * Copy original string
+00000748                           329  *         ANDI.W        #$0FF0,D1       * Clear top and bottom nibbles
+00000748                           330  *         LSR.W         #4,D1           * Shift for consistency 
+00000748                           331  *         LSR.B         #2,D1           * Shift last 2 bits out to check Destination mode 
+00000748                           332  *         ANDI.B        #$0F,D1         * Clear top nibble of the last byte 
+00000748                           333  *         CMPI.B        #1,D1           * If bottom nibble is 1, its MOVEA.W 
+00000748                           334  *         BEQ           AWO_RT          * Branch to MOVEA.W routine 
+00000748  43F9 00000C38            335           LEA           wov_message,A1  * Other wise it's just MOVE.W
+0000074E  103C 000E                336           MOVE.B        #14,D0
+00000752  4E4F                     337           TRAP          #15   
+00000754  6100 03F8                338           BSR           MOVE
+00000758  6000 009A                339           BRA           FINISH
+0000075C                           340  
+0000075C                           341           
+0000075C                           342  LOV_RT   *MOVE          D0,D1           * Copy original string
+0000075C                           343  *         ANDI.W        #$0FF0,D1       * Clear top and bottom nibbles
+0000075C                           344  *         LSR.W         #4,D1           * Shift for consistency 
+0000075C                           345  *         LSR.B         #2,D1           * Shift last 2 bits out to check Destination mode 
+0000075C                           346  *         ANDI.B        #$0F,D1         * Clear top nibble of the last byte 
+0000075C                           347  *         CMPI.B        #1,D1           * If bottom nibble is 1, its MOVEA.L 
+0000075C                           348  *         BEQ           ALO_RT          * Branch to MOVEA.L routine 
+0000075C  43F9 00000C3D            349           LEA           lov_message,A1  * Other wise it's just MOVE.L
+00000762  103C 000E                350           MOVE.B        #14,D0
+00000766  4E4F                     351           TRAP          #15   
+00000768  6100 03E4                352           BSR           MOVE
+0000076C  6000 0086                353           BRA           FINISH
+00000770                           354           
+00000770  43F9 00000C44            355  AWO_RT   LEA           awo_message,A1  
+00000776  103C 000E                356           MOVE.B        #14,D0
+0000077A  4E4F                     357           TRAP          #15   
+0000077C  6000 0076                358           BRA           FINISH
+00000780                           359  
+00000780  43F9 00000C4E            360  ALO_RT   LEA           alo_message,A1  
+00000786  103C 000E                361           MOVE.B        #14,D0
+0000078A  4E4F                     362           TRAP          #15   
+0000078C  6000 0066                363           BRA           FINISH
+00000790                           364           
+00000790  3200                     365  MM_RT    MOVE          D0,D1        * New copy of the original string
+00000792  0241 FF00                366           ANDI.W        #$FF00,D1    * Get the upper byte
+00000796  E049                     367           LSR.W         #8,D1        * Shift for consistency
+00000798  E409                     368           LSR.B         #2,D1        * Shift 2 bits first
+0000079A  E209                     369           LSR.B         #1,D1        * Shift 1 more bit to check which MOVEM
+0000079C  6500 0006                370           BCS           MMO_RT       * If the 10th bit is set, its a MOVEM from memory to register
+000007A0  6000 0012                371           BRA           RMO_RT       * Otherwise, its a MOVEM from register to memory         
+000007A4  43F9 00000C58            372  MMO_RT   LEA           mmo_message,A1
+000007AA  103C 000E                373           MOVE.B        #14,D0
+000007AE  4E4F                     374           TRAP          #15   
+000007B0  6000 0042                375           BRA           FINISH
+000007B4                           376           
+000007B4  43F9 00000C75            377  RMO_RT   LEA           rmo_message,A1
+000007BA  103C 000E                378           MOVE.B        #14,D0
+000007BE  4E4F                     379           TRAP          #15   
+000007C0  6000 0032                380           BRA           FINISH
+000007C4                           381             
+000007C4  43F9 00000C92            382  QSU_RT   LEA           qsu_message,A1
+000007CA  103C 000E                383           MOVE.B        #14,D0
+000007CE  4E4F                     384           TRAP          #15   
+000007D0  6000 0022                385           BRA           FINISH
+000007D4                           386           
+000007D4  43F9 00000C99            387  ORI_RT   LEA           ori_message,A1
+000007DA  103C 000E                388           MOVE.B        #14,D0
+000007DE  4E4F                     389           TRAP          #15   
+000007E0  6000 0012                390           BRA           FINISH
+000007E4                           391               
+000007E4  43F9 00000B89            392  N_FOUND:    LEA         not_found,A1
+000007EA  103C 000E                393              MOVE.B      #14,D0
+000007EE  4E4F                     394              TRAP        #15
+000007F0  6000 0002                395              BRA         FINISH 
+000007F4                           396      
+000007F4  43F9 00000B7E            397  FINISH:     LEA         finished,A1
+000007FA  103C 000E                398              MOVE.B      #14,D0
+000007FE  4E4F                     399              TRAP        #15                       
+00000800                           400  *            STOP        #EXIT           * Halt Execution            
+00000800                           401     
+00000800                           402     
+00000800                           403     *bsr   EXIT_TEST
+00000800                           404  *-----------------------
+00000800                           405  EXIT_TEST
+00000800  4E72 2700                406     STOP   #Exit
+00000804                           407  *-----------------------
+00000804                           408  Initialize_EA
+00000804  49F9 00070000            409     lea   EAbuffer,A4 
+0000080A  4E75                     410     rts
+0000080C                           411  *------------------------ 
+0000080C                           412  Initialize_EA_Test_Pointer
+0000080C  4DF8 6000                413     lea   TestLoc,A6
+00000810  4E75                     414     rts
+00000812                           415  *------------------------  
+00000812                           416  *  A4 points to the string 
+00000812                           417  Print_EA_String
+00000812  61F0                     418                  bsr   Initialize_EA
+00000814  224C                     419               P_LOOP:   move.l      A4,A1
+00000816  0C91 FFFFFFFF            420                  cmp.l       #$ffffffff,(A1)      if nothing there don't print     
+0000081C  6700 000A                421                  beq         EXIT_SR              exit
+00000820  700E                     422                  move.l      #14,D0
+00000822  4E4F                     423                  trap        #15                  print 
+00000824  588C                     424                  adda.l      #$00000004,A4        increment a4
+00000826  60EC                     425                  bra         P_LOOP     loop
+00000828                           426  *------------------------
+00000828                           427  EXIT_SR
+00000828  43F9 00000CAC            428     LEA      empty_lin,A1
+0000082E  103C 000E                429     MOVE.B   #14,D0
+00000832  4E4F                     430     TRAP     #15
+00000834  4E75                     431     RTS
+00000836                           432  *------------------------
+00000836                           433  Decode_SIZE   *  register D3 has size bits
+00000836                           434  *---   sizes are byte:00, word:01, long:10
+00000836  B6BC 00000000            435      cmp.l   #$00000000,d3
+0000083C  6700 0076                436      beq   PRINT_DOT_B
+00000840  B6BC 00000001            437      cmp.l  #$00000001,d3
+00000846  6700 007E                438      beq   Print_DOT_W
+0000084A  B6BC 00000002            439      cmp.l   #$00000002,d3
+00000850  6700 0086                440      beq   Print_DOT_L
+00000854  6000 0024                441      bra   ERROR_SIZE
+00000858                           442  *------------------------
+00000858                           443  Decode_Size_Two   *---used in move
+00000858  B6BC 00000001            444      cmp.l   #$00000001,d3
+0000085E  6700 0054                445      beq   PRINT_DOT_B
+00000862  B6BC 00000003            446      cmp.l  #$00000003,d3
+00000868  6700 005C                447      beq   Print_DOT_W
+0000086C  B6BC 00000002            448      cmp.l   #$00000002,d3
+00000872  6700 0064                449      beq   Print_DOT_L
+00000876  6000 0002                450      bra   ERROR_SIZE
+0000087A                           451  
+0000087A                           452  *------------------------
+0000087A                           453  ERROR_SIZE
+0000087A  4E75                     454     rts 
+0000087C                           455  *------------------------
+0000087C                           456  *---- passes size back in d3
+0000087C                           457  Grab_Size_Bits_Seven_Eight  *--- a6 points to where size bits
+0000087C                           458      
+0000087C                           459      *--- adda.l   #$00000002,a5    
+0000087C  3616                     460      move.w    (a6),d3  
+0000087E                           461      *-----adda.l   #$00000001,a6 
+0000087E  0243 00C0                462      andi.w   #$00C0,d3  
+00000882  EC5B                     463      ror   #6,d3
+00000884  4E75                     464     rts  
+00000886                           465  *------------------------
+00000886                           466  Grab_Size_Bits_Two
+00000886  1616                     467     move.b   (a6),d3
+00000888  0203 0030                468     andi.b   #$30,d3
+0000088C  E85B                     469     ror   #4,d3
+0000088E                           470     
+0000088E  4E75                     471     rts
+00000890                           472  
+00000890                           473  *------------------------
+00000890                           474  Grab_Mode_Bits *--- grabs mode bits and stores in d3
+00000890  4243                     475     clr   d3
+00000892  3616                     476     move.w   (a6),d3
+00000894  0243 0038                477     andi.w   #%0000000000111000,d3
+00000898  E65B                     478     ror   #3,d3
+0000089A  4E75                     479     rts 
+0000089C                           480  *------------------------
+0000089C                           481  Grab_Dest_Mode_Bits
+0000089C  4243                     482     clr   d3
+0000089E  3616                     483     move.w   (a6),d3
+000008A0  0243 01C0                484     andi.w   #%0000000111000000,d3
+000008A4  EC5B                     485     ror   #6,d3
+000008A6  4E75                     486     rts
+000008A8                           487  *------------------------
+000008A8                           488  Grab_Source_Mode_Bits
+000008A8  4243                     489     clr   d3
+000008AA  3616                     490     move.w   (a6),d3
+000008AC  0243 0038                491     andi.w   #%00000000000111000,d3
+000008B0  E65B                     492     ror   #3,d3
+000008B2  4E75                     493     rts
+000008B4                           494  *------------------------
+000008B4                           495  PRINT_DOT_B
+000008B4  18FC 002E                496     move.b   #'.',(a4)+       dot to print
+000008B8  18FC 0042                497     move.b   #'B',(a4)+       "B" to print 
+000008BC  18FC 0009                498     move.b   #$09,(a4)+       prints spaces 
+000008C0  18FC 0000                499     move.b   #$00,(a4)+
+000008C4  4E75                     500     rts
+000008C6                           501  *------------------------
+000008C6                           502  Print_DOT_W
+000008C6  18FC 002E                503     move.b   #'.',(a4)+      dot to print
+000008CA  18FC 0057                504     move.b   #'W',(a4)+      "W" to print   
+000008CE  18FC 0009                505     move.b   #$09,(a4)+      prints spaces   
+000008D2  18FC 0000                506     move.b   #$00,(a4)+
+000008D6  4E75                     507     rts
+000008D8                           508  *------------------------
+000008D8                           509  Print_DOT_L
+000008D8  18FC 002E                510     move.b   #'.',(a4)+      dot to print
+000008DC  18FC 004C                511     move.b   #'L',(a4)+      "W" to print 
+000008E0  18FC 0009                512     move.b   #$09,(a4)+      prints spaces
+000008E4  18FC 0000                513     move.b   #$00,(a4)+
+000008E8  4E75                     514     rts
+000008EA                           515  *------------------------
+000008EA                           516  Print_Comma
+000008EA  18FC 002C                517     move.b   #',',(a4)+
 000008EE  18FC 0000                518     move.b   #$00,(a4)+
 000008F2  18FC 0000                519     move.b   #$00,(a4)+
-000008F6  4E75                     520     rts
-000008F8                           521  *------------------------
-000008F8                           522  Grab_Source_Reg  *--- grabs and puts into d4
-000008F8  4244                     523     clr   d4
-000008FA  3816                     524     move.w  (a6),d4 
-000008FC  0244 0007                525     andi.w   #%0000000000000111,d4
-00000900  4E75                     526     rts
-00000902                           527  
-00000902                           528  *------------------------
-00000902                           529  Grab_Dest_Reg   *--- grabs and puts into d4
-00000902  4244                     530     clr   d4
-00000904  3816                     531     move.w  (a6),d4 
-00000906  0244 0E00                532     andi.w   #%0000111000000000,d4
-0000090A  E05C                     533     ror   #8,d4
-0000090C  E25C                     534     ror   #1,d4
-0000090E  4E75                     535     rts
-00000910                           536  *------------------------
-00000910                           537  Close_String
-00000910  18BC 0000                538     move.b   #$00,(a4)
-00000914  4E75                     539     rts
-00000916                           540  *------------------------
-00000916                           541  Decode_DRD  *-- d4 has the reg
-00000916  0604 0030                542     addi.b   #$30,d4
-0000091A  18FC 0044                543     move.b   #'D',(a4)+
-0000091E  18C4                     544     move.b   d4,(a4)+
-00000920  18FC 0000                545     move.b   #$00,(a4)+
+000008F6  18FC 0000                520     move.b   #$00,(a4)+
+000008FA  4E75                     521     rts
+000008FC                           522  *------------------------
+000008FC                           523  Grab_Source_Reg  *--- grabs and puts into d4
+000008FC  4244                     524     clr   d4
+000008FE  3816                     525     move.w  (a6),d4 
+00000900  0244 0007                526     andi.w   #%0000000000000111,d4
+00000904  4E75                     527     rts
+00000906                           528  
+00000906                           529  *------------------------
+00000906                           530  Grab_Dest_Reg   *--- grabs and puts into d4
+00000906  4244                     531     clr   d4
+00000908  3816                     532     move.w  (a6),d4 
+0000090A  0244 0E00                533     andi.w   #%0000111000000000,d4
+0000090E  E05C                     534     ror   #8,d4
+00000910  E25C                     535     ror   #1,d4
+00000912  4E75                     536     rts
+00000914                           537  *------------------------
+00000914                           538  Close_String
+00000914  18BC 0000                539     move.b   #$00,(a4)
+00000918  4E75                     540     rts
+0000091A                           541  *------------------------
+0000091A                           542  Decode_DRD  *-- d4 has the reg
+0000091A  0604 0030                543     addi.b   #$30,d4
+0000091E  18FC 0044                544     move.b   #'D',(a4)+
+00000922  18C4                     545     move.b   d4,(a4)+
 00000924  18FC 0000                546     move.b   #$00,(a4)+
-00000928  4E75                     547     rts
-0000092A                           548  *------------------------
-0000092A                           549  Decode_ARD  *-- d4 has the reg
-0000092A  0604 0030                550     addi.b   #$30,d4
-0000092E  18FC 0041                551     move.b   #'A',(a4)+
-00000932  18C4                     552     move.b   d4,(a4)+
-00000934  18FC 0000                553     move.b   #$00,(a4)+
+00000928  18FC 0000                547     move.b   #$00,(a4)+
+0000092C  4E75                     548     rts
+0000092E                           549  *------------------------
+0000092E                           550  Decode_ARD  *-- d4 has the reg
+0000092E  0604 0030                551     addi.b   #$30,d4
+00000932  18FC 0041                552     move.b   #'A',(a4)+
+00000936  18C4                     553     move.b   d4,(a4)+
 00000938  18FC 0000                554     move.b   #$00,(a4)+
-0000093C  4E75                     555     rts
-0000093E                           556  
-0000093E                           557  *------------------------
-0000093E                           558  Mode_Jump_Table *-- d3 has mode 
-0000093E  B63C 0000                559      cmp.b   #$00,d3     *drd
-00000942  67D2                     560      beq   Decode_DRD
-00000944  B63C 0001                561      cmp.b   #$01,d3
-00000948  67E0                     562      beq   Decode_ARD
-0000094A  B63C 0002                563      cmp.b   #$02,d3      *ari
-0000094E  6700 001E                564      beq   Decode_ARI
-00000952  B63C 0003                565      cmp.b   #$03,d3     *ari pi
-00000956  6700 002E                566      beq   Decode_ARI_PI
-0000095A  B63C 0004                567      cmp.b   #$04,d3     *ari pd
-0000095E  6700 004A                568      beq   Decode_ARI_PD
-00000962  B63C 0007                569      cmp.b   #$07,d3      *ari
-00000966  6700 011E                570      beq     Absolute_Router
-0000096A  6000 001A                571      bra   Mode_Error 
-0000096E                           572  *------------------------
-0000096E                           573  Decode_ARI
-0000096E  0604 0030                574      addi.b   #$30,d4
-00000972  18FC 0028                575      move.b   #'(',(a4)+
-00000976  18FC 0041                576      move.b   #'A',(a4)+
-0000097A  18C4                     577      move.b   d4,(a4)+
-0000097C  18FC 0029                578      move.b   #')',(a4)+
-00000980  18BC 0000                579      move.b   #$00,(a4)
-00000984                           580    
-00000984  4E75                     581     rts
-00000986                           582  *------------------------
-00000986                           583  Mode_Error
-00000986                           584  
-00000986                           585  *------------------------
-00000986                           586  Decode_ARI_PI
-00000986                           587      
-00000986  0604 0030                588      addi.b   #$30,d4
-0000098A  18FC 0028                589      move.b   #'(',(a4)+
-0000098E  18FC 0041                590      move.b   #'A',(a4)+
-00000992  18C4                     591      move.b   d4,(a4)+
-00000994  18FC 0000                592      move.b   #$00,(a4)+
-00000998  18FC 0029                593      move.b   #')',(a4)+
-0000099C  18FC 002B                594      move.b   #'+',(a4)+
-000009A0  18FC 0000                595      move.b   #$00,(a4)+
+0000093C  18FC 0000                555     move.b   #$00,(a4)+
+00000940  4E75                     556     rts
+00000942                           557  
+00000942                           558  *------------------------
+00000942                           559  Mode_Jump_Table *-- d3 has mode 
+00000942  B63C 0000                560      cmp.b   #$00,d3     *drd
+00000946  67D2                     561      beq   Decode_DRD
+00000948  B63C 0001                562      cmp.b   #$01,d3
+0000094C  67E0                     563      beq   Decode_ARD
+0000094E  B63C 0002                564      cmp.b   #$02,d3      *ari
+00000952  6700 001E                565      beq   Decode_ARI
+00000956  B63C 0003                566      cmp.b   #$03,d3     *ari pi
+0000095A  6700 002E                567      beq   Decode_ARI_PI
+0000095E  B63C 0004                568      cmp.b   #$04,d3     *ari pd
+00000962  6700 004A                569      beq   Decode_ARI_PD
+00000966  B63C 0007                570      cmp.b   #$07,d3      *ari
+0000096A  6700 011E                571      beq     Absolute_Router
+0000096E  6000 001A                572      bra   Mode_Error 
+00000972                           573  *------------------------
+00000972                           574  Decode_ARI
+00000972  0604 0030                575      addi.b   #$30,d4
+00000976  18FC 0028                576      move.b   #'(',(a4)+
+0000097A  18FC 0041                577      move.b   #'A',(a4)+
+0000097E  18C4                     578      move.b   d4,(a4)+
+00000980  18FC 0029                579      move.b   #')',(a4)+
+00000984  18BC 0000                580      move.b   #$00,(a4)
+00000988                           581    
+00000988  4E75                     582     rts
+0000098A                           583  *------------------------
+0000098A                           584  Mode_Error
+0000098A                           585  
+0000098A                           586  *------------------------
+0000098A                           587  Decode_ARI_PI
+0000098A                           588      
+0000098A  0604 0030                589      addi.b   #$30,d4
+0000098E  18FC 0028                590      move.b   #'(',(a4)+
+00000992  18FC 0041                591      move.b   #'A',(a4)+
+00000996  18C4                     592      move.b   d4,(a4)+
+00000998  18FC 0000                593      move.b   #$00,(a4)+
+0000099C  18FC 0029                594      move.b   #')',(a4)+
+000009A0  18FC 002B                595      move.b   #'+',(a4)+
 000009A4  18FC 0000                596      move.b   #$00,(a4)+
-000009A8  4E75                     597     rts
-000009AA                           598  
-000009AA                           599  
-000009AA                           600  *------------------------
-000009AA                           601  Decode_ARI_PD
-000009AA                           602      
-000009AA  0604 0030                603      addi.b   #$30,d4
-000009AE  18FC 002D                604      move.b   #'-',(a4)+
-000009B2  18FC 0028                605      move.b   #'(',(a4)+
-000009B6  18FC 0041                606      move.b   #'A',(a4)+
-000009BA  18FC 0000                607      move.b   #$00,(a4)+
-000009BE  18C4                     608      move.b   d4,(a4)+
-000009C0  18FC 0029                609      move.b   #')',(a4)+
-000009C4  18FC 0000                610      move.b   #$00,(a4)+
+000009A8  18FC 0000                597      move.b   #$00,(a4)+
+000009AC  4E75                     598     rts
+000009AE                           599  
+000009AE                           600  
+000009AE                           601  *------------------------
+000009AE                           602  Decode_ARI_PD
+000009AE                           603      
+000009AE  0604 0030                604      addi.b   #$30,d4
+000009B2  18FC 002D                605      move.b   #'-',(a4)+
+000009B6  18FC 0028                606      move.b   #'(',(a4)+
+000009BA  18FC 0041                607      move.b   #'A',(a4)+
+000009BE  18FC 0000                608      move.b   #$00,(a4)+
+000009C2  18C4                     609      move.b   d4,(a4)+
+000009C4  18FC 0029                610      move.b   #')',(a4)+
 000009C8  18FC 0000                611      move.b   #$00,(a4)+
-000009CC  4E75                     612      rts
-000009CE                           613  *------------------------
-000009CE                           614  Decode_IMM
-000009CE                           615  *------------------------
-000009CE                           616  Decode_ABS_LONG    *---code reuse, will make separate procudure if time 
-000009CE  4241                     617     clr   d1
-000009D0  4242                     618     clr   d2
-000009D2  4243                     619     clr   d3
-000009D4  4244                     620     clr   d4
-000009D6  4245                     621     clr   d5
-000009D8  524E                     622     adda.w   #$1,a6
-000009DA  361E                     623     move.w   (a6)+,d3
-000009DC  3803                     624     move.w   d3,d4
-000009DE  3403                     625     move.w   d3,d2
-000009E0  3A03                     626     move.w   d3,d5
-000009E2  3203                     627     move.w   d3,d1
-000009E4  0282 0000F000            628     andi.l   #$0000F000,d2
-000009EA  E05A                     629     ror      #8,d2
-000009EC  E85A                     630     ror      #4,d2
-000009EE                           631     
-000009EE  0602 0030                632     addi.b   #$30,d2
-000009F2  0283 00000F00            633     andi.l   #$00000F00,d3
-000009F8  E05B                     634     ror      #8,d3
-000009FA  0603 0030                635     addi.b   #$30,d3
-000009FE  0284 000000F0            636     andi.l   #$000000F0,d4
-00000A04  E85C                     637     ror      #4,d4
-00000A06  0604 0030                638     addi.b   #$30,d4
-00000A0A  0285 0000000F            639     andi.l   #$0000000F,d5
-00000A10  0605 0030                640     addi.b   #$30,d5
-00000A14  28FC 61622E6C            641     move.l   #'ab.l',(a4)+
-00000A1A  28FC 00000000            642     move.l   #$00000000,(a4)+
-00000A20  18C2                     643     move.b   d2,(a4)+
-00000A22  18C3                     644     move.b   d3,(a4)+
-00000A24  38FC 0000                645     move.w   #$0000,(a4)+
-00000A28  18C4                     646     move.b   d4,(a4)+
-00000A2A  18C5                     647     move.b   d5,(a4)+
-00000A2C  38FC 0000                648     move.w   #$0000,(a4)+
-00000A30                           649     
-00000A30                           650     
-00000A30                           651     
-00000A30  4241                     652     clr   d1
-00000A32  4242                     653     clr   d2
-00000A34  4243                     654     clr   d3
-00000A36  4244                     655     clr   d4
-00000A38  4245                     656     clr   d5
-00000A3A  361E                     657     move.w   (a6)+,d3
-00000A3C  3803                     658     move.w   d3,d4
-00000A3E  3403                     659     move.w   d3,d2
-00000A40  3A03                     660     move.w   d3,d5
-00000A42  3203                     661     move.w   d3,d1
-00000A44  0282 0000F000            662     andi.l   #$0000F000,d2
-00000A4A  E05A                     663     ror      #8,d2
-00000A4C  E85A                     664     ror      #4,d2
-00000A4E                           665     
-00000A4E  0602 0030                666     addi.b   #$30,d2
-00000A52  0283 00000F00            667     andi.l   #$00000F00,d3
-00000A58  E05B                     668     ror      #8,d3
-00000A5A  0603 0030                669     addi.b   #$30,d3
-00000A5E  0284 000000F0            670     andi.l   #$000000F0,d4
-00000A64  E85C                     671     ror      #4,d4
-00000A66  0604 0030                672     addi.b   #$30,d4
-00000A6A  0285 0000000F            673     andi.l   #$0000000F,d5
-00000A70  0605 0030                674     addi.b   #$30,d5
-00000A74  18C2                     675     move.b   d2,(a4)+
-00000A76  18C3                     676     move.b   d3,(a4)+
-00000A78  38FC 0000                677     move.w   #$0000,(a4)+
-00000A7C  18C4                     678     move.b   d4,(a4)+
-00000A7E  18C5                     679     move.b   d5,(a4)+
-00000A80  38FC 0000                680     move.w   #$0000,(a4)+
-00000A84  4E75                     681     rts
-00000A86                           682     
-00000A86                           683  
-00000A86                           684  *------------------------
-00000A86                           685  Absolute_Router  *-- branches to word or long subprocedures based on register info 
-00000A86  4243                     686      clr      d3
-00000A88  161E                     687      move.b   (a6)+,d3
-00000A8A  0203 0007                688      andi.b   #%00000111,d3  grabs the register
-00000A8E  B63C 0000                689      cmp.b   #$00,d3
-00000A92  6700 000E                690      beq   DECODE_ABS_WORD
-00000A96  B63C 0001                691      cmp.b   #$01,d3
-00000A9A  6700 FF32                692      beq   DECODE_ABS_LONG
-00000A9E  6000 0066                693      bra   Absolute_Error
-00000AA2                           694  *------------------------
-00000AA2                           695  DECODE_ABS_WORD
-00000AA2  4241                     696     clr   d1
-00000AA4  4242                     697     clr   d2
-00000AA6  4243                     698     clr   d3
-00000AA8  4244                     699     clr   d4
-00000AAA  4245                     700     clr   d5
-00000AAC  524E                     701     adda.w   #1,a6
-00000AAE  361E                     702     move.w   (a6)+,d3
-00000AB0  3803                     703     move.w   d3,d4
-00000AB2  3403                     704     move.w   d3,d2
-00000AB4  3A03                     705     move.w   d3,d5
-00000AB6  3203                     706     move.w   d3,d1
-00000AB8  0282 0000F000            707     andi.l   #$0000F000,d2
-00000ABE  E05A                     708     ror      #8,d2
-00000AC0  E85A                     709     ror      #4,d2
-00000AC2                           710     
-00000AC2  0602 0030                711     addi.b   #$30,d2
-00000AC6  0283 00000F00            712     andi.l   #$00000F00,d3
-00000ACC  E05B                     713     ror      #8,d3
-00000ACE  0603 0030                714     addi.b   #$30,d3
-00000AD2  0284 000000F0            715     andi.l   #$000000F0,d4
-00000AD8  E85C                     716     ror      #4,d4
-00000ADA  0604 0030                717     addi.b   #$30,d4
-00000ADE  0285 0000000F            718     andi.l   #$0000000F,d5
-00000AE4  0605 0030                719     addi.b   #$30,d5
-00000AE8  28FC 61622E77            720     move.l   #'ab.w',(a4)+
-00000AEE  28FC 00000000            721     move.l   #$00000000,(a4)+
-00000AF4  18C2                     722     move.b   d2,(a4)+
-00000AF6  18C3                     723     move.b   d3,(a4)+
-00000AF8  38FC 0000                724     move.w   #$0000,(a4)+
-00000AFC  18C4                     725     move.b   d4,(a4)+
-00000AFE  18C5                     726     move.b   d5,(a4)+
-00000B00  38FC 0000                727     move.w   #$0000,(a4)+
-00000B04  4E75                     728     rts
-00000B06                           729  *------------------------
-00000B06                           730  Absolute_Error
-00000B06                           731  
-00000B06                           732  *------------------------
-00000B06                           733  NOP
-00000B06                           734     
-00000B06                           735  *------------------------
-00000B06                           736  NEG
-00000B06  6100 FCF8                737     bsr   Initialize_EA
-00000B0A  6100 FD6C                738     bsr   Grab_Size_Bits_Seven_Eight
-00000B0E  6100 FD22                739     bsr   Decode_SIZE
-00000B12  6100 FD78                740     bsr   Grab_Mode_Bits
-00000B16  6100 FDE0                741     bsr   Grab_Source_reg
-00000B1A  6100 FE22                742     bsr   Mode_Jump_Table
-00000B1E  6100 FCEE                743     bsr   Print_EA_String
-00000B22  4E75                     744     rts
-00000B24                           745  
-00000B24                           746  *------------------------
-00000B24                           747  Determine_MOVEA
-00000B24  6100 FD72                748     bsr   Grab_Dest_Mode_Bits
-00000B28  B63C 0001                749     cmp.b  #$1,d3
-00000B2C  6700 0004                750     beq   Print_A
-00000B30  4E75                     751     rts
-00000B32                           752  *------------------------
-00000B32                           753  Print_A
-00000B32  18FC 0041                754     move.b   #'A',(a4)+
-00000B36  18FC 0000                755     move.b   #$00,(a4)+
-00000B3A  18FC 0000                756     move.b   #$00,(a4)+
-00000B3E  18FC 0000                757     move.b   #$00,(a4)+
-00000B42  4E75                     758     rts 
-00000B44                           759  *------------------------
-00000B44                           760  MOVE:
-00000B44  6100 FCBA                761     bsr   Initialize_EA
-00000B48  61DA                     762     bsr   Determine_MOVEA
-00000B4A  6100 FD36                763     bsr   Grab_Size_Bits_Two
-00000B4E  6100 FD04                764     bsr   Decode_SIZE_Two
-00000B52  6100 FD50                765     bsr   Grab_Source_Mode_Bits
-00000B56  6100 FDA0                766     bsr   Grab_Source_Reg
-00000B5A  6100 FDE2                767     bsr   Mode_Jump_Table
-00000B5E  6100 FD86                768     bsr   Print_Comma
-00000B62  6100 FD34                769     bsr   Grab_Dest_Mode_Bits
-00000B66  6100 FD9A                770     bsr   Grab_Dest_reg 
-00000B6A  6100 FDD2                771     bsr   Mode_Jump_Table
-00000B6E  6100 FC9E                772     bsr   Print_EA_String
-00000B72                           773  *B   adda.w   #$2,a6
-00000B72  4E75                     774     rts
-00000B74                           775  *------------------------
-00000B74                           776  
-00000B74                           777  
-00000B74                           778  *------------------------
-00000B74                           779  MOVEM
-00000B74                           780  *------------------------
-00000B74                           781  ADD
-00000B74                           782  *------------------------
-00000B74                           783  ADDA
-00000B74                           784  *------------------------
-00000B74                           785  SUB
-00000B74                           786  *------------------------
-00000B74                           787  MULS
-00000B74                           788  *------------------------
-00000B74                           789  DIVS
-00000B74                           790  *------------------------
-00000B74                           791  LEA
-00000B74                           792  *------------------------
-00000B74                           793  OR
-00000B74                           794  *------------------------
-00000B74                           795  ORI
-00000B74                           796  *------------------------
-00000B74                           797  EOR
-00000B74                           798  *------------------------
-00000B74                           799  LSR
-00000B74                           800  *------------------------
-00000B74                           801  LSL
-00000B74                           802  *------------------------
-00000B74                           803  ASR
-00000B74                           804  *------------------------
-00000B74                           805  ROL
-00000B74                           806  *------------------------
-00000B74                           807  ROR
-00000B74                           808  *------------------------
-00000B74                           809  BCLR
-00000B74                           810  *------------------------
-00000B74                           811  CMP
-00000B74                           812  *------------------------
-00000B74                           813  CMPI
-00000B74                           814  *------------------------
-00000B74                           815  BCS
-00000B74                           816  *------------------------
-00000B74                           817  BGE
-00000B74                           818  *------------------------
-00000B74                           819  BLT
-00000B74                           820  *------------------------
-00000B74                           821  BVC
-00000B74                           822  *------------------------
-00000B74                           823  JSR
-00000B74                           824  *------------------------
-00000B74                           825  RTS
-00000B74                           826  *------------------------
-00000B74                           827  
-00000B74                           828  
-00000B74                           829  
-00000B74                           830  *------------------
-00000B74                           831  * Data Section |
-00000B74                           832  *------------------
-00000B74                           833  
-00000B74= 46 69 6E 69 73 68 ...    834  finished    DC.B        'Finished',CR,LF,0
-00000B7F= 4E 6F 20 4F 70 63 ...    835  not_found   DC.B        'No Opcodes were found',CR,LF,0
-00000B97= 4E 4F 50 0D 0A 00        836  nop_message DC.B        'NOP',CR,LF,0
-00000B9D= 4E 45 47 00              837  neg_message DC.B        'NEG',0
-00000BA1= 4A 53 52 0D 0A 00        838  jsr_message DC.B        'JSR',CR,LF,0
-00000BA7= 52 54 53 0D 0A 00        839  rts_message DC.B        'RTS',CR,LF,0
-00000BAD= 42 43 43 0D 0A 00        840  bcc_message DC.B        'BCC',CR,LF,0
-00000BB3= 42 43 53 0D 0A 00        841  bcs_message DC.B        'BCS',CR,LF,0
-00000BB9= 42 47 45 0D 0A 00        842  bge_message DC.B        'BGE',CR,LF,0
-00000BBF= 42 4C 54 0D 0A 00        843  blt_message DC.B        'BLT',CR,LF,0
-00000BC5= 42 56 43 0D 0A 00        844  bvc_message DC.B        'BVC',CR,LF,0
-00000BCB= 42 52 41 0D 0A 00        845  bra_message DC.B        'BRA',CR,LF,0
-00000BD1= 45 4F 52 0D 0A 00        846  eor_message DC.B        'EOR',CR,LF,0
-00000BD7= 43 4D 50 0D 0A 00        847  cmp_message DC.B        'CMP',CR,LF,0
-00000BDD= 41 53 52 0D 0A 00        848  asr_message DC.B        'ASR',CR,LF,0
-00000BE3= 41 53 4C 0D 0A 00        849  asl_message DC.B        'ASL',CR,LF,0
-00000BE9= 4C 53 52 0D 0A 00        850  lsr_message DC.B        'LSR',CR,LF,0
-00000BEF= 4C 53 4C 0D 0A 00        851  lsl_message DC.B        'LSL',CR,LF,0
-00000BF5= 52 4F 4C 0D 0A 00        852  rol_message DC.B        'ROL',CR,LF,0
-00000BFB= 52 4F 52 0D 0A 00        853  ror_message DC.B        'ROR',CR,LF,0
-00000C01= 4C 45 41 0D 0A 00        854  lea_message DC.B        'LEA',CR,LF,0
-00000C07= 4F 52 0D 0A 00           855  or_message DC.B         'OR',CR,LF,0
-00000C0C= 42 43 4C 52 0D 0A 00     856  bcl_message DC.B        'BCLR',CR,LF,0
-00000C13= 41 44 44 0D 0A 00        857  add_message DC.B        'ADD',CR,LF,0
-00000C19= 53 55 42 0D 0A 00        858  sub_message DC.B        'SUB',CR,LF,0
-00000C1F= 4D 55 4C 53 0D 0A 00     859  mul_message DC.B        'MULS',CR,LF,0
-00000C26= 44 49 56 53 00           860  div_message DC.B        'DIVS',0
-00000C2B= 4D 4F 56 45 00           861  bov_message DC.B        'MOVE',0
-00000C30= 4D 4F 56 45 00           862  wov_message DC.B        'MOVE',0
-00000C35= 4D 4F 56 45 0D 0A 00     863  lov_message DC.B        'MOVE',CR,LF,0
-00000C3C= 4D 4F 56 45 41 2E ...    864  awo_message DC.B        'MOVEA.W',CR,LF,0
-00000C46= 4D 4F 56 45 41 2E ...    865  alo_message DC.B        'MOVEA.L',CR,LF,0
-00000C50= 4D 4F 56 45 4D 20 ...    866  mmo_message DC.B        'MOVEM (Memory to Register)',CR,LF,0
-00000C6D= 4D 4F 56 45 4D 20 ...    867  rmo_message DC.B        'MOVEM (Register to Memory)',CR,LF,0
-00000C8A= 53 55 42 51 0D 0A 00     868  qsu_message DC.B        'SUBQ',CR,LF,0
-00000C91= 4F 52 49 0D 0A 00        869  ori_message DC.B        'ORI',CR,LF,0
-00000C97= 43 4D 50 49 0D 0A 00     870  icm_message DC.B        'CMPI',CR,LF,0
-00000C9E= 44 41 54 41 20 00        871  data        DC.B        'DATA ',0 
-00000CA4= 0D 0A 00                 872  empty_lin   DC.B        '',CR,LF,0   
-00000CA7                           873  
-00000CA7                           874  
-00000CA7                           875              END         START
+000009CC  18FC 0000                612      move.b   #$00,(a4)+
+000009D0  4E75                     613      rts
+000009D2                           614  *------------------------
+000009D2                           615  Decode_IMM
+000009D2                           616  *------------------------
+000009D2                           617  Decode_ABS_LONG    *---code reuse, will make separate procudure if time 
+000009D2  4241                     618     clr   d1
+000009D4  4242                     619     clr   d2
+000009D6  4243                     620     clr   d3
+000009D8  4244                     621     clr   d4
+000009DA  4245                     622     clr   d5
+000009DC  524E                     623     adda.w   #$1,a6
+000009DE  361E                     624     move.w   (a6)+,d3
+000009E0  3803                     625     move.w   d3,d4
+000009E2  3403                     626     move.w   d3,d2
+000009E4  3A03                     627     move.w   d3,d5
+000009E6  3203                     628     move.w   d3,d1
+000009E8  0282 0000F000            629     andi.l   #$0000F000,d2
+000009EE  E05A                     630     ror      #8,d2
+000009F0  E85A                     631     ror      #4,d2
+000009F2                           632     
+000009F2  0602 0030                633     addi.b   #$30,d2
+000009F6  0283 00000F00            634     andi.l   #$00000F00,d3
+000009FC  E05B                     635     ror      #8,d3
+000009FE  0603 0030                636     addi.b   #$30,d3
+00000A02  0284 000000F0            637     andi.l   #$000000F0,d4
+00000A08  E85C                     638     ror      #4,d4
+00000A0A  0604 0030                639     addi.b   #$30,d4
+00000A0E  0285 0000000F            640     andi.l   #$0000000F,d5
+00000A14  0605 0030                641     addi.b   #$30,d5
+00000A18  28FC 61622E6C            642     move.l   #'ab.l',(a4)+
+00000A1E  28FC 00000000            643     move.l   #$00000000,(a4)+
+00000A24  18C2                     644     move.b   d2,(a4)+
+00000A26  18C3                     645     move.b   d3,(a4)+
+00000A28  38FC 0000                646     move.w   #$0000,(a4)+
+00000A2C  18C4                     647     move.b   d4,(a4)+
+00000A2E  18C5                     648     move.b   d5,(a4)+
+00000A30  38FC 0000                649     move.w   #$0000,(a4)+
+00000A34                           650     
+00000A34                           651     
+00000A34                           652     
+00000A34  4241                     653     clr   d1
+00000A36  4242                     654     clr   d2
+00000A38  4243                     655     clr   d3
+00000A3A  4244                     656     clr   d4
+00000A3C  4245                     657     clr   d5
+00000A3E  361E                     658     move.w   (a6)+,d3
+00000A40  3803                     659     move.w   d3,d4
+00000A42  3403                     660     move.w   d3,d2
+00000A44  3A03                     661     move.w   d3,d5
+00000A46  3203                     662     move.w   d3,d1
+00000A48  0282 0000F000            663     andi.l   #$0000F000,d2
+00000A4E  E05A                     664     ror      #8,d2
+00000A50  E85A                     665     ror      #4,d2
+00000A52                           666     
+00000A52  0602 0030                667     addi.b   #$30,d2
+00000A56  0283 00000F00            668     andi.l   #$00000F00,d3
+00000A5C  E05B                     669     ror      #8,d3
+00000A5E  0603 0030                670     addi.b   #$30,d3
+00000A62  0284 000000F0            671     andi.l   #$000000F0,d4
+00000A68  E85C                     672     ror      #4,d4
+00000A6A  0604 0030                673     addi.b   #$30,d4
+00000A6E  0285 0000000F            674     andi.l   #$0000000F,d5
+00000A74  0605 0030                675     addi.b   #$30,d5
+00000A78  18C2                     676     move.b   d2,(a4)+
+00000A7A  18C3                     677     move.b   d3,(a4)+
+00000A7C  38FC 0000                678     move.w   #$0000,(a4)+
+00000A80  18C4                     679     move.b   d4,(a4)+
+00000A82  18C5                     680     move.b   d5,(a4)+
+00000A84  38FC 0000                681     move.w   #$0000,(a4)+
+00000A88  4E75                     682     rts
+00000A8A                           683     
+00000A8A                           684  
+00000A8A                           685  *------------------------
+00000A8A                           686  Absolute_Router  *-- branches to word or long subprocedures based on register info 
+00000A8A  4243                     687      clr      d3
+00000A8C  161E                     688      move.b   (a6)+,d3
+00000A8E  0203 0007                689      andi.b   #%00000111,d3  grabs the register
+00000A92  B63C 0000                690      cmp.b   #$00,d3
+00000A96  6700 000E                691      beq   DECODE_ABS_WORD
+00000A9A  B63C 0001                692      cmp.b   #$01,d3
+00000A9E  6700 FF32                693      beq   DECODE_ABS_LONG
+00000AA2  6000 0066                694      bra   Absolute_Error
+00000AA6                           695  *------------------------
+00000AA6                           696  DECODE_ABS_WORD
+00000AA6  4241                     697     clr   d1
+00000AA8  4242                     698     clr   d2
+00000AAA  4243                     699     clr   d3
+00000AAC  4244                     700     clr   d4
+00000AAE  4245                     701     clr   d5
+00000AB0  524E                     702     adda.w   #1,a6
+00000AB2  361E                     703     move.w   (a6)+,d3
+00000AB4  3803                     704     move.w   d3,d4
+00000AB6  3403                     705     move.w   d3,d2
+00000AB8  3A03                     706     move.w   d3,d5
+00000ABA  3203                     707     move.w   d3,d1
+00000ABC  0282 0000F000            708     andi.l   #$0000F000,d2
+00000AC2  E05A                     709     ror      #8,d2
+00000AC4  E85A                     710     ror      #4,d2
+00000AC6                           711     
+00000AC6  0602 0030                712     addi.b   #$30,d2
+00000ACA  0283 00000F00            713     andi.l   #$00000F00,d3
+00000AD0  E05B                     714     ror      #8,d3
+00000AD2  0603 0030                715     addi.b   #$30,d3
+00000AD6  0284 000000F0            716     andi.l   #$000000F0,d4
+00000ADC  E85C                     717     ror      #4,d4
+00000ADE  0604 0030                718     addi.b   #$30,d4
+00000AE2  0285 0000000F            719     andi.l   #$0000000F,d5
+00000AE8  0605 0030                720     addi.b   #$30,d5
+00000AEC  28FC 61622E77            721     move.l   #'ab.w',(a4)+
+00000AF2  28FC 00000000            722     move.l   #$00000000,(a4)+
+00000AF8  18C2                     723     move.b   d2,(a4)+
+00000AFA  18C3                     724     move.b   d3,(a4)+
+00000AFC  38FC 0000                725     move.w   #$0000,(a4)+
+00000B00  18C4                     726     move.b   d4,(a4)+
+00000B02  18C5                     727     move.b   d5,(a4)+
+00000B04  38FC 0000                728     move.w   #$0000,(a4)+
+00000B08  4E75                     729     rts
+00000B0A                           730  *------------------------
+00000B0A                           731  Absolute_Error
+00000B0A                           732  
+00000B0A                           733  *------------------------
+00000B0A                           734  NOP
+00000B0A  6100 FD1C                735     bsr  EXIT_SR
+00000B0E  4E75                     736     rts
+00000B10                           737  *------------------------
+00000B10                           738  NEG
+00000B10  6100 FCF2                739     bsr   Initialize_EA
+00000B14  6100 FD66                740     bsr   Grab_Size_Bits_Seven_Eight
+00000B18  6100 FD1C                741     bsr   Decode_SIZE
+00000B1C  6100 FD72                742     bsr   Grab_Mode_Bits
+00000B20  6100 FDDA                743     bsr   Grab_Source_reg
+00000B24  6100 FE1C                744     bsr   Mode_Jump_Table
+00000B28  6100 FCE8                745     bsr   Print_EA_String
+00000B2C  4E75                     746     rts
+00000B2E                           747  
+00000B2E                           748  *------------------------
+00000B2E                           749  Determine_MOVEA
+00000B2E  6100 FD6C                750     bsr   Grab_Dest_Mode_Bits
+00000B32  B63C 0001                751     cmp.b  #$1,d3
+00000B36  6700 0004                752     beq   Print_A
+00000B3A  4E75                     753     rts
+00000B3C                           754  *------------------------
+00000B3C                           755  Print_A
+00000B3C  18FC 0041                756     move.b   #'A',(a4)+
+00000B40  18FC 0000                757     move.b   #$00,(a4)+
+00000B44  18FC 0000                758     move.b   #$00,(a4)+
+00000B48  18FC 0000                759     move.b   #$00,(a4)+
+00000B4C  4E75                     760     rts 
+00000B4E                           761  *------------------------
+00000B4E                           762  MOVE:
+00000B4E  6100 FCB4                763     bsr   Initialize_EA
+00000B52  61DA                     764     bsr   Determine_MOVEA
+00000B54  6100 FD30                765     bsr   Grab_Size_Bits_Two
+00000B58  6100 FCFE                766     bsr   Decode_SIZE_Two
+00000B5C  6100 FD4A                767     bsr   Grab_Source_Mode_Bits
+00000B60  6100 FD9A                768     bsr   Grab_Source_Reg
+00000B64  6100 FDDC                769     bsr   Mode_Jump_Table
+00000B68  6100 FD80                770     bsr   Print_Comma
+00000B6C  6100 FD2E                771     bsr   Grab_Dest_Mode_Bits
+00000B70  6100 FD94                772     bsr   Grab_Dest_reg 
+00000B74  6100 FDCC                773     bsr   Mode_Jump_Table
+00000B78  6100 FC98                774     bsr   Print_EA_String
+00000B7C                           775  *B   adda.w   #$2,a6
+00000B7C  4E75                     776     rts
+00000B7E                           777  *------------------------
+00000B7E                           778  
+00000B7E                           779  
+00000B7E                           780  *------------------------
+00000B7E                           781  MOVEM
+00000B7E                           782  *------------------------
+00000B7E                           783  ADD
+00000B7E                           784  *------------------------
+00000B7E                           785  ADDA
+00000B7E                           786  *------------------------
+00000B7E                           787  SUB
+00000B7E                           788  *------------------------
+00000B7E                           789  MULS
+00000B7E                           790  *------------------------
+00000B7E                           791  DIVS
+00000B7E                           792  *------------------------
+00000B7E                           793  LEA
+00000B7E                           794  *------------------------
+00000B7E                           795  OR
+00000B7E                           796  *------------------------
+00000B7E                           797  ORI
+00000B7E                           798  *------------------------
+00000B7E                           799  EOR
+00000B7E                           800  *------------------------
+00000B7E                           801  LSR
+00000B7E                           802  *------------------------
+00000B7E                           803  LSL
+00000B7E                           804  *------------------------
+00000B7E                           805  ASR
+00000B7E                           806  *------------------------
+00000B7E                           807  ROL
+00000B7E                           808  *------------------------
+00000B7E                           809  ROR
+00000B7E                           810  *------------------------
+00000B7E                           811  BCLR
+00000B7E                           812  *------------------------
+00000B7E                           813  CMP
+00000B7E                           814  *------------------------
+00000B7E                           815  CMPI
+00000B7E                           816  *------------------------
+00000B7E                           817  BCS
+00000B7E                           818  *------------------------
+00000B7E                           819  BGE
+00000B7E                           820  *------------------------
+00000B7E                           821  BLT
+00000B7E                           822  *------------------------
+00000B7E                           823  BVC
+00000B7E                           824  *------------------------
+00000B7E                           825  JSR
+00000B7E                           826  *------------------------
+00000B7E                           827  RTS
+00000B7E                           828  *------------------------
+00000B7E                           829  
+00000B7E                           830  
+00000B7E                           831  
+00000B7E                           832  *------------------
+00000B7E                           833  * Data Section |
+00000B7E                           834  *------------------
+00000B7E                           835  
+00000B7E= 46 69 6E 69 73 68 ...    836  finished    DC.B        'Finished',CR,LF,0
+00000B89= 4E 6F 20 4F 70 63 ...    837  not_found   DC.B        'No Opcodes were found',CR,LF,0
+00000BA1= 4E 4F 50 00              838  nop_message DC.B        'NOP',0
+00000BA5= 4E 45 47 00              839  neg_message DC.B        'NEG',0
+00000BA9= 4A 53 52 0D 0A 00        840  jsr_message DC.B        'JSR',CR,LF,0
+00000BAF= 52 54 53 0D 0A 00        841  rts_message DC.B        'RTS',CR,LF,0
+00000BB5= 42 43 43 0D 0A 00        842  bcc_message DC.B        'BCC',CR,LF,0
+00000BBB= 42 43 53 0D 0A 00        843  bcs_message DC.B        'BCS',CR,LF,0
+00000BC1= 42 47 45 0D 0A 00        844  bge_message DC.B        'BGE',CR,LF,0
+00000BC7= 42 4C 54 0D 0A 00        845  blt_message DC.B        'BLT',CR,LF,0
+00000BCD= 42 56 43 0D 0A 00        846  bvc_message DC.B        'BVC',CR,LF,0
+00000BD3= 42 52 41 0D 0A 00        847  bra_message DC.B        'BRA',CR,LF,0
+00000BD9= 45 4F 52 0D 0A 00        848  eor_message DC.B        'EOR',CR,LF,0
+00000BDF= 43 4D 50 0D 0A 00        849  cmp_message DC.B        'CMP',CR,LF,0
+00000BE5= 41 53 52 0D 0A 00        850  asr_message DC.B        'ASR',CR,LF,0
+00000BEB= 41 53 4C 0D 0A 00        851  asl_message DC.B        'ASL',CR,LF,0
+00000BF1= 4C 53 52 0D 0A 00        852  lsr_message DC.B        'LSR',CR,LF,0
+00000BF7= 4C 53 4C 0D 0A 00        853  lsl_message DC.B        'LSL',CR,LF,0
+00000BFD= 52 4F 4C 0D 0A 00        854  rol_message DC.B        'ROL',CR,LF,0
+00000C03= 52 4F 52 0D 0A 00        855  ror_message DC.B        'ROR',CR,LF,0
+00000C09= 4C 45 41 0D 0A 00        856  lea_message DC.B        'LEA',CR,LF,0
+00000C0F= 4F 52 0D 0A 00           857  or_message DC.B         'OR',CR,LF,0
+00000C14= 42 43 4C 52 0D 0A 00     858  bcl_message DC.B        'BCLR',CR,LF,0
+00000C1B= 41 44 44 0D 0A 00        859  add_message DC.B        'ADD',CR,LF,0
+00000C21= 53 55 42 0D 0A 00        860  sub_message DC.B        'SUB',CR,LF,0
+00000C27= 4D 55 4C 53 0D 0A 00     861  mul_message DC.B        'MULS',CR,LF,0
+00000C2E= 44 49 56 53 00           862  div_message DC.B        'DIVS',0
+00000C33= 4D 4F 56 45 00           863  bov_message DC.B        'MOVE',0
+00000C38= 4D 4F 56 45 00           864  wov_message DC.B        'MOVE',0
+00000C3D= 4D 4F 56 45 0D 0A 00     865  lov_message DC.B        'MOVE',CR,LF,0
+00000C44= 4D 4F 56 45 41 2E ...    866  awo_message DC.B        'MOVEA.W',CR,LF,0
+00000C4E= 4D 4F 56 45 41 2E ...    867  alo_message DC.B        'MOVEA.L',CR,LF,0
+00000C58= 4D 4F 56 45 4D 20 ...    868  mmo_message DC.B        'MOVEM (Memory to Register)',CR,LF,0
+00000C75= 4D 4F 56 45 4D 20 ...    869  rmo_message DC.B        'MOVEM (Register to Memory)',CR,LF,0
+00000C92= 53 55 42 51 0D 0A 00     870  qsu_message DC.B        'SUBQ',CR,LF,0
+00000C99= 4F 52 49 0D 0A 00        871  ori_message DC.B        'ORI',CR,LF,0
+00000C9F= 43 4D 50 49 0D 0A 00     872  icm_message DC.B        'CMPI',CR,LF,0
+00000CA6= 44 41 54 41 20 00        873  data        DC.B        'DATA ',0 
+00000CAC= 0D 0A 00                 874  empty_lin   DC.B        '',CR,LF,0   
+00000CAF                           875  
+00000CAF                           876  
+00000CAF                           877              END         START
 
 No errors detected
 No warnings generated
@@ -885,188 +887,188 @@ No warnings generated
 SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
-ABSOLUTE_ERROR      B06
-ABSOLUTE_ROUTER     A86
-ADD                 B74
-ADDA                B74
-ADD_MESSAGE         C13
-ADD_RT              6F0
+ABSOLUTE_ERROR      B0A
+ABSOLUTE_ROUTER     A8A
+ADD                 B7E
+ADDA                B7E
+ADD_MESSAGE         C1B
+ADD_RT              6F4
 ADD_STR             D
-ALO_MESSAGE         C46
-ALO_RT              77C
-ASL_MESSAGE         BE3
-ASR                 B74
-ASR_MESSAGE         BDD
-AS_RT               5DC
-AWO_MESSAGE         C3C
-AWO_RT              76C
-BCC_MESSAGE         BAD
-BCC_RT              530
-BCLR                B74
-BCL_MESSAGE         C0C
-BCL_RT              6D0
+ALO_MESSAGE         C4E
+ALO_RT              780
+ASL_MESSAGE         BEB
+ASR                 B7E
+ASR_MESSAGE         BE5
+AS_RT               5E0
+AWO_MESSAGE         C44
+AWO_RT              770
+BCC_MESSAGE         BB5
+BCC_RT              534
+BCLR                B7E
+BCL_MESSAGE         C14
+BCL_RT              6D4
 BCL_STR             0
-BCS                 B74
-BCS_MESSAGE         BB3
-BCS_RT              540
+BCS                 B7E
+BCS_MESSAGE         BBB
+BCS_RT              544
 BCS_STR             65
-BGE                 B74
-BGE_MESSAGE         BB9
-BGE_RT              550
+BGE                 B7E
+BGE_MESSAGE         BC1
+BGE_RT              554
 BGE_STR             6C
-BLT                 B74
-BLT_MESSAGE         BBF
-BLT_RT              560
+BLT                 B7E
+BLT_MESSAGE         BC7
+BLT_RT              564
 BLT_STR             6D
-BOV_MESSAGE         C2B
-BOV_RT              730
+BOV_MESSAGE         C33
+BOV_RT              734
 BOV_STR             1
-BRA_MESSAGE         BCB
-BRA_RT              580
+BRA_MESSAGE         BD3
+BRA_RT              584
 BRA_STR             60
-BVC                 B74
-BVC_MESSAGE         BC5
-BVC_RT              570
+BVC                 B7E
+BVC_MESSAGE         BCD
+BVC_RT              574
 BVC_STR             68
 BYTE                428
-CLOSE_STRING        910
-CMP                 B74
-CMPI                B74
-CMP_MESSAGE         BD7
-CMP_RT              5B2
+CLOSE_STRING        914
+CMP                 B7E
+CMPI                B7E
+CMP_MESSAGE         BDF
+CMP_RT              5B6
 CR                  D
-DATA                C9E
-DECODE_ABS_LONG     9CE
-DECODE_ABS_WORD     AA2
-DECODE_ARD          92A
-DECODE_ARI          96E
-DECODE_ARI_PD       9AA
-DECODE_ARI_PI       986
-DECODE_DRD          916
-DECODE_IMM          9CE
-DECODE_SIZE         832
-DECODE_SIZE_TWO     854
-DETERMINE_MOVEA     B24
-DIVS                B74
-DIV_MESSAGE         C26
-DIV_RT              720
+DATA                CA6
+DECODE_ABS_LONG     9D2
+DECODE_ABS_WORD     AA6
+DECODE_ARD          92E
+DECODE_ARI          972
+DECODE_ARI_PD       9AE
+DECODE_ARI_PI       98A
+DECODE_DRD          91A
+DECODE_IMM          9D2
+DECODE_SIZE         836
+DECODE_SIZE_TWO     858
+DETERMINE_MOVEA     B2E
+DIVS                B7E
+DIV_MESSAGE         C2E
+DIV_RT              724
 DIV_STR             8
 EABUFFER            70000
-EMPTY_LIN           CA4
+EMPTY_LIN           CAC
 EOI_STR             A
-EOR                 B74
-EOR_MESSAGE         BD1
-EOR_RT              590
+EOR                 B7E
+EOR_MESSAGE         BD9
+EOR_RT              594
 EOR_STR             B
-ERROR_SIZE          876
+ERROR_SIZE          87A
 EXIT                2700
-EXIT_SR             824
-EXIT_TEST           7FC
-FINISH              7F0
-FINISHED            B74
-FOU_RT              68E
+EXIT_SR             828
+EXIT_TEST           800
+FINISH              7F4
+FINISHED            B7E
+FOU_RT              692
 GET                 404
-GRAB_DEST_MODE_BITS  898
-GRAB_DEST_REG       902
-GRAB_MODE_BITS      88C
-GRAB_SIZE_BITS_SEVEN_EIGHT  878
-GRAB_SIZE_BITS_TWO  882
-GRAB_SOURCE_MODE_BITS  8A4
-GRAB_SOURCE_REG     8F8
+GRAB_DEST_MODE_BITS  89C
+GRAB_DEST_REG       906
+GRAB_MODE_BITS      890
+GRAB_SIZE_BITS_SEVEN_EIGHT  87C
+GRAB_SIZE_BITS_TWO  886
+GRAB_SOURCE_MODE_BITS  8A8
+GRAB_SOURCE_REG     8FC
 HOLDER              3F0
-ICM_MESSAGE         C97
-ICM_RT              6E0
-INITIALIZE_EA       800
-INITIALIZE_EA_TEST_POINTER  808
-JSR                 B74
-JSR_MESSAGE         BA1
-JSR_RT              510
+ICM_MESSAGE         C9F
+ICM_RT              6E4
+INITIALIZE_EA       804
+INITIALIZE_EA_TEST_POINTER  80C
+JSR                 B7E
+JSR_MESSAGE         BA9
+JSR_RT              514
 JSR_STR             13A
-LA_RT               5F2
-LEA                 B74
-LEA_MESSAGE         C01
-LEA_RT              69E
+LA_RT               5F6
+LEA                 B7E
+LEA_MESSAGE         C09
+LEA_RT              6A2
 LEA_STR             4
 LF                  A
-LL_RT               638
-LOV_MESSAGE         C35
-LOV_RT              758
+LL_RT               63C
+LOV_MESSAGE         C3D
+LOV_RT              75C
 LOV_STR             2
-LR_RT               66E
-LSL                 B74
-LSL_MESSAGE         BEF
-LSR                 B74
-LSR_MESSAGE         BE9
-LS_RT               612
-MMO_MESSAGE         C50
-MMO_RT              7A0
+LR_RT               672
+LSL                 B7E
+LSL_MESSAGE         BF7
+LSR                 B7E
+LSR_MESSAGE         BF1
+LS_RT               616
+MMO_MESSAGE         C58
+MMO_RT              7A4
 MMO_STR             91
-MM_RT               78C
-MODE_ERROR          986
-MODE_JUMP_TABLE     93E
-MOVE                B44
-MOVEM               B74
-MULS                B74
-MUL_MESSAGE         C1F
-MUL_RT              710
+MM_RT               790
+MODE_ERROR          98A
+MODE_JUMP_TABLE     942
+MOVE                B4E
+MOVEM               B7E
+MULS                B7E
+MUL_MESSAGE         C27
+MUL_RT              714
 MUL_STR             C
-NEG                 B06
-NEG_MESSAGE         B9D
-NEG_RT              4FC
+NEG                 B10
+NEG_MESSAGE         BA5
+NEG_RT              500
 NEG_STR             44
 NIBBLE              476
-NOP                 B06
-NOP_MESSAGE         B97
+NOP                 B0A
+NOP_MESSAGE         BA1
 NOP_RT              4EC
 NOP_STR             4E71
-NOT_FOUND           B7F
-N_FOUND             7E0
-OR                  B74
-ORI                 B74
-ORI_MESSAGE         C91
-ORI_RT              7D0
+NOT_FOUND           B89
+N_FOUND             7E4
+OR                  B7E
+ORI                 B7E
+ORI_MESSAGE         C99
+ORI_RT              7D4
 ORI_STR             0
-OR_MESSAGE          C07
-OR_RT               6AE
+OR_MESSAGE          C0F
+OR_RT               6B2
 OR_STR              8
-PRINT_A             B32
-PRINT_COMMA         8E6
-PRINT_DOT_B         8B0
-PRINT_DOT_L         8D4
-PRINT_DOT_W         8C2
-PRINT_EA_STRING     80E
-P_LOOP              810
-QSU_MESSAGE         C8A
-QSU_RT              7C0
+PRINT_A             B3C
+PRINT_COMMA         8EA
+PRINT_DOT_B         8B4
+PRINT_DOT_L         8D8
+PRINT_DOT_W         8C6
+PRINT_EA_STRING     812
+P_LOOP              814
+QSU_MESSAGE         C92
+QSU_RT              7C4
 QSU_STR             5
-RA_RT               602
-RL_RT               648
-RMO_MESSAGE         C6D
-RMO_RT              7B0
+RA_RT               606
+RL_RT               64C
+RMO_MESSAGE         C75
+RMO_RT              7B4
 RMO_STR             99
-ROL                 B74
-ROL_MESSAGE         BF5
-ROR                 B74
-ROR_MESSAGE         BFB
-RO_RT               658
-RR_RT               67E
-RTS                 B74
-RTS_MESSAGE         BA7
-RTS_RT              520
+ROL                 B7E
+ROL_MESSAGE         BFD
+ROR                 B7E
+ROR_MESSAGE         C03
+RO_RT               65C
+RR_RT               682
+RTS                 B7E
+RTS_MESSAGE         BAF
+RTS_RT              524
 RTS_STR             4E75
-SHF_RT              5C2
+SHF_RT              5C6
 SHF_STR             E
 START               400
 START_ADDR          6000
-SUB                 B74
-SUB_MESSAGE         C19
-SUB_RT              700
+SUB                 B7E
+SUB_MESSAGE         C21
+SUB_RT              704
 SUB_STR             9
 TESTLOC             6000
 TEST_BIT1           3200
 TEST_BIT2           E459
 WORD                408
-WOV_MESSAGE         C30
-WOV_RT              744
+WOV_MESSAGE         C38
+WOV_RT              748
 WOV_STR             3
-ZER_RT              6BE
+ZER_RT              6C2

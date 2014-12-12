@@ -128,7 +128,8 @@ NIBBLE:     MOVE.W      D0,D2
 NOP_RT:     LEA         nop_message,A1  * Print NOP
             MOVE.B      #14,D0
             TRAP        #15
-            * Will branch to EA here            
+            * Will branch to EA here
+            BSR         NOP            
             BRA         FINISH
 NEG_RT:     LEA         neg_message,A1  * Print NEG
             MOVE.B      #14,D0
@@ -731,14 +732,14 @@ Absolute_Error
 
 *------------------------
 NOP
-   
+   bsr  EXIT_SR
 *------------------------
 NEG
    bsr   Initialize_EA
    bsr   Grab_Size_Bits_Seven_Eight
    bsr   Decode_SIZE
    bsr   Grab_Mode_Bits
-   bsr   Grab_Dest_reg
+   bsr   Grab_Source_reg
    bsr   Mode_Jump_Table
    bsr   Print_EA_String
    rts
@@ -833,8 +834,8 @@ RTS
 
 finished    DC.B        'Finished',CR,LF,0
 not_found   DC.B        'No Opcodes were found',CR,LF,0
-nop_message DC.B        'NOP',CR,LF,0
-neg_message DC.B        'NEG',CR,LF,0
+nop_message DC.B        'NOP',0
+neg_message DC.B        'NEG',0
 jsr_message DC.B        'JSR',CR,LF,0
 rts_message DC.B        'RTS',CR,LF,0
 bcc_message DC.B        'BCC',CR,LF,0
@@ -873,6 +874,7 @@ empty_lin   DC.B        '',CR,LF,0
 
 
             END         START
+
 
 
 *~Font name~Courier New~
