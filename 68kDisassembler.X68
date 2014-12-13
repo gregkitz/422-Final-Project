@@ -927,10 +927,10 @@ NEG
 Determine_MOVEA
    bsr   Grab_Dest_Mode_Bits
    cmp.b  #$1,d3
-   beq   Print_A
+   beq   Print_AA
    rts
 *------------------------
-Print_A
+Print_AA
    move.b   #'A',(a4)+
    move.b   #$00,(a4)+
    move.b   #$00,(a4)+
@@ -1280,6 +1280,7 @@ empty_lin   DC.B        '',CR,LF,0
 
 
             END         START
+
 
 
 
