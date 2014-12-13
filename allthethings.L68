@@ -1,6 +1,6 @@
 00000400 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.15.02
-Created On: 12-Dec-14 18:52:43
+Created On: 12-Dec-14 18:59:59
 
 00000000                             1  *-----------------------------------------------------------
 00000000                             2  * Title      : EA 
@@ -128,56 +128,56 @@ Created On: 12-Dec-14 18:52:43
 000004E8  6000 032A                124              BRA         N_FOUND
 000004EC                           125              
 000004EC                           126              
-000004EC  43F9 00000CF9            127  NOP_RT:     LEA         nop_message,A1  * Print NOP
+000004EC  43F9 00000D17            127  NOP_RT:     LEA         nop_message,A1  * Print NOP
 000004F2  103C 000E                128              MOVE.B      #14,D0
 000004F6  4E4F                     129              TRAP        #15
 000004F8                           130              * Will branch to EA here
 000004F8  6100 0674                131              BSR         NOP            
 000004FC  6000 0326                132              BRA         FINISH
-00000500  43F9 00000CFD            133  NEG_RT:     LEA         neg_message,A1  * Print NEG
+00000500  43F9 00000D1C            133  NEG_RT:     LEA         neg_message,A1  * Print NEG
 00000506  103C 000E                134              MOVE.B      #14,D0
 0000050A  4E4F                     135              TRAP        #15
 0000050C                           136              * Will branch to EA here
 0000050C  6100 0664                137              BSR         NEG
 00000510  6000 0312                138              BRA         FINISH
-00000514  43F9 00000D01            139  JSR_RT:     LEA         jsr_message,A1  * Print JSR
+00000514  43F9 00000D21            139  JSR_RT:     LEA         jsr_message,A1  * Print JSR
 0000051A  103C 000E                140              MOVE.B      #14,D0
 0000051E  4E4F                     141              TRAP        #15
 00000520                           142              * Will branch to EA here            
-00000520  6100 07A8                143              BSR         JSR             * Branch to JSR EA Subroutine
+00000520  6100 07C6                143              BSR         JSR             * Branch to JSR EA Subroutine
 00000524  6000 02FE                144              BRA         FINISH
-00000528  43F9 00000D07            145  RTS_RT:     LEA         rts_message,A1  * Print RTS
+00000528  43F9 00000D26            145  RTS_RT:     LEA         rts_message,A1  * Print RTS
 0000052E  103C 000E                146              MOVE.B      #14,D0
 00000532  4E4F                     147              TRAP        #15
 00000534                           148              * Will branch to EA here            
-00000534  6100 079A                149              BSR         RTS             * Branch to RTS EA Subroutine
+00000534  6100 07B8                149              BSR         RTS             * Branch to RTS EA Subroutine
 00000538  6000 02EA                150              BRA         FINISH
-0000053C  43F9 00000D0D            151  BCC_RT:     LEA         bcc_message,A1  * Print BCC
+0000053C  43F9 00000D2B            151  BCC_RT:     LEA         bcc_message,A1  * Print BCC
 00000542  103C 000E                152              MOVE.B      #14,D0
 00000546  4E4F                     153              TRAP        #15
 00000548                           154              * Will branch to EA here         
 00000548  6000 02DA                155              BRA         FINISH
-0000054C  43F9 00000D13            156  BCS_RT:     LEA         bcs_message,A1  * Print BCS
+0000054C  43F9 00000D30            156  BCS_RT:     LEA         bcs_message,A1  * Print BCS
 00000552  103C 000E                157              MOVE.B      #14,D0
 00000556  4E4F                     158              TRAP        #15
 00000558                           159              * Will branch to EA here         
 00000558  6000 02CA                160              BRA         FINISH
-0000055C  43F9 00000D19            161  BGE_RT:     LEA         bge_message,A1  * Print BGE
+0000055C  43F9 00000D35            161  BGE_RT:     LEA         bge_message,A1  * Print BGE
 00000562  103C 000E                162              MOVE.B      #14,D0
 00000566  4E4F                     163              TRAP        #15
 00000568                           164              * Will branch to EA here         
 00000568  6000 02BA                165              BRA         FINISH
-0000056C  43F9 00000D1F            166  BLT_RT:     LEA         blt_message,A1  * Print BLT
+0000056C  43F9 00000D3A            166  BLT_RT:     LEA         blt_message,A1  * Print BLT
 00000572  103C 000E                167              MOVE.B      #14,D0
 00000576  4E4F                     168              TRAP        #15
 00000578                           169              * Will branch to EA here         
 00000578  6000 02AA                170              BRA         FINISH
-0000057C  43F9 00000D25            171  BVC_RT:     LEA         bvc_message,A1  * Print BVC
+0000057C  43F9 00000D3F            171  BVC_RT:     LEA         bvc_message,A1  * Print BVC
 00000582  103C 000E                172              MOVE.B      #14,D0
 00000586  4E4F                     173              TRAP        #15
 00000588                           174              * Will branch to EA here         
 00000588  6000 029A                175              BRA         FINISH                                                
-0000058C  43F9 00000D2B            176  BRA_RT:     LEA         bra_message,A1  * Print BRA
+0000058C  43F9 00000D44            176  BRA_RT:     LEA         bra_message,A1  * Print BRA
 00000592  103C 000E                177              MOVE.B      #14,D0
 00000596  4E4F                     178              TRAP        #15
 00000598                           179              * Will branch to EA here
@@ -189,16 +189,16 @@ Created On: 12-Dec-14 18:52:43
 000005A4  5143                     185             SUB         #8,D3           * Subtract 8 from string
 000005A6  0C43 0004                186             CMPI        #4,D3           * Is is a CMP function? 
 000005AA  6D00 0016                187             BLT         CMP_RT          * Branch to CMP routine
-000005AE  43F9 00000D31            188             LEA         eor_message,A1  * Otherwise it's an EOR function 
+000005AE  43F9 00000D49            188             LEA         eor_message,A1  * Otherwise it's an EOR function 
 000005B4  103C 000E                189             MOVE.B      #14,D0
 000005B8  4E4F                     190             TRAP        #15
-000005BA  6100 0674                191             BSR         EOR
+000005BA  6100 0692                191             BSR         EOR
 000005BE  6000 0264                192             BRA         FINISH 
 000005C2                           193             
-000005C2  43F9 00000D36            194  CMP_RT     LEA         cmp_message,A1
+000005C2  43F9 00000D4E            194  CMP_RT     LEA         cmp_message,A1
 000005C8  103C 000E                195             MOVE.B      #14,D0
 000005CC  4E4F                     196             TRAP        #15
-000005CE  6100 06D4                197             BSR         CMP
+000005CE  6100 06F2                197             BSR         CMP
 000005D2  6000 0250                198             BRA         FINISH
 000005D6                           199             
 000005D6  3400                     200  SHF_RT      MOVE.W      D0,D2
@@ -218,16 +218,16 @@ Created On: 12-Dec-14 18:52:43
 000005FE  6500 0006                214             BCS          LA_RT          * If it's even, we have ASL
 00000602  6000 0016                215             BRA          RA_RT          * Otherwise, it's ASR
 00000606                           216             
-00000606  43F9 00000D41            217  LA_RT     LEA           asl_message,A1
+00000606  43F9 00000D58            217  LA_RT     LEA           asl_message,A1
 0000060C  103C 000E                218            MOVE.B        #14,D0
 00000610  4E4F                     219            TRAP          #15
-00000612  6100 065A                220            bsr           ROR
+00000612  6100 0678                220            bsr           ROR
 00000616  6000 020C                221            BRA           FINISH
 0000061A                           222  
-0000061A  43F9 00000D3B            223  RA_RT     LEA           asr_message,A1
+0000061A  43F9 00000D53            223  RA_RT     LEA           asr_message,A1
 00000620  103C 000E                224            MOVE.B        #14,D0
 00000624  4E4F                     225            TRAP          #15
-00000626  6100 0646                226            bsr           ROR
+00000626  6100 0664                226            bsr           ROR
 0000062A  6000 01F8                227            BRA           FINISH
 0000062E                           228              
 0000062E                           229                         
@@ -244,16 +244,16 @@ Created On: 12-Dec-14 18:52:43
 0000064C  6500 0006                240             BCS          LL_RT          * If its the LSBit was 1, we have LSL
 00000650  6000 0016                241             BRA          RL_RT          * Otherwise, its LSR
 00000654                           242             
-00000654  43F9 00000D4D            243  LL_RT     LEA           lsl_message,A1
+00000654  43F9 00000D62            243  LL_RT     LEA           lsl_message,A1
 0000065A  103C 000E                244            MOVE.B        #14,D0
 0000065E  4E4F                     245            TRAP          #15
-00000660  6100 060C                246            bsr           ROR
+00000660  6100 062A                246            bsr           ROR
 00000664  6000 01BE                247            BRA           FINISH
 00000668                           248  
-00000668  43F9 00000D47            249  RL_RT     LEA           lsr_message,A1
+00000668  43F9 00000D5D            249  RL_RT     LEA           lsr_message,A1
 0000066E  103C 000E                250            MOVE.B        #14,D0
 00000672  4E4F                     251            TRAP          #15
-00000674  6100 05F8                252            bsr           ROR
+00000674  6100 0616                252            bsr           ROR
 00000678  6000 01AA                253            BRA           FINISH
 0000067C                           254            
 0000067C  1602                     255  RO_RT     MOVE.B       D2,D3          * Copy string 
@@ -265,16 +265,16 @@ Created On: 12-Dec-14 18:52:43
 0000068E  6000 0016                261            BRA          RR_RT          * Otherwise, its ROR
 00000692                           262  
 00000692                           263            
-00000692  43F9 00000D53            264  LR_RT    LEA           rol_message,A1
+00000692  43F9 00000D67            264  LR_RT    LEA           rol_message,A1
 00000698  103C 000E                265           MOVE.B        #14,D0
 0000069C  4E4F                     266           TRAP          #15
-0000069E  6100 05CE                267           bsr           ROR
+0000069E  6100 05EC                267           bsr           ROR
 000006A2  6000 0180                268           BRA           FINISH   
 000006A6                           269  
-000006A6  43F9 00000D59            270  RR_RT    LEA           ror_message,A1
+000006A6  43F9 00000D6C            270  RR_RT    LEA           ror_message,A1
 000006AC  103C 000E                271           MOVE.B        #14,D0
 000006B0  4E4F                     272           TRAP          #15   
-000006B2  6100 05BA                273           bsr           ROR
+000006B2  6100 05D8                273           bsr           ROR
 000006B6  6000 016C                274           BRA           FINISH
 000006BA                           275  
 000006BA  0243 00F0                276  FOU_RT   ANDI          #$0F0,D3        * Checking 2nd most significant nibble 
@@ -284,16 +284,16 @@ Created On: 12-Dec-14 18:52:43
 000006C6  6000 00F8                280           BRA           MM_RT           * Otherwise it's MOVEM
 000006CA                           281           
 000006CA                           282           
-000006CA  43F9 00000D5F            283  LEA_RT   LEA           lea_message,A1
+000006CA  43F9 00000D71            283  LEA_RT   LEA           lea_message,A1
 000006D0  103C 000E                284           MOVE.B        #14,D0
 000006D4  4E4F                     285           TRAP          #15  
-000006D6  6100 050C                286           BSR           LEA 
+000006D6  6100 052A                286           BSR           LEA 
 000006DA  6000 0148                287           BRA           FINISH
 000006DE                           288            
-000006DE  43F9 00000D65            289  OR_RT    LEA           or_message,A1
+000006DE  43F9 00000D76            289  OR_RT    LEA           or_message,A1
 000006E4  103C 000E                290           MOVE.B        #14,D0
 000006E8  4E4F                     291           TRAP          #15  
-000006EA  6100 051E                292           BSR           OR 
+000006EA  6100 053C                292           BSR           OR 
 000006EE  6000 0134                293           BRA           FINISH
 000006F2                           294           
 000006F2  3200                     295  ZER_RT   MOVE.W        D0,D1           * Copy original string
@@ -303,38 +303,38 @@ Created On: 12-Dec-14 18:52:43
 000006FC  6500 0006                299           BCS           BCL_RT          * If its a 1, its BCLR 
 00000700  6000 0012                300           BRA           ICM_RT          * Otherwise its CMPI
 00000704                           301           
-00000704  43F9 00000D69            302  BCL_RT   LEA           bcl_message,A1
+00000704  43F9 00000D7A            302  BCL_RT   LEA           bcl_message,A1
 0000070A  103C 000E                303           MOVE.B        #14,D0
 0000070E  4E4F                     304           TRAP          #15   
 00000710  6000 0112                305           BRA           FINISH
 00000714                           306  
-00000714  43F9 00000DF4            307  ICM_RT   LEA           icm_message,A1
+00000714  43F9 00000DFD            307  ICM_RT   LEA           icm_message,A1
 0000071A  103C 000E                308           MOVE.B        #14,D0
 0000071E  4E4F                     309           TRAP          #15   
 00000720  6000 0102                310           BRA           FINISH
 00000724                           311        
 00000724                           312  
-00000724  43F9 00000D70            313  ADD_RT   LEA           add_message,A1
+00000724  43F9 00000D80            313  ADD_RT   LEA           add_message,A1
 0000072A  103C 000E                314           MOVE.B        #14,D0
 0000072E  4E4F                     315           TRAP          #15   
 00000730  6000 00F2                316           BRA           FINISH
 00000734                           317  
-00000734  43F9 00000D76            318  SUB_RT   LEA           sub_message,A1
+00000734  43F9 00000D85            318  SUB_RT   LEA           sub_message,A1
 0000073A  103C 000E                319           MOVE.B        #14,D0
 0000073E  4E4F                     320           TRAP          #15   
 00000740  6000 00E2                321           BRA           FINISH
 00000744                           322           
-00000744  43F9 00000D7C            323  MUL_RT   LEA           mul_message,A1
+00000744  43F9 00000D8A            323  MUL_RT   LEA           mul_message,A1
 0000074A  103C 000E                324           MOVE.B        #14,D0
 0000074E  4E4F                     325           TRAP          #15   
 00000750  6000 00D2                326           BRA           FINISH
 00000754                           327  
-00000754  43F9 00000D83            328  DIV_RT   LEA           div_message,A1
+00000754  43F9 00000D90            328  DIV_RT   LEA           div_message,A1
 0000075A  103C 000E                329           MOVE.B        #14,D0
 0000075E  4E4F                     330           TRAP          #15   
 00000760  6000 00C2                331           BRA           FINISH
 00000764                           332           
-00000764  43F9 00000D88            333  BOV_RT   LEA           bov_message,A1
+00000764  43F9 00000D96            333  BOV_RT   LEA           bov_message,A1
 0000076A  103C 000E                334           MOVE.B        #14,D0
 0000076E  4E4F                     335           TRAP          #15   
 00000770  6100 043E                336           BSR           MOVE
@@ -347,7 +347,7 @@ Created On: 12-Dec-14 18:52:43
 00000778                           343  *         ANDI.B        #$0F,D1         * Clear top nibble of the last byte 
 00000778                           344  *         CMPI.B        #1,D1           * If bottom nibble is 1, its MOVEA.W 
 00000778                           345  *         BEQ           AWO_RT          * Branch to MOVEA.W routine 
-00000778  43F9 00000D8D            346           LEA           wov_message,A1  * Other wise it's just MOVE.W
+00000778  43F9 00000D9C            346           LEA           wov_message,A1  * Other wise it's just MOVE.W
 0000077E  103C 000E                347           MOVE.B        #14,D0
 00000782  4E4F                     348           TRAP          #15   
 00000784  6100 042A                349           BSR           MOVE
@@ -361,18 +361,18 @@ Created On: 12-Dec-14 18:52:43
 0000078C                           357  *         ANDI.B        #$0F,D1         * Clear top nibble of the last byte 
 0000078C                           358  *         CMPI.B        #1,D1           * If bottom nibble is 1, its MOVEA.L 
 0000078C                           359  *         BEQ           ALO_RT          * Branch to MOVEA.L routine 
-0000078C  43F9 00000D92            360           LEA           lov_message,A1  * Other wise it's just MOVE.L
+0000078C  43F9 00000DA2            360           LEA           lov_message,A1  * Other wise it's just MOVE.L
 00000792  103C 000E                361           MOVE.B        #14,D0
 00000796  4E4F                     362           TRAP          #15   
 00000798  6100 0416                363           BSR           MOVE
 0000079C  6000 0086                364           BRA           FINISH
 000007A0                           365           
-000007A0  43F9 00000D99            366  AWO_RT   LEA           awo_message,A1  
+000007A0  43F9 00000DA8            366  AWO_RT   LEA           awo_message,A1  
 000007A6  103C 000E                367           MOVE.B        #14,D0
 000007AA  4E4F                     368           TRAP          #15   
 000007AC  6000 0076                369           BRA           FINISH
 000007B0                           370  
-000007B0  43F9 00000DA3            371  ALO_RT   LEA           alo_message,A1  
+000007B0  43F9 00000DB1            371  ALO_RT   LEA           alo_message,A1  
 000007B6  103C 000E                372           MOVE.B        #14,D0
 000007BA  4E4F                     373           TRAP          #15   
 000007BC  6000 0066                374           BRA           FINISH
@@ -384,32 +384,32 @@ Created On: 12-Dec-14 18:52:43
 000007CA  E209                     380           LSR.B         #1,D1        * Shift 1 more bit to check which MOVEM
 000007CC  6500 0006                381           BCS           MMO_RT       * If the 10th bit is set, its a MOVEM from memory to register
 000007D0  6000 0012                382           BRA           RMO_RT       * Otherwise, its a MOVEM from register to memory         
-000007D4  43F9 00000DAD            383  MMO_RT   LEA           mmo_message,A1
+000007D4  43F9 00000DBA            383  MMO_RT   LEA           mmo_message,A1
 000007DA  103C 000E                384           MOVE.B        #14,D0
 000007DE  4E4F                     385           TRAP          #15   
 000007E0  6000 0042                386           BRA           FINISH
 000007E4                           387           
-000007E4  43F9 00000DCA            388  RMO_RT   LEA           rmo_message,A1
+000007E4  43F9 00000DD6            388  RMO_RT   LEA           rmo_message,A1
 000007EA  103C 000E                389           MOVE.B        #14,D0
 000007EE  4E4F                     390           TRAP          #15   
 000007F0  6000 0032                391           BRA           FINISH
 000007F4                           392             
-000007F4  43F9 00000DE7            393  QSU_RT   LEA           qsu_message,A1
+000007F4  43F9 00000DF2            393  QSU_RT   LEA           qsu_message,A1
 000007FA  103C 000E                394           MOVE.B        #14,D0
 000007FE  4E4F                     395           TRAP          #15   
 00000800  6000 0022                396           BRA           FINISH
 00000804                           397           
-00000804  43F9 00000DEE            398  ORI_RT   LEA           ori_message,A1
+00000804  43F9 00000DF8            398  ORI_RT   LEA           ori_message,A1
 0000080A  103C 000E                399           MOVE.B        #14,D0
 0000080E  4E4F                     400           TRAP          #15   
 00000810  6000 0012                401           BRA           FINISH
 00000814                           402               
-00000814  43F9 00000CE1            403  N_FOUND:    LEA         not_found,A1
+00000814  43F9 00000CFF            403  N_FOUND:    LEA         not_found,A1
 0000081A  103C 000E                404              MOVE.B      #14,D0
 0000081E  4E4F                     405              TRAP        #15
 00000820  6000 0002                406              BRA         FINISH 
 00000824                           407      
-00000824  43F9 00000CD6            408  FINISH:     LEA         finished,A1
+00000824  43F9 00000CF4            408  FINISH:     LEA         finished,A1
 0000082A  103C 000E                409              MOVE.B      #14,D0
 0000082E  4E4F                     410              TRAP        #15                       
 00000830                           411  *            STOP        #EXIT           * Halt Execution            
@@ -440,7 +440,7 @@ Created On: 12-Dec-14 18:52:43
 00000856  60EC                     436                  bra         P_LOOP     loop
 00000858                           437  *------------------------
 00000858                           438  EXIT_SR
-00000858  43F9 00000E01            439     LEA      empty_lin,A1
+00000858  43F9 00000E09            439     LEA      empty_lin,A1
 0000085E  103C 000E                440     MOVE.B   #14,D0
 00000862  4E4F                     441     TRAP     #15
 00000864  4E75                     442     RTS
@@ -828,197 +828,206 @@ Created On: 12-Dec-14 18:52:43
 00000BE0                           824  MOVEM
 00000BE0                           825  *------------------------
 00000BE0                           826  ADD
-00000BE0  60CE                     827     bra   MOVE
-00000BE2  4E75                     828     rts
-00000BE4                           829  *------------------------
-00000BE4                           830  ADDA
-00000BE4                           831  *------------------------
-00000BE4                           832  SUB
-00000BE4                           833  *------------------------
-00000BE4                           834  MULS
-00000BE4                           835  *------------------------
-00000BE4                           836  DIVS
-00000BE4                           837  *------------------------
-00000BE4                           838  LEA:
-00000BE4  6100 FC4E                839     bsr   Initialize_EA 
-00000BE8  6100 FD62                840     bsr   Grab_Source_Reg
-00000BEC  6100 FD0A                841     bsr   Grab_Source_Mode_Bits
-00000BF0  6100 FDA0                842     bsr   Mode_Jump_Table
-00000BF4  6100 FD44                843     bsr   Print_Comma
-00000BF8  6100 FD5C                844     bsr   Grab_Dest_reg 
-00000BFC  6100 FCEE                845     bsr   Grab_Dest_Mode_Bits
-00000C00  6100 FD90                846     bsr   Mode_Jump_Table
-00000C04  6100 FC3C                847     bsr   Print_EA_String
-00000C08  4E75                     848     rts
-00000C0A                           849  
-00000C0A                           850  *------------------------
-00000C0A                           851  OR:
-00000C0A  6100 FC28                852     bsr   Initialize_EA 
-00000C0E  6100 FD3C                853     bsr   Grab_Source_Reg
-00000C12  6100 FCE4                854     bsr   Grab_Source_Mode_Bits
-00000C16  6100 FD7A                855     bsr   Mode_Jump_Table
-00000C1A  6100 FD1E                856     bsr   Print_Comma
-00000C1E  6100 FCCC                857     bsr   Grab_Dest_Mode_Bits
-00000C22  6100 FD32                858     bsr   Grab_Dest_reg 
-00000C26  6100 FD42                859     bsr   Decode_DRD         * CMP requires that the register specified by bits 11, 10, and 9 be data register direct
-00000C2A  6100 FC16                860     bsr   Print_EA_String
-00000C2E  4E75                     861     rts
-00000C30                           862  
-00000C30                           863  * IT LOOKS LIKE ADDRESS_REGISTER_INDIRECT CAUSES AN EXTRA COMMA TO BE PRINTED * 
-00000C30                           864  *------------------------
-00000C30                           865  ORI
-00000C30                           866  *------------------------
-00000C30                           867  EOR:
-00000C30  6100 FC02                868     bsr   Initialize_EA 
-00000C34  6100 FD16                869     bsr   Grab_Source_Reg
-00000C38  6100 FCBE                870     bsr   Grab_Source_Mode_Bits
-00000C3C  6100 FD54                871     bsr   Mode_Jump_Table
-00000C40  6100 FCF8                872     bsr   Print_Comma
-00000C44  6100 FCA6                873     bsr   Grab_Dest_Mode_Bits
-00000C48  6100 FD0C                874     bsr   Grab_Dest_reg 
-00000C4C  6100 FD1C                875     bsr   Decode_DRD         * CMP requires that the register specified by bits 11, 10, and 9 be data register direct
-00000C50  6100 FBF0                876     bsr   Print_EA_String
-00000C54  4E75                     877     rts
-00000C56                           878      
-00000C56                           879  *------------------------
-00000C56                           880  LSR
-00000C56  6100 001C                881     bsr   Register_EA
-00000C5A  4E75                     882     rts
-00000C5C                           883  
-00000C5C                           884  *------------------------
-00000C5C                           885  LSL
-00000C5C  6100 0016                886     bsr   Register_EA
-00000C60  4E75                     887     rts
-00000C62                           888  *------------------------
-00000C62                           889  ASR
-00000C62  6100 0010                890     bsr   Register_EA
-00000C66  4E75                     891     rts
-00000C68                           892  *------------------------
-00000C68                           893  ROL
-00000C68  6100 000A                894     bsr   Register_EA
-00000C6C  4E75                     895     rts
-00000C6E                           896  *------------------------
-00000C6E                           897  ROR
-00000C6E  6100 0004                898     bsr   Register_EA
-00000C72  4E75                     899     rts
-00000C74                           900  *-------------------------
-00000C74                           901  Register_EA
-00000C74                           902  *   bsr   Initialize_EA 
-00000C74                           903  *   bsr   Grab_Dest_reg *grab destination reg 
-00000C74                           904  *   bsr   Decode_DRD 
-00000C74                           905  *   bsr   Print_Comma
-00000C74                           906  *   bsr   Grab_Source_Reg
-00000C74                           907  *   bsr   Grab_Source_Mode_Bits
-00000C74                           908  *   bsr   Mode_Jump_Table
-00000C74                           909  *   bsr   Print_EA_String
-00000C74                           910  *   rts
-00000C74                           911  
-00000C74  6100 FBBE                912     bsr   Initialize_EA
-00000C78  6100 FC46                913     bsr   Grab_Eight
-00000C7C  B83C 0000                914     cmp.b   #$00,d4
-00000C80  6E00 001C                915     bgt  Register_EA_D  *its a register not an immediate
-00000C84  6100 FCD0                916     bsr   Grab_Dest_Reg 
-00000C88  6100 FED0                917     bsr   Decode_Number
-00000C8C  6100 FCAC                918     bsr   Print_Comma
-00000C90  6100 FCBA                919     bsr   Grab_Source_Reg
-00000C94  6100 FCD4                920     bsr   Decode_DRD  
-00000C98  6100 FBA8                921     bsr   Print_EA_String
-00000C9C                           922  *B   adda.w   #$2,a6
-00000C9C  4E75                     923     rts
-00000C9E                           924  
-00000C9E                           925  *B   adda.w   #$2,a6
-00000C9E                           926  Register_EA_D
-00000C9E                           927  
-00000C9E  6100 FCCA                928      bsr   Decode_DRD
-00000CA2  4E75                     929      rts
-00000CA4                           930      
-00000CA4                           931     
-00000CA4                           932  
-00000CA4                           933  
-00000CA4                           934  *------------------------
-00000CA4                           935  BCLR
-00000CA4                           936  *------------------------
-00000CA4                           937  CMP:
-00000CA4  6100 FB8E                938     bsr   Initialize_EA 
-00000CA8  6100 FCA2                939     bsr   Grab_Source_Reg
-00000CAC  6100 FC4A                940     bsr   Grab_Source_Mode_Bits
-00000CB0  6100 FCE0                941     bsr   Mode_Jump_Table
-00000CB4  6100 FC84                942     bsr   Print_Comma
-00000CB8  6100 FC32                943     bsr   Grab_Dest_Mode_Bits
-00000CBC  6100 FC98                944     bsr   Grab_Dest_reg 
-00000CC0  6100 FCA8                945     bsr   Decode_DRD         * CMP requires that the register specified by bits 11, 10, and 9 be data register direct
-00000CC4  6100 FB7C                946     bsr   Print_EA_String
-00000CC8  4E75                     947     rts
-00000CCA                           948     * NOTE: THIS SUBROUTINE HAS AN EXTRA COMMA IN THE EA STRING FOR SOME REASON *
-00000CCA                           949  
-00000CCA                           950  *------------------------
-00000CCA                           951  CMPI
-00000CCA                           952  *------------------------
-00000CCA                           953  BCS
-00000CCA                           954  *------------------------
-00000CCA                           955  BGE
-00000CCA                           956  *------------------------
-00000CCA                           957  BLT
-00000CCA                           958  *------------------------
-00000CCA                           959  BVC
-00000CCA                           960  *------------------------
-00000CCA                           961  JSR
-00000CCA  6100 FB8C                962      BSR EXIT_SR
-00000CCE  4E75                     963      RTS
-00000CD0                           964  *------------------------
-00000CD0                           965  RTS
-00000CD0  6100 FB86                966      BSR EXIT_SR
-00000CD4  4E75                     967      RTS
-00000CD6                           968  *------------------------
-00000CD6                           969  
-00000CD6                           970  
-00000CD6                           971  
-00000CD6                           972  *------------------
-00000CD6                           973  * Data Section |
-00000CD6                           974  *------------------
-00000CD6                           975  
-00000CD6= 46 69 6E 69 73 68 ...    976  finished    DC.B        'Finished',CR,LF,0
-00000CE1= 4E 6F 20 4F 70 63 ...    977  not_found   DC.B        'No Opcodes were found',CR,LF,0
-00000CF9= 4E 4F 50 00              978  nop_message DC.B        'NOP',0
-00000CFD= 4E 45 47 00              979  neg_message DC.B        'NEG',0
-00000D01= 4A 53 52 0D 0A 00        980  jsr_message DC.B        'JSR',CR,LF,0
-00000D07= 52 54 53 0D 0A 00        981  rts_message DC.B        'RTS',CR,LF,0
-00000D0D= 42 43 43 0D 0A 00        982  bcc_message DC.B        'BCC',CR,LF,0
-00000D13= 42 43 53 0D 0A 00        983  bcs_message DC.B        'BCS',CR,LF,0
-00000D19= 42 47 45 0D 0A 00        984  bge_message DC.B        'BGE',CR,LF,0
-00000D1F= 42 4C 54 0D 0A 00        985  blt_message DC.B        'BLT',CR,LF,0
-00000D25= 42 56 43 0D 0A 00        986  bvc_message DC.B        'BVC',CR,LF,0
-00000D2B= 42 52 41 0D 0A 00        987  bra_message DC.B        'BRA',CR,LF,0
-00000D31= 45 4F 52 20 00           988  eor_message DC.B        'EOR ',0
-00000D36= 43 4D 50 20 00           989  cmp_message DC.B        'CMP ',0
-00000D3B= 41 53 52 0D 0A 00        990  asr_message DC.B        'ASR',CR,LF,0
-00000D41= 41 53 4C 0D 0A 00        991  asl_message DC.B        'ASL',CR,LF,0
-00000D47= 4C 53 52 0D 0A 00        992  lsr_message DC.B        'LSR',CR,LF,0
-00000D4D= 4C 53 4C 0D 0A 00        993  lsl_message DC.B        'LSL',CR,LF,0
-00000D53= 52 4F 4C 0D 0A 00        994  rol_message DC.B        'ROL',CR,LF,0
-00000D59= 52 4F 52 0D 0A 00        995  ror_message DC.B        'ROR',CR,LF,0
-00000D5F= 4C 45 41 0D 0A 00        996  lea_message DC.B        'LEA',CR,LF,0
-00000D65= 4F 52 20 00              997  or_message DC.B         'OR ',0
-00000D69= 42 43 4C 52 0D 0A 00     998  bcl_message DC.B        'BCLR',CR,LF,0
-00000D70= 41 44 44 0D 0A 00        999  add_message DC.B        'ADD',CR,LF,0
-00000D76= 53 55 42 0D 0A 00       1000  sub_message DC.B        'SUB',CR,LF,0
-00000D7C= 4D 55 4C 53 0D 0A 00    1001  mul_message DC.B        'MULS',CR,LF,0
-00000D83= 44 49 56 53 00          1002  div_message DC.B        'DIVS',0
-00000D88= 4D 4F 56 45 00          1003  bov_message DC.B        'MOVE',0
-00000D8D= 4D 4F 56 45 00          1004  wov_message DC.B        'MOVE',0
-00000D92= 4D 4F 56 45 0D 0A 00    1005  lov_message DC.B        'MOVE',CR,LF,0
-00000D99= 4D 4F 56 45 41 2E ...   1006  awo_message DC.B        'MOVEA.W',CR,LF,0
-00000DA3= 4D 4F 56 45 41 2E ...   1007  alo_message DC.B        'MOVEA.L',CR,LF,0
-00000DAD= 4D 4F 56 45 4D 20 ...   1008  mmo_message DC.B        'MOVEM (Memory to Register)',CR,LF,0
-00000DCA= 4D 4F 56 45 4D 20 ...   1009  rmo_message DC.B        'MOVEM (Register to Memory)',CR,LF,0
-00000DE7= 53 55 42 51 0D 0A 00    1010  qsu_message DC.B        'SUBQ',CR,LF,0
-00000DEE= 4F 52 49 0D 0A 00       1011  ori_message DC.B        'ORI',CR,LF,0
-00000DF4= 43 4D 50 49 0D 0A 00    1012  icm_message DC.B        'CMPI',CR,LF,0
-00000DFB= 44 41 54 41 20 00       1013  data        DC.B        'DATA ',0 
-00000E01= 0D 0A 00                1014  empty_lin   DC.B        '',CR,LF,0   
-00000E04                          1015  
-00000E04                          1016  
-00000E04                          1017              END         START
+00000BE0  6100 FC52                827     bsr   Initialize_EA
+00000BE4                           828     
+00000BE4  6100 FD66                829     bsr   Grab_Source_Reg
+00000BE8  6100 FF70                830     bsr   Decode_Number
+00000BEC  6100 FD4C                831     bsr   Print_Comma
+00000BF0  6100 FD64                832     bsr   Grab_Dest_reg 
+00000BF4  6100 FCF6                833     bsr   Grab_Dest_Mode_Bits
+00000BF8  6100 FD98                834     bsr   Mode_Jump_Table
+00000BFC                           835  
+00000BFC  6100 FC44                836     bsr   Print_EA_String
+00000C00  4E75                     837     rts
+00000C02                           838  *------------------------
+00000C02                           839  ADDA
+00000C02                           840  *------------------------
+00000C02                           841  SUB
+00000C02                           842  *------------------------
+00000C02                           843  MULS
+00000C02                           844  *------------------------
+00000C02                           845  DIVS
+00000C02                           846  *------------------------
+00000C02                           847  LEA:
+00000C02  6100 FC30                848     bsr   Initialize_EA 
+00000C06  6100 FD44                849     bsr   Grab_Source_Reg
+00000C0A  6100 FCEC                850     bsr   Grab_Source_Mode_Bits
+00000C0E  6100 FD82                851     bsr   Mode_Jump_Table
+00000C12  6100 FD26                852     bsr   Print_Comma
+00000C16  6100 FD3E                853     bsr   Grab_Dest_reg 
+00000C1A  6100 FCD0                854     bsr   Grab_Dest_Mode_Bits
+00000C1E  6100 FD72                855     bsr   Mode_Jump_Table
+00000C22  6100 FC1E                856     bsr   Print_EA_String
+00000C26  4E75                     857     rts
+00000C28                           858  
+00000C28                           859  *------------------------
+00000C28                           860  OR:
+00000C28  6100 FC0A                861     bsr   Initialize_EA 
+00000C2C  6100 FD1E                862     bsr   Grab_Source_Reg
+00000C30  6100 FCC6                863     bsr   Grab_Source_Mode_Bits
+00000C34  6100 FD5C                864     bsr   Mode_Jump_Table
+00000C38  6100 FD00                865     bsr   Print_Comma
+00000C3C  6100 FCAE                866     bsr   Grab_Dest_Mode_Bits
+00000C40  6100 FD14                867     bsr   Grab_Dest_reg 
+00000C44  6100 FD24                868     bsr   Decode_DRD         * CMP requires that the register specified by bits 11, 10, and 9 be data register direct
+00000C48  6100 FBF8                869     bsr   Print_EA_String
+00000C4C  4E75                     870     rts
+00000C4E                           871  
+00000C4E                           872  * IT LOOKS LIKE ADDRESS_REGISTER_INDIRECT CAUSES AN EXTRA COMMA TO BE PRINTED * 
+00000C4E                           873  *------------------------
+00000C4E                           874  ORI
+00000C4E                           875  *------------------------
+00000C4E                           876  EOR:
+00000C4E  6100 FBE4                877     bsr   Initialize_EA 
+00000C52  6100 FCF8                878     bsr   Grab_Source_Reg
+00000C56  6100 FCA0                879     bsr   Grab_Source_Mode_Bits
+00000C5A  6100 FD36                880     bsr   Mode_Jump_Table
+00000C5E  6100 FCDA                881     bsr   Print_Comma
+00000C62  6100 FC88                882     bsr   Grab_Dest_Mode_Bits
+00000C66  6100 FCEE                883     bsr   Grab_Dest_reg 
+00000C6A  6100 FCFE                884     bsr   Decode_DRD         * CMP requires that the register specified by bits 11, 10, and 9 be data register direct
+00000C6E  6100 FBD2                885     bsr   Print_EA_String
+00000C72  4E75                     886     rts
+00000C74                           887      
+00000C74                           888  *------------------------
+00000C74                           889  LSR
+00000C74  6100 001C                890     bsr   Register_EA
+00000C78  4E75                     891     rts
+00000C7A                           892  
+00000C7A                           893  *------------------------
+00000C7A                           894  LSL
+00000C7A  6100 0016                895     bsr   Register_EA
+00000C7E  4E75                     896     rts
+00000C80                           897  *------------------------
+00000C80                           898  ASR
+00000C80  6100 0010                899     bsr   Register_EA
+00000C84  4E75                     900     rts
+00000C86                           901  *------------------------
+00000C86                           902  ROL
+00000C86  6100 000A                903     bsr   Register_EA
+00000C8A  4E75                     904     rts
+00000C8C                           905  *------------------------
+00000C8C                           906  ROR
+00000C8C  6100 0004                907     bsr   Register_EA
+00000C90  4E75                     908     rts
+00000C92                           909  *-------------------------
+00000C92                           910  Register_EA
+00000C92                           911  *   bsr   Initialize_EA 
+00000C92                           912  *   bsr   Grab_Dest_reg *grab destination reg 
+00000C92                           913  *   bsr   Decode_DRD 
+00000C92                           914  *   bsr   Print_Comma
+00000C92                           915  *   bsr   Grab_Source_Reg
+00000C92                           916  *   bsr   Grab_Source_Mode_Bits
+00000C92                           917  *   bsr   Mode_Jump_Table
+00000C92                           918  *   bsr   Print_EA_String
+00000C92                           919  *   rts
+00000C92                           920  
+00000C92  6100 FBA0                921     bsr   Initialize_EA
+00000C96  6100 FC28                922     bsr   Grab_Eight
+00000C9A  B83C 0000                923     cmp.b   #$00,d4
+00000C9E  6E00 001C                924     bgt  Register_EA_D  *its a register not an immediate
+00000CA2  6100 FCB2                925     bsr   Grab_Dest_Reg 
+00000CA6  6100 FEB2                926     bsr   Decode_Number
+00000CAA  6100 FC8E                927     bsr   Print_Comma
+00000CAE  6100 FC9C                928     bsr   Grab_Source_Reg
+00000CB2  6100 FCB6                929     bsr   Decode_DRD  
+00000CB6  6100 FB8A                930     bsr   Print_EA_String
+00000CBA                           931  *B   adda.w   #$2,a6
+00000CBA  4E75                     932     rts
+00000CBC                           933  
+00000CBC                           934  *B   adda.w   #$2,a6
+00000CBC                           935  Register_EA_D
+00000CBC                           936  
+00000CBC  6100 FCAC                937      bsr   Decode_DRD
+00000CC0  4E75                     938      rts
+00000CC2                           939      
+00000CC2                           940     
+00000CC2                           941  
+00000CC2                           942  
+00000CC2                           943  *------------------------
+00000CC2                           944  BCLR
+00000CC2                           945  *------------------------
+00000CC2                           946  CMP:
+00000CC2  6100 FB70                947     bsr   Initialize_EA 
+00000CC6  6100 FC84                948     bsr   Grab_Source_Reg
+00000CCA  6100 FC2C                949     bsr   Grab_Source_Mode_Bits
+00000CCE  6100 FCC2                950     bsr   Mode_Jump_Table
+00000CD2  6100 FC66                951     bsr   Print_Comma
+00000CD6  6100 FC14                952     bsr   Grab_Dest_Mode_Bits
+00000CDA  6100 FC7A                953     bsr   Grab_Dest_reg 
+00000CDE  6100 FC8A                954     bsr   Decode_DRD         * CMP requires that the register specified by bits 11, 10, and 9 be data register direct
+00000CE2  6100 FB5E                955     bsr   Print_EA_String
+00000CE6  4E75                     956     rts
+00000CE8                           957     * NOTE: THIS SUBROUTINE HAS AN EXTRA COMMA IN THE EA STRING FOR SOME REASON *
+00000CE8                           958  
+00000CE8                           959  *------------------------
+00000CE8                           960  CMPI
+00000CE8                           961  *------------------------
+00000CE8                           962  BCS
+00000CE8                           963  *------------------------
+00000CE8                           964  BGE
+00000CE8                           965  *------------------------
+00000CE8                           966  BLT
+00000CE8                           967  *------------------------
+00000CE8                           968  BVC
+00000CE8                           969  *------------------------
+00000CE8                           970  JSR
+00000CE8  6100 FB6E                971      BSR EXIT_SR
+00000CEC  4E75                     972      RTS
+00000CEE                           973  *------------------------
+00000CEE                           974  RTS
+00000CEE  6100 FB68                975      BSR EXIT_SR
+00000CF2  4E75                     976      RTS
+00000CF4                           977  *------------------------
+00000CF4                           978  
+00000CF4                           979  
+00000CF4                           980  
+00000CF4                           981  *------------------
+00000CF4                           982  * Data Section |
+00000CF4                           983  *------------------
+00000CF4                           984  
+00000CF4= 46 69 6E 69 73 68 ...    985  finished    DC.B        'Finished',CR,LF,0
+00000CFF= 4E 6F 20 4F 70 63 ...    986  not_found   DC.B        'No Opcodes were found',CR,LF,0
+00000D17= 4E 4F 50 20 00           987  nop_message DC.B        'NOP ',0
+00000D1C= 4E 45 47 20 00           988  neg_message DC.B        'NEG ',0
+00000D21= 4A 53 52 20 00           989  jsr_message DC.B        'JSR ',0
+00000D26= 52 54 53 20 00           990  rts_message DC.B        'RTS ',0
+00000D2B= 42 43 43 20 00           991  bcc_message DC.B        'BCC ',0
+00000D30= 42 43 53 20 00           992  bcs_message DC.B        'BCS ',0
+00000D35= 42 47 45 20 00           993  bge_message DC.B        'BGE ',0
+00000D3A= 42 4C 54 20 00           994  blt_message DC.B        'BLT ',0
+00000D3F= 42 56 43 20 00           995  bvc_message DC.B        'BVC ',0
+00000D44= 42 52 41 20 00           996  bra_message DC.B        'BRA ',0
+00000D49= 45 4F 52 20 00           997  eor_message DC.B        'EOR ',0
+00000D4E= 43 4D 50 20 00           998  cmp_message DC.B        'CMP ',0
+00000D53= 41 53 52 20 00           999  asr_message DC.B        'ASR ',0
+00000D58= 41 53 4C 20 00          1000  asl_message DC.B        'ASL ',0
+00000D5D= 4C 53 52 20 00          1001  lsr_message DC.B        'LSR ',0
+00000D62= 4C 53 4C 20 00          1002  lsl_message DC.B        'LSL ',0
+00000D67= 52 4F 4C 20 00          1003  rol_message DC.B        'ROL ',0
+00000D6C= 52 4F 52 20 00          1004  ror_message DC.B        'ROR ',0
+00000D71= 4C 45 41 20 00          1005  lea_message DC.B        'LEA ',0
+00000D76= 4F 52 20 00             1006  or_message DC.B         'OR ',0
+00000D7A= 42 43 4C 52 20 00       1007  bcl_message DC.B        'BCLR ',0
+00000D80= 41 44 44 20 00          1008  add_message DC.B        'ADD ',0
+00000D85= 53 55 42 20 00          1009  sub_message DC.B        'SUB ',0
+00000D8A= 4D 55 4C 53 20 00       1010  mul_message DC.B        'MULS ',0
+00000D90= 44 49 56 53 20 00       1011  div_message DC.B        'DIVS ',0
+00000D96= 4D 4F 56 45 20 00       1012  bov_message DC.B        'MOVE ',0
+00000D9C= 4D 4F 56 45 20 00       1013  wov_message DC.B        'MOVE ',0
+00000DA2= 4D 4F 56 45 20 00       1014  lov_message DC.B        'MOVE ',0
+00000DA8= 4D 4F 56 45 41 2E ...   1015  awo_message DC.B        'MOVEA.W ',0
+00000DB1= 4D 4F 56 45 41 2E ...   1016  alo_message DC.B        'MOVEA.L ',0
+00000DBA= 4D 4F 56 45 4D 20 ...   1017  mmo_message DC.B        'MOVEM (Memory to Register) ',0
+00000DD6= 4D 4F 56 45 4D 20 ...   1018  rmo_message DC.B        'MOVEM (Register to Memory) ',0
+00000DF2= 53 55 42 51 20 00       1019  qsu_message DC.B        'SUBQ ',0
+00000DF8= 4F 52 49 20 00          1020  ori_message DC.B        'ORI ',0
+00000DFD= 43 4D 50 49 20 00       1021  icm_message DC.B        'CMPI ',0
+00000E03= 44 41 54 41 20 00       1022  data        DC.B        'DATA ',0 
+00000E09= 0D 0A 00                1023  empty_lin   DC.B        '',CR,LF,0   
+00000E0C                          1024  
+00000E0C                          1025  
+00000E0C                          1026              END         START
 
 No errors detected
 No warnings generated
@@ -1030,54 +1039,54 @@ Symbol-name         Value
 ABSOLUTE_ERROR      B5A
 ABSOLUTE_ROUTER     ADA
 ADD                 BE0
-ADDA                BE4
-ADD_MESSAGE         D70
+ADDA                C02
+ADD_MESSAGE         D80
 ADD_RT              724
 ADD_STR             D
-ALO_MESSAGE         DA3
+ALO_MESSAGE         DB1
 ALO_RT              7B0
-ASL_MESSAGE         D41
-ASR                 C62
-ASR_MESSAGE         D3B
+ASL_MESSAGE         D58
+ASR                 C80
+ASR_MESSAGE         D53
 AS_RT               5F0
-AWO_MESSAGE         D99
+AWO_MESSAGE         DA8
 AWO_RT              7A0
-BCC_MESSAGE         D0D
+BCC_MESSAGE         D2B
 BCC_RT              53C
-BCLR                CA4
-BCL_MESSAGE         D69
+BCLR                CC2
+BCL_MESSAGE         D7A
 BCL_RT              704
 BCL_STR             0
-BCS                 CCA
-BCS_MESSAGE         D13
+BCS                 CE8
+BCS_MESSAGE         D30
 BCS_RT              54C
 BCS_STR             65
-BGE                 CCA
-BGE_MESSAGE         D19
+BGE                 CE8
+BGE_MESSAGE         D35
 BGE_RT              55C
 BGE_STR             6C
-BLT                 CCA
-BLT_MESSAGE         D1F
+BLT                 CE8
+BLT_MESSAGE         D3A
 BLT_RT              56C
 BLT_STR             6D
-BOV_MESSAGE         D88
+BOV_MESSAGE         D96
 BOV_RT              764
 BOV_STR             1
-BRA_MESSAGE         D2B
+BRA_MESSAGE         D44
 BRA_RT              58C
 BRA_STR             60
-BVC                 CCA
-BVC_MESSAGE         D25
+BVC                 CE8
+BVC_MESSAGE         D3F
 BVC_RT              57C
 BVC_STR             68
 BYTE                428
 CLOSE_STRING        964
-CMP                 CA4
-CMPI                CCA
-CMP_MESSAGE         D36
+CMP                 CC2
+CMPI                CE8
+CMP_MESSAGE         D4E
 CMP_RT              5C2
 CR                  D
-DATA                DFB
+DATA                E03
 DECODE_ABS_LONG     A22
 DECODE_ABS_WORD     AF6
 DECODE_ARD          97E
@@ -1090,15 +1099,15 @@ DECODE_NUMBER       B5A
 DECODE_SIZE         866
 DECODE_SIZE_TWO     888
 DETERMINE_MOVEA     B90
-DIVS                BE4
-DIV_MESSAGE         D83
+DIVS                C02
+DIV_MESSAGE         D90
 DIV_RT              754
 DIV_STR             8
 EABUFFER            70000
-EMPTY_LIN           E01
+EMPTY_LIN           E09
 EOI_STR             A
-EOR                 C30
-EOR_MESSAGE         D31
+EOR                 C4E
+EOR_MESSAGE         D49
 EOR_RT              59C
 EOR_STR             B
 ERROR_SIZE          8AA
@@ -1106,7 +1115,7 @@ EXIT                2700
 EXIT_SR             858
 EXIT_TEST           830
 FINISH              824
-FINISHED            CD6
+FINISHED            CF4
 FOU_RT              6BA
 GET                 404
 GRAB_DEST_MODE_BITS  8EC
@@ -1120,31 +1129,31 @@ GRAB_SIZE_BITS_TWO  8D6
 GRAB_SOURCE_MODE_BITS  8F8
 GRAB_SOURCE_REG     94C
 HOLDER              3F0
-ICM_MESSAGE         DF4
+ICM_MESSAGE         DFD
 ICM_RT              714
 INITIALIZE_EA       834
 INITIALIZE_EA_TEST_POINTER  83C
-JSR                 CCA
-JSR_MESSAGE         D01
+JSR                 CE8
+JSR_MESSAGE         D21
 JSR_RT              514
 JSR_STR             13A
 LA_RT               606
-LEA                 BE4
-LEA_MESSAGE         D5F
+LEA                 C02
+LEA_MESSAGE         D71
 LEA_RT              6CA
 LEA_STR             4
 LF                  A
 LL_RT               654
-LOV_MESSAGE         D92
+LOV_MESSAGE         DA2
 LOV_RT              78C
 LOV_STR             2
 LR_RT               692
-LSL                 C5C
-LSL_MESSAGE         D4D
-LSR                 C56
-LSR_MESSAGE         D47
+LSL                 C7A
+LSL_MESSAGE         D62
+LSR                 C74
+LSR_MESSAGE         D5D
 LS_RT               62E
-MMO_MESSAGE         DAD
+MMO_MESSAGE         DBA
 MMO_RT              7D4
 MMO_STR             91
 MM_RT               7C0
@@ -1152,27 +1161,27 @@ MODE_ERROR          9DA
 MODE_JUMP_TABLE     992
 MOVE                BB0
 MOVEM               BE0
-MULS                BE4
-MUL_MESSAGE         D7C
+MULS                C02
+MUL_MESSAGE         D8A
 MUL_RT              744
 MUL_STR             C
 NEG                 B72
-NEG_MESSAGE         CFD
+NEG_MESSAGE         D1C
 NEG_RT              500
 NEG_STR             44
 NIBBLE              476
 NOP                 B6E
-NOP_MESSAGE         CF9
+NOP_MESSAGE         D17
 NOP_RT              4EC
 NOP_STR             4E71
-NOT_FOUND           CE1
+NOT_FOUND           CFF
 N_FOUND             814
-OR                  C0A
-ORI                 C30
-ORI_MESSAGE         DEE
+OR                  C28
+ORI                 C4E
+ORI_MESSAGE         DF8
 ORI_RT              804
 ORI_STR             0
-OR_MESSAGE          D65
+OR_MESSAGE          D76
 OR_RT               6DE
 OR_STR              8
 PRINT_A             B9E
@@ -1182,39 +1191,39 @@ PRINT_DOT_L         928
 PRINT_DOT_W         916
 PRINT_EA_STRING     842
 P_LOOP              844
-QSU_MESSAGE         DE7
+QSU_MESSAGE         DF2
 QSU_RT              7F4
 QSU_STR             5
 RA_RT               61A
-REGISTER_EA         C74
-REGISTER_EA_D       C9E
+REGISTER_EA         C92
+REGISTER_EA_D       CBC
 RL_RT               668
-RMO_MESSAGE         DCA
+RMO_MESSAGE         DD6
 RMO_RT              7E4
 RMO_STR             99
-ROL                 C68
-ROL_MESSAGE         D53
-ROR                 C6E
-ROR_MESSAGE         D59
+ROL                 C86
+ROL_MESSAGE         D67
+ROR                 C8C
+ROR_MESSAGE         D6C
 RO_RT               67C
 RR_RT               6A6
-RTS                 CD0
-RTS_MESSAGE         D07
+RTS                 CEE
+RTS_MESSAGE         D26
 RTS_RT              528
 RTS_STR             4E75
 SHF_RT              5D6
 SHF_STR             E
 START               400
 START_ADDR          6000
-SUB                 BE4
-SUB_MESSAGE         D76
+SUB                 C02
+SUB_MESSAGE         D85
 SUB_RT              734
 SUB_STR             9
 TESTLOC             6000
 TEST_BIT1           3200
 TEST_BIT2           E459
 WORD                408
-WOV_MESSAGE         D8D
+WOV_MESSAGE         D9C
 WOV_RT              778
 WOV_STR             3
 ZER_RT              6F2
