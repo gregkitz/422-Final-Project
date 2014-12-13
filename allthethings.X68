@@ -776,7 +776,7 @@ Decode_Number
 
 *------------------------
 NOP
-   bsr  EXIT_SR
+   rts
 *------------------------
 NEG
    bsr   Initialize_EA
@@ -843,10 +843,16 @@ ADDA
 
 *------------------------
 SUB
+   bsr   ADD
+   rts
 *------------------------
 MULS
+   bsr   ADD
+   rts
 *------------------------
 DIVS
+   bsr   ADD
+   rts
 *------------------------
 LEA:
    bsr   Initialize_EA 
@@ -962,6 +968,9 @@ CMP:
 
 *------------------------
 CMPI
+   bsr   JSR
+   
+
 *------------------------
 BCS
 *------------------------
@@ -972,7 +981,11 @@ BLT
 BVC
 *------------------------
 JSR
-    BSR EXIT_SR
+    bsr   Initialize_EA 
+    bsr   Grab_Source_Reg
+    bsr   Grab_Source_Mode_Bits
+    bsr   Mode_Jump_Table
+    bsr   Print_EA_String
     RTS
 *------------------------
 RTS
