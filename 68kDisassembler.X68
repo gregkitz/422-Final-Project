@@ -89,7 +89,7 @@ END_ADDR_PT MOVE.L      D4,A6            * move the start addr result into prope
             
 EADDR_LOOP  MOVE.B      (A3)+,D3         * Get a byte from the string in A3
             CMP.B       #0,D3            * Check if you're at the end
-            BEQ         MAIN             * If you're at the end, get out of the loop
+            BEQ         INIT             * If you're at the end, get out of the loop
             CMP.B       #$40,D3          * Check if the cur char is a num or letter
             BGT         ELTTR_UP         * Use differet conversion for num vs letter
             CMP.B       #$60,D3          * Use different conversion for upper vs lowercase
@@ -103,21 +103,23 @@ ECOMPILE    ASL.L       #4,D4            * Shift left one hex digit to make room
             ADD.L       D3,D4            * Add converted number to result
             BRA EADDR_LOOP
             
-MAIN:
+INIT:       MOVE.B      #0,D1            * This is the line counter to display one page
             MOVE.L      D4,A5
-            MOVE.B      #0,D1            * This is the line counter to display one page
+            BRA         MAIN
+MAIN:
+            
             CMPA.L      A5,A6            * Check if out of range
             BGT         FINISH           * If out of range, Branch
-            MOVE.L      (A6)+,D0         * Store the data in D0 and increment
+            MOVE.W      (A6),D0         * Store the data in D0 and increment
             
-            MOVEM.L     D1/A5-A6,-(SP)      * Store registers before jumping
-            * JSR         OPCODE           * Jump to the opcode section to start decoding
-            MOVEM.L     (SP)+,D1/A5-A6      * Restore registers after returning
+            MOVEM.L     D1/A5,-(SP)      * Store registers before jumping
+            JSR         OPCODE           * Jump to the opcode section to start decoding
+            MOVEM.L     (SP)+,D1/A5      * Restore registers after returning
             
             * MOVE.B      #13,D0           * Trap code for output
             * TRAP        #15              * Output decoded line in A1
             
-            ADDI        #1,D1            * Increment line counter
+*           ADDI        #1,D1            * Increment line counter
             CMP.L       #29,D1           * Check if we've printed a page
             BGT         PAGE_REQ         * If we've printed a page, ask to print more
             
@@ -139,7 +141,8 @@ PAGE_REQ    CLR.L       D1               * Reset line counter
             
 FINISH:     LEA         end_message,A1   * Load ending message into A1
             MOVE.B      #14,D0           * Trap code for output   
-            TRAP        #15     
+            TRAP        #15 
+            STOP        #EXIT    
         
                       
             
@@ -246,6 +249,7 @@ BCC_RT:     LEA         bcc_message,A1  * Print BCC
             TRAP        #15
             * Will branch to EA here         
 *            BRA         FINISH
+*            BSR         BCC
             RTS
             
 BCS_RT:     LEA         bcs_message,A1  * Print BCS
@@ -253,6 +257,7 @@ BCS_RT:     LEA         bcs_message,A1  * Print BCS
             TRAP        #15
             * Will branch to EA here         
 *            BRA         FINISH
+            BSR         BCS
             RTS
             
 BGE_RT:     LEA         bge_message,A1  * Print BGE
@@ -260,6 +265,7 @@ BGE_RT:     LEA         bge_message,A1  * Print BGE
             TRAP        #15
             * Will branch to EA here         
 *            BRA         FINISH
+            BSR         BGE
             RTS
             
 BLT_RT:     LEA         blt_message,A1  * Print BLT
@@ -267,20 +273,23 @@ BLT_RT:     LEA         blt_message,A1  * Print BLT
             TRAP        #15
             * Will branch to EA here         
 *            BRA         FINISH
+            BSR         BLT
             RTS
             
 BVC_RT:     LEA         bvc_message,A1  * Print BVC
             MOVE.B      #14,D0
             TRAP        #15
             * Will branch to EA here         
-*            BRA         FINISH                                                
+*            BRA         FINISH 
+            BSR         BVC                                               
             RTS
             
 BRA_RT:     LEA         bra_message,A1  * Print BRA
             MOVE.B      #14,D0
             TRAP        #15
             * Will branch to EA here
-*            BRA         FINISH                        
+*            BRA         FINISH
+*            BSR         BRA                        
             RTS
            
 EOR_RT     MOVE.B      D2,D3           * Copy current string
@@ -417,12 +426,14 @@ BCL_RT   LEA           bcl_message,A1
          MOVE.B        #14,D0
          TRAP          #15   
 *         BRA           FINISH
+         BSR           BCLR
          RTS
 
 ICM_RT   LEA           icm_message,A1
          MOVE.B        #14,D0
          TRAP          #15   
 *         BRA           FINISH
+         BSR           CMPI
          RTS
       
 
@@ -430,24 +441,28 @@ ADD_RT   LEA           add_message,A1
          MOVE.B        #14,D0
          TRAP          #15   
 *         BRA           FINISH
+         BSR           ADD
          RTS
 
 SUB_RT   LEA           sub_message,A1
          MOVE.B        #14,D0
          TRAP          #15   
 *         BRA           FINISH
+         BSR           SUB
          RTS
          
 MUL_RT   LEA           mul_message,A1
          MOVE.B        #14,D0
          TRAP          #15   
 *         BRA           FINISH
+         BSR           MULS
          RTS
 
 DIV_RT   LEA           div_message,A1
          MOVE.B        #14,D0
          TRAP          #15   
 *         BRA           FINISH
+         BSR           DIVS
          RTS
          
 BOV_RT   LEA           bov_message,A1
@@ -490,12 +505,14 @@ AWO_RT   LEA           awo_message,A1
          MOVE.B        #14,D0
          TRAP          #15   
 *         BRA           FINISH
+         BSR           MOVE
          RTS
 
 ALO_RT   LEA           alo_message,A1  
          MOVE.B        #14,D0
          TRAP          #15   
 *         BRA           FINISH
+         BSR           MOVE
          RTS
          
 MM_RT    MOVE          D0,D1        * New copy of the original string
@@ -509,24 +526,28 @@ MMO_RT   LEA           mmo_message,A1
          MOVE.B        #14,D0
          TRAP          #15   
 *         BRA           FINISH
+         BSR           MOVEM
          RTS
          
 RMO_RT   LEA           rmo_message,A1
          MOVE.B        #14,D0
          TRAP          #15   
 *         BRA           FINISH
+         BSR           MOVEM
          RTS
            
 QSU_RT   LEA           qsu_message,A1
          MOVE.B        #14,D0
          TRAP          #15   
 *         BRA           FINISH
+         BSR           SUB
          RTS
          
 ORI_RT   LEA           ori_message,A1
          MOVE.B        #14,D0
          TRAP          #15   
 *         BRA           FINISH
+         BSR            ORI
          RTS
              
 N_FOUND:    LEA         not_found,A1
@@ -1014,6 +1035,7 @@ ADD
 
    bsr   Print_EA_String
    bsr   Increment_Word
+   bsr   Exit_SR
    rts
 *------------------------
 ADDA
@@ -1193,7 +1215,7 @@ Increment_Word
    rts
 *------------------------
 Increment_Long
-   adda.l      #$00000008,a6
+   adda.l      #$00000006,a6
    rts
 *------------------------
 Increment_Byte
@@ -1289,6 +1311,10 @@ empty_lin   DC.B        '',CR,LF,0
 
 
 
+*~Font name~Courier New~
+*~Font size~10~
+*~Tab type~1~
+*~Tab size~4~
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~
