@@ -7,13 +7,13 @@
 
 * Equates Section
 
-EAbuffer    EQU   $00070000    
-Exit        EQU   $2700
-TestLoc     EQU  $6000 
+EAbuffer    EQU         $00070000    
+Exit        EQU         $2700
+TestLoc     EQU         $6000 
 CR          EQU         $0D             * Hex value for Carriage Return
 LF          EQU         $0A             * Hex value for New Line Read
 START       EQU         $400            * Address for ORG
-start_addr  EQU         $6000       * Starting address where the program is stored
+start_addr  EQU         $6000           * Starting address where the program is stored
 test_bit1   EQU         $3200           * A Value to be used for testing 
 test_bit2   EQU         $E459           * A Value to be used for testing  
 holder      EQU         $3F0            * Location of lines to test
@@ -46,9 +46,7 @@ bcl_str     EQU         $0              * Hex value for BCLR
 EXIT        EQU         $2700           * Simulator Stop code
 
 * Code Section
-                ORG         START
-            
-            
+            ORG         START                      
             LEA         prompt1,A1       * Load starting address prompt into A1
             MOVE.B      #14,D0           * Trap code for output   
             TRAP        #15  
@@ -1185,7 +1183,7 @@ Branches
    move.b    (a6),d4
    cmp.b   #$00,d4
    BEQ   Increment_Word
-   cmp.b   #$FF
+   cmp.b   #$FF, d4
    BEQ   Increment_Long
    bsr   Increment
    rts 
