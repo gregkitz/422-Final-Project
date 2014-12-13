@@ -1,8 +1,8 @@
 *-----------------------------------------------------------
 * Title      : 422 Project Code
-* Written by : Luke Selbeck
+* Written by : Luke Selbeck, Greg Kitzmiller, Dallas Van Ess
 * Date       : Starting from 11/17/2014
-* Description: My Code for the Project
+* Description: 68k Disassembler
 *-----------------------------------------------------------
 
 * Equates Section
@@ -1282,6 +1282,7 @@ empty_lin   DC.B        '',CR,LF,0
 
 
             END         START
+
 
 
 
