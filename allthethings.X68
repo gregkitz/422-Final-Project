@@ -968,17 +968,57 @@ CMP:
 
 *------------------------
 CMPI
+   bsr   Initialize_EA 
+   bsr   Grab_Size_Bits_Seven_Eight
+   bsr   Decode_SIZE
+   
    bsr   JSR
+      *   d3 has size, grab immediate based on what it is 
+   bsr  Absolute_Router   *this will at least do words and longs similarly 
+   bsr   Print_EA_String
    
 
 *------------------------
 BCS
+   bsr  Branches
+   rts
+*------------------------
+Branches 
+   clr   d4
+   move.b    (a6),d4
+   cmp.b   #$00,d4
+   BEQ   Increment_Word
+   cmp.b   #$FF
+   BEQ   Increment_Long
+   bra   Increment
+   rts 
+*------------------------
+Increment_Word
+   adda.l      #$00000004,a6
+   rts
+*------------------------
+Increment_Long
+   adda.l      #$00000008,a6
+   rts
+*------------------------
+Increment
+   adda.l      #$00000002,a6
+   rts
+
+
+
 *------------------------
 BGE
+   bsr  Branches
+   rts
 *------------------------
 BLT
+   bsr  Branches
+   rts
 *------------------------
 BVC
+   bsr  Branches
+   rts
 *------------------------
 JSR
     bsr   Initialize_EA 
