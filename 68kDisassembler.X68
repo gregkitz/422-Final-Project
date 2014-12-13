@@ -1230,7 +1230,7 @@ RTS
     BSR EXIT_SR
     bsr   Increment_Word
     RTS
-*------------------------         
+*------------------------
             SIMHALT                              
         
 * Data Section
