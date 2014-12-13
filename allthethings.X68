@@ -882,6 +882,14 @@ OR:
 * IT LOOKS LIKE ADDRESS_REGISTER_INDIRECT CAUSES AN EXTRA COMMA TO BE PRINTED * 
 *------------------------
 ORI
+   bsr   Grab_Six_And_Seven
+   cmp.b   #$00,d3
+   beq   Increment_Byte
+   cmp.b   #$01,d3
+   beq  Increment_Word
+   cmp.b   #02,d3
+   beq  Increment_Long
+   rts
 *------------------------
 EOR:
    bsr   Initialize_EA 
@@ -952,6 +960,8 @@ Register_EA_D
 
 *------------------------
 BCLR
+   bsr  Register_EA
+   rts
 *------------------------
 CMP:
    bsr   Initialize_EA 
@@ -1001,12 +1011,14 @@ Increment_Long
    adda.l      #$00000008,a6
    rts
 *------------------------
+Increment_Byte
+
+   adda.l    #$00000001,a6
+   rts
+*------------------------
 Increment
    adda.l      #$00000002,a6
    rts
-
-
-
 *------------------------
 BGE
    bsr  Branches
