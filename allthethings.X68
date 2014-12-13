@@ -657,7 +657,7 @@ Decode_ABS_LONG    *---code reuse, will make separate procudure if time
    clr   d3
    clr   d4
    clr   d5
-   adda.w   #$1,a6
+   adda.l   #$00000002,a6
    move.w   (a6)+,d3
    move.w   d3,d4
    move.w   d3,d2
@@ -722,7 +722,7 @@ Decode_ABS_LONG    *---code reuse, will make separate procudure if time
 *------------------------
 Absolute_Router  *-- branches to word or long subprocedures based on register info 
     clr      d3
-    move.b   (a6)+,d3
+    move.b   (a6),d3
     andi.b   #%00000111,d3  grabs the register
     cmp.b   #$00,d3   if it's zero its a word
     beq   DECODE_ABS_WORD
@@ -736,7 +736,7 @@ DECODE_ABS_WORD
    clr   d3
    clr   d4
    clr   d5
-   adda.w   #1,a6   increment a6
+   adda.l   #$00000002,a6   increment a6
    move.w   (a6)+,d3
    move.w   d3,d4
    move.w   d3,d2
@@ -779,6 +779,7 @@ Decode_Number   *--- prints out numbers in d4
 
 *------------------------
 NOP    *--- best EA
+   bsr   Increment_Word
    rts
 *------------------------
 NEG
@@ -789,6 +790,7 @@ NEG
    bsr   Grab_Source_reg
    bsr   Mode_Jump_Table
    bsr   Print_EA_String
+   bsr   Increment_Word
    rts
 
 *------------------------
@@ -818,6 +820,7 @@ MOVE:
    bsr   Grab_Dest_reg 
    bsr   Mode_Jump_Table
    bsr   Print_EA_String
+   bsr   Increment_Word
 *B   adda.w   #$2,a6
    rts
 *------------------------
@@ -880,6 +883,7 @@ ADD
    bsr   Mode_Jump_Table
 
    bsr   Print_EA_String
+   bsr   Increment_Word
    rts
 *------------------------
 ADDA
@@ -910,6 +914,7 @@ LEA:
    bsr   Grab_Dest_Mode_Bits
    bsr   Mode_Jump_Table
    bsr   Print_EA_String
+   bsr   Increment_Word
    rts
 
 *------------------------
@@ -923,6 +928,7 @@ OR:
    bsr   Grab_Dest_reg 
    bsr   Decode_DRD         * CMP requires that the register specified by bits 11, 10, and 9 be data register direct
    bsr   Print_EA_String
+   bsr   Increment_Word
    rts
 
 * IT LOOKS LIKE ADDRESS_REGISTER_INDIRECT CAUSES AN EXTRA COMMA TO BE PRINTED * 
@@ -935,6 +941,7 @@ ORI
    beq  Increment_Word
    cmp.b   #02,d3
    beq  Increment_Long
+   bsr   Increment_Word
    rts
 *------------------------
 EOR:
@@ -947,6 +954,7 @@ EOR:
    bsr   Grab_Dest_reg 
    bsr   Decode_DRD         * CMP requires that the register specified by bits 11, 10, and 9 be data register direct
    bsr   Print_EA_String
+   bsr   Increment_Word
    rts
     
 *------------------------
@@ -992,7 +1000,7 @@ Register_EA
    bsr   Grab_Source_Reg
    bsr   Decode_DRD  
    bsr   Print_EA_String
-
+   bsr   Increment_Word
    rts
 
 
@@ -1000,6 +1008,7 @@ Register_EA
 Register_EA_D
 
     bsr   Decode_DRD
+    bsr   Increment_Word
     rts
 *------------------------
 BCLR
@@ -1016,6 +1025,7 @@ CMP:
    bsr   Grab_Dest_reg 
    bsr   Decode_DRD         * CMP requires that the register specified by bits 11, 10, and 9 be data register direct
    bsr   Print_EA_String
+   bsr   Increment_Word
    rts
    * NOTE: THIS SUBROUTINE HAS AN EXTRA COMMA IN THE EA STRING FOR SOME REASON *
 
@@ -1029,6 +1039,8 @@ CMPI
       *   d3 has size, grab immediate based on what it is 
    bsr  Absolute_Router   *this will at least do words and longs similarly 
    bsr   Print_EA_String
+   bsr   Increment_Word
+   rts
    
 
 *------------------------
@@ -1043,7 +1055,7 @@ Branches
    BEQ   Increment_Word
    cmp.b   #$FF
    BEQ   Increment_Long
-   bra   Increment
+   bsr   Increment
    rts 
 *------------------------
 Increment_Word
@@ -1073,6 +1085,7 @@ BLT
 *------------------------
 BVC
    bsr  Branches
+   
    rts
 *------------------------
 JSR
@@ -1085,6 +1098,7 @@ JSR
 *------------------------
 RTS
     BSR EXIT_SR
+    bsr   Increment_Word
     RTS
 *------------------------
 
