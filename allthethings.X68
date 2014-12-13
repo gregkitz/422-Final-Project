@@ -417,25 +417,25 @@ EXIT_TEST
    STOP   #Exit
 *-----------------------
 Initialize_EA
-   lea   EAbuffer,A4 
+   lea   EAbuffer,A4   loads the ea loc into a4
    rts
 *------------------------ 
 Initialize_EA_Test_Pointer
-   lea   TestLoc,A6
+   lea   TestLoc,A6   testing pointer (procedure not used) 
    rts
 *------------------------  
 *  A4 points to the string 
 Print_EA_String
                 bsr   Initialize_EA
              P_LOOP:   move.l      A4,A1
-                cmp.l       #$ffffffff,(A1)      if nothing there don't print     
-                beq         EXIT_SR              exit
+                cmp.l       #$ffffffff,(A1)      stop printing when empty    
+                beq         Exit_Sr              exit
                 move.l      #14,D0
                 trap        #15                  print 
                 adda.l      #$00000004,A4        increment a4
                 bra         P_LOOP     loop
 *------------------------
-EXIT_SR
+Exit_Sr
    LEA      empty_lin,A1
    MOVE.B   #14,D0
    TRAP     #15
@@ -443,15 +443,17 @@ EXIT_SR
 *------------------------
 Decode_SIZE   *  register D3 has size bits
 *---   sizes are byte:00, word:01, long:10
-    cmp.l   #$00000000,d3
-    beq   PRINT_DOT_B
-    cmp.l  #$00000001,d3
-    beq   Print_DOT_W
+    cmp.l   #$00000000,d3   cmp 0 w/ it 
+    beq   PRINT_DOT_B   go concatonate ".B"
+    cmp.l  #$00000001,d3   compare 1
+    beq   Print_DOT_W   go concatonate ".W"
     cmp.l   #$00000002,d3
-    beq   Print_DOT_L
+    beq   Print_DOT_L   go concatonate ".L"
     bra   ERROR_SIZE
 *------------------------
 Decode_Size_Two   *---used in move
+*---- some sizes don't use the same mappings, very annoying 
+*---- 1 is byte, 11 is word, 10 is long
     cmp.l   #$00000001,d3
     beq   PRINT_DOT_B
     cmp.l  #$00000003,d3
@@ -461,34 +463,34 @@ Decode_Size_Two   *---used in move
     bra   ERROR_SIZE
 
 *------------------------
-ERROR_SIZE
+ERROR_SIZE     *--- error SR, needs to do the generic error
+*---- printing and increment 
    rts 
 *------------------------
 *---- passes size back in d3
 Grab_Size_Bits_Seven_Eight  *--- a6 points to where size bits
-    
-    *--- adda.l   #$00000002,a5    
+      
     move.w    (a6),d3  
-    *-----adda.l   #$00000001,a6 
-    andi.w   #$00C0,d3  
-    ror   #6,d3
+    andi.w   #$00C0,d3     these are generally size bits
+    ror   #6,d3     rotate so it can conveniently be read
    rts  
 *-----------------------
-Grab_Six_And_Seven  
-    move.w    (a6),d3 
-    andi.w   #$0060,d3  
-    ror   #5,d3
+*----d3 will have bits
+Grab_Six_And_Seven            *   size bits for some ops
+    move.w    (a6),d3      reads from a6
+    andi.w   #$0060,d3        AND masks for the particular bits
+    ror   #5,d3               and rotates so they can be read
    rts  
 
 *-----------------------
-Grab_Eight
+Grab_Eight       *grabs just the eigth bit
    clr   d4
    move.w    (a6),d4
     andi.w   #$0080,d4  
     ror   #5,d4
    rts  
 *-----------------------
-Grab_Five
+Grab_Five     *grabs just the fifth bit
    move.w    (a6),d4
     andi.w   #$0010,d4  
     ror   #4,d4
@@ -504,14 +506,14 @@ Grab_Size_Bits_Two
 Grab_Mode_Bits *--- grabs mode bits and stores in d3
    clr   d3
    move.w   (a6),d3
-   andi.w   #%0000000000111000,d3
-   ror   #3,d3
+   andi.w   #%0000000000111000,d3    *lazy so just used bits
+   ror   #3,d3    *rors so they can be printed/read
    rts 
 *------------------------
-Grab_Dest_Mode_Bits
+Grab_Dest_Mode_Bits     *---used in a lot of op's
    clr   d3
    move.w   (a6),d3
-   andi.w   #%0000000111000000,d3
+   andi.w   #%0000000111000000,d3    *---there's the mask, easy to see what bits im grabbing
    ror   #6,d3
    rts
 *------------------------
@@ -522,7 +524,7 @@ Grab_Source_Mode_Bits
    ror   #3,d3
    rts
 *------------------------
-PRINT_DOT_B
+PRINT_DOT_B                      *--- generic printing function 
    move.b   #'.',(a4)+       dot to print
    move.b   #'B',(a4)+       "B" to print 
    move.b   #$09,(a4)+       prints spaces 
@@ -543,33 +545,34 @@ Print_DOT_L
    move.b   #$00,(a4)+
    rts
 *------------------------
-Print_Comma
+Print_Comma     
    move.b   #',',(a4)+
    move.b   #$00,(a4)+
-   move.b   #$00,(a4)+
+   move.b   #$00,(a4)+   *--- add 00's so the print loop isn't misaligned
    move.b   #$00,(a4)+
    rts
 *------------------------
 Grab_Source_Reg  *--- grabs and puts into d4
    clr   d4
    move.w  (a6),d4 
-   andi.w   #%0000000000000111,d4
+   andi.w   #%0000000000000111,d4    *--- first three bits
    rts
 
 *------------------------
 Grab_Dest_Reg   *--- grabs and puts into d4
    clr   d4
    move.w  (a6),d4 
-   andi.w   #%0000111000000000,d4
+   andi.w   #%0000111000000000,d4   *--- used a lot 
    ror   #8,d4
    ror   #1,d4
    rts
 *------------------------
-Close_String
+Close_String   *--- probably a depricated mthod 
    move.b   #$00,(a4)
    rts
 *------------------------
-Decode_DRD  *-- d4 has the reg
+Decode_DRD  *-- d4 has the reg     
+*---- does the printing for data register direct
    addi.b   #$30,d4
    move.b   #'D',(a4)+
    move.b   d4,(a4)+
@@ -578,6 +581,7 @@ Decode_DRD  *-- d4 has the reg
    rts
 *------------------------
 Decode_ARD  *-- d4 has the reg
+*---- pretty much same of as DRD
    addi.b   #$30,d4
    move.b   #'A',(a4)+
    move.b   d4,(a4)+
@@ -590,7 +594,7 @@ Mode_Jump_Table *-- d3 has mode
     cmp.b   #$00,d3     *drd
     beq   Decode_DRD
     cmp.b   #$01,d3
-    beq   Decode_ARD
+    beq   Decode_ARD     *ard
     cmp.b   #$02,d3      *ari
     beq   Decode_ARI
     cmp.b   #$03,d3     *ari pi
@@ -612,7 +616,7 @@ Decode_ARI
    rts
 *------------------------
 Mode_Error
-
+   rts    *think ill do generic 'error' subroutine
 *------------------------
 Decode_ARI_PI
     
@@ -623,7 +627,7 @@ Decode_ARI_PI
     move.b   #$00,(a4)+
     move.b   #')',(a4)+
     move.b   #'+',(a4)+
-    move.b   #$00,(a4)+
+    move.b   #$00,(a4)+   adds the string makes sure its aligned
     move.b   #$00,(a4)+
     rts
 
@@ -642,14 +646,13 @@ Decode_ARI_PD
     move.b   #$00,(a4)+
     rts
 *------------------------
-Decode_IMM
-
-
-
-
+Decode_IMM    *--- other procedures can be used instead of this
+   
+   bsr   Decode_Number   might need to do some incrementing 
+   rts   
 *------------------------
 Decode_ABS_LONG    *---code reuse, will make separate procudure if time 
-   clr   d1
+   clr   d1   *---- uses all the registers to convert the numbers and print 
    clr   d2
    clr   d3
    clr   d4
@@ -667,13 +670,13 @@ Decode_ABS_LONG    *---code reuse, will make separate procudure if time
    addi.b   #$30,d2
    andi.l   #$00000F00,d3
    ror      #8,d3
-   addi.b   #$30,d3
+   addi.b   #$30,d3   convert to ASCII
    andi.l   #$000000F0,d4
    ror      #4,d4
-   addi.b   #$30,d4
+   addi.b   #$30,d4   convert to ASCII
    andi.l   #$0000000F,d5
-   addi.b   #$30,d5
-   move.l   #'ab.l',(a4)+
+   addi.b   #$30,d5   convert to ASCII
+   move.l   #'ab.l',(a4)+   generic message 
    move.l   #$00000000,(a4)+
    move.b   d2,(a4)+
    move.b   d3,(a4)+
@@ -698,15 +701,15 @@ Decode_ABS_LONG    *---code reuse, will make separate procudure if time
    ror      #8,d2
    ror      #4,d2
    
-   addi.b   #$30,d2
+   addi.b   #$30,d2   convert to ASCII
    andi.l   #$00000F00,d3
    ror      #8,d3
-   addi.b   #$30,d3
+   addi.b   #$30,d3   convert to ASCII
    andi.l   #$000000F0,d4
    ror      #4,d4
    addi.b   #$30,d4
    andi.l   #$0000000F,d5
-   addi.b   #$30,d5
+   addi.b   #$30,d5   convert to ASCII
    move.b   d2,(a4)+
    move.b   d3,(a4)+
    move.w   #$0000,(a4)+
@@ -721,19 +724,19 @@ Absolute_Router  *-- branches to word or long subprocedures based on register in
     clr      d3
     move.b   (a6)+,d3
     andi.b   #%00000111,d3  grabs the register
-    cmp.b   #$00,d3
+    cmp.b   #$00,d3   if it's zero its a word
     beq   DECODE_ABS_WORD
-    cmp.b   #$01,d3
+    cmp.b   #$01,d3   if its one its a long 
     beq   DECODE_ABS_LONG
     bra   Absolute_Error
 *------------------------
 DECODE_ABS_WORD
    clr   d1
-   clr   d2
+   clr   d2   clear registers (hope they're saved!!!)
    clr   d3
    clr   d4
    clr   d5
-   adda.w   #1,a6
+   adda.w   #1,a6   increment a6
    move.w   (a6)+,d3
    move.w   d3,d4
    move.w   d3,d2
@@ -765,7 +768,7 @@ DECODE_ABS_WORD
 Absolute_Error
 
 *------------------------
-Decode_Number
+Decode_Number   *--- prints out numbers in d4
    addi.b   #$30,d4
    move.b   #'#',(a4)+
    move.b   d4,(a4)+
@@ -775,7 +778,7 @@ Decode_Number
    rts
 
 *------------------------
-NOP
+NOP    *--- best EA
    rts
 *------------------------
 NEG
@@ -822,6 +825,9 @@ MOVE:
 
 *------------------------
 MOVEM
+   bsr   Initialize_EA
+   bsr   Increment_Word
+     
 *------------------------
 ADD
    bsr   Initialize_EA
@@ -946,18 +952,15 @@ Register_EA
    bsr   Grab_Source_Reg
    bsr   Decode_DRD  
    bsr   Print_EA_String
-*B   adda.w   #$2,a6
+
    rts
 
-*B   adda.w   #$2,a6
+
+*------------------------
 Register_EA_D
 
     bsr   Decode_DRD
     rts
-    
-   
-
-
 *------------------------
 BCLR
    bsr  Register_EA
