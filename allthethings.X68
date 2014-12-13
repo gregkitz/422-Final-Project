@@ -821,13 +821,53 @@ MOVE:
 *B   adda.w   #$2,a6
    rts
 *------------------------
+Movem_Mask_Loop    *---- d4 has the loop counter 
+   clr   d3
+   bsr   Increment_Word
+   move.w   (a6)+,d3   move the mask to d3
+
+Start_Loop_M
+   cmp   #17,d4   *end of mask
+   beq   Quit_Loop
+   move.l   d4,d2   moves to d2 so i can mask it 
+   andi.l   #$00000001,d2   masks for LSB
+   cmp.l   #$000000001,d2
+   beq   Print_Loop_Count
+   ror   #1,d3
+
+Print_Loop_Count
+   cmp   #7,d4
+   bgt   Print_A
+   move.b   #'D',(a4)+   adds d to string
+   move.b   #$00,(a4)+
+   move.b   #$00,(a4)+
+   move.b   #$00,(a4)+
+   bsr   Decode_Number   decodes  and prints count at d4
+   bsr   Print_Comma   then prints a comma
+   addi.b   #1,d4   increment the counter
+   bra   Start_Loop_M   then reenters the loops
+
+Print_A
+    move.b   #'D',(a4)+   adds d to string
+   move.b   #$00,(a4)+
+   move.b   #$00,(a4)+
+   move.b   #$00,(a4)+
+   subi.b   #8,d4
+   bsr   Decode_Number   decodes  and prints count at d4
+   bsr   Print_Comma   then prints a comma
+   addi.b   #8,d4
+   addi.b   #1,d4   increment the counter
+   bra   Start_Loop_M   then reenters the loops
 
 
+Quit_Loop
+   rts
 *------------------------
 MOVEM
    bsr   Initialize_EA
    bsr   Increment_Word
-     
+   bsr   Start_Loop_M
+   rts  
 *------------------------
 ADD
    bsr   Initialize_EA
