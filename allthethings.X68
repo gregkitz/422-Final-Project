@@ -824,7 +824,16 @@ MOVE:
 MOVEM
 *------------------------
 ADD
-   bra   MOVE
+   bsr   Initialize_EA
+   
+   bsr   Grab_Source_Reg
+   bsr   Decode_Number
+   bsr   Print_Comma
+   bsr   Grab_Dest_reg 
+   bsr   Grab_Dest_Mode_Bits
+   bsr   Mode_Jump_Table
+
+   bsr   Print_EA_String
    rts
 *------------------------
 ADDA
