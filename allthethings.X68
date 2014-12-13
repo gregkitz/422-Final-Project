@@ -977,44 +977,45 @@ finished    DC.B        'Finished',CR,LF,0
 not_found   DC.B        'No Opcodes were found',CR,LF,0
 nop_message DC.B        'NOP',0
 neg_message DC.B        'NEG',0
-jsr_message DC.B        'JSR',CR,LF,0
-rts_message DC.B        'RTS',CR,LF,0
-bcc_message DC.B        'BCC',CR,LF,0
-bcs_message DC.B        'BCS',CR,LF,0
-bge_message DC.B        'BGE',CR,LF,0
-blt_message DC.B        'BLT',CR,LF,0
-bvc_message DC.B        'BVC',CR,LF,0
-bra_message DC.B        'BRA',CR,LF,0
+jsr_message DC.B        'JSR',LF,0
+rts_message DC.B        'RTS',LF,0
+bcc_message DC.B        'BCC',LF,0
+bcs_message DC.B        'BCS',LF,0
+bge_message DC.B        'BGE',LF,0
+blt_message DC.B        'BLT',LF,0
+bvc_message DC.B        'BVC',LF,0
+bra_message DC.B        'BRA',LF,0
 eor_message DC.B        'EOR ',0
 cmp_message DC.B        'CMP ',0
-asr_message DC.B        'ASR',CR,LF,0
-asl_message DC.B        'ASL',CR,LF,0
-lsr_message DC.B        'LSR',CR,LF,0
-lsl_message DC.B        'LSL',CR,LF,0
-rol_message DC.B        'ROL',CR,LF,0
-ror_message DC.B        'ROR',CR,LF,0
-lea_message DC.B        'LEA',CR,LF,0
+asr_message DC.B        'ASR',LF,0
+asl_message DC.B        'ASL',LF,0
+lsr_message DC.B        'LSR',LF,0
+lsl_message DC.B        'LSL',LF,0
+rol_message DC.B        'ROL',LF,0
+ror_message DC.B        'ROR',LF,0
+lea_message DC.B        'LEA',LF,0
 or_message DC.B         'OR ',0
-bcl_message DC.B        'BCLR',CR,LF,0
-add_message DC.B        'ADD',CR,LF,0
-sub_message DC.B        'SUB',CR,LF,0
-mul_message DC.B        'MULS',CR,LF,0
+bcl_message DC.B        'BCLR',LF,0
+add_message DC.B        'ADD',LF,0
+sub_message DC.B        'SUB',LF,0
+mul_message DC.B        'MULS',LF,0
 div_message DC.B        'DIVS',0
 bov_message DC.B        'MOVE',0
 wov_message DC.B        'MOVE',0
-lov_message DC.B        'MOVE',CR,LF,0
-awo_message DC.B        'MOVEA.W',CR,LF,0
-alo_message DC.B        'MOVEA.L',CR,LF,0
-mmo_message DC.B        'MOVEM (Memory to Register)',CR,LF,0
-rmo_message DC.B        'MOVEM (Register to Memory)',CR,LF,0
-qsu_message DC.B        'SUBQ',CR,LF,0
-ori_message DC.B        'ORI',CR,LF,0
-icm_message DC.B        'CMPI',CR,LF,0
+lov_message DC.B        'MOVE',LF,0
+awo_message DC.B        'MOVEA.W',LF,0
+alo_message DC.B        'MOVEA.L',LF,0
+mmo_message DC.B        'MOVEM (Memory to Register)',LF,0
+rmo_message DC.B        'MOVEM (Register to Memory)',LF,0
+qsu_message DC.B        'SUBQ',LF,0
+ori_message DC.B        'ORI',LF,0
+icm_message DC.B        'CMPI',LF,0
 data        DC.B        'DATA ',0 
 empty_lin   DC.B        '',CR,LF,0   
 
 
             END         START
+
 
 
 

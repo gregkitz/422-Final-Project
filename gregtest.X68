@@ -5,12 +5,12 @@
 * Description:   Testing the EA stuff I do, using this as memory 
 *-----------------------------------------------------------
 test   EQU   $73330
+testABS   EQU   $60050
 START:  ORG    $6000               ; first instruction of program
 
 * BRA - w/ displacements afterward
 
-   move.b   d2,d3   ; branch test 
-   
+   ror   #$3,d0
 
 TOBRANCH   move.b   #3,D0  
            ; just does something and branches to end 
@@ -26,6 +26,13 @@ TOBRANCH   move.b   #3,D0
 *~Font size~10~
 *~Tab type~1~
 *~Tab size~4~
+
+
+
+
+
+
+
 
 
 
