@@ -7,9 +7,9 @@
     
 * -- Equates -- 
 
-EAbuffer EQU   $00070000    
-Exit     EQU   $2700
-TestLoc   EQU  $6000 
+EAbuffer    EQU   $00070000    
+Exit        EQU   $2700
+TestLoc     EQU  $6000 
 CR          EQU         $0D             * Hex value for Carriage Return
 LF          EQU         $0A             * Hex value for New Line Read
 START       EQU         $400            * Address for ORG
@@ -18,7 +18,6 @@ test_bit1   EQU         $3200           * A Value to be used for testing
 test_bit2   EQU         $E459           * A Value to be used for testing  
 holder      EQU         $3F0            * Location of lines to test
 nop_str     EQU         $4E71           * Hex value for NOP
-
 neg_str     EQU         $44             * Hex value for NEG
 jsr_str     EQU         $13A            * Hex value for JSR
 rts_str     EQU         $4E75           * Hex value for RTS
@@ -141,11 +140,13 @@ JSR_RT:     LEA         jsr_message,A1  * Print JSR
             MOVE.B      #14,D0
             TRAP        #15
             * Will branch to EA here            
+            BSR         JSR             * Branch to JSR EA Subroutine
             BRA         FINISH
 RTS_RT:     LEA         rts_message,A1  * Print RTS
             MOVE.B      #14,D0
             TRAP        #15
             * Will branch to EA here            
+            BSR         RTS             * Branch to RTS EA Subroutine
             BRA         FINISH
 BCC_RT:     LEA         bcc_message,A1  * Print BCC
             MOVE.B      #14,D0
@@ -178,8 +179,8 @@ BRA_RT:     LEA         bra_message,A1  * Print BRA
             * Will branch to EA here
             BRA         FINISH                        
            
-EOR_RT     LSR         #6,D2           * Remove the last 6 bits from the string          
-           MOVE.B      D2,D3           * Copy current string
+EOR_RT     MOVE.B      D2,D3           * Copy current string
+           LSR         #6,D3           * Remove the last 6 bits from the string                   
            ANDI.B      #$0F,D3         * Clear second to last digit
            SUB         #8,D3           * Subtract 8 from string
            CMPI        #4,D3           * Is is a CMP function? 
@@ -187,11 +188,13 @@ EOR_RT     LSR         #6,D2           * Remove the last 6 bits from the string
            LEA         eor_message,A1  * Otherwise it's an EOR function 
            MOVE.B      #14,D0
            TRAP        #15
+           BSR         EOR
            BRA         FINISH 
            
 CMP_RT     LEA         cmp_message,A1
            MOVE.B      #14,D0
            TRAP        #15
+           BSR         CMP
            BRA         FINISH
            
 SHF_RT      MOVE.W      D0,D2
@@ -214,11 +217,13 @@ AS_RT      MOVE.B       D2,D3          * Copy string
 LA_RT     LEA           asl_message,A1
           MOVE.B        #14,D0
           TRAP          #15
+          bsr           ROR
           BRA           FINISH
 
 RA_RT     LEA           asr_message,A1
           MOVE.B        #14,D0
           TRAP          #15
+          bsr           ROR
           BRA           FINISH
             
                        
@@ -238,11 +243,13 @@ LS_RT      MOVE.B       D3,D7          * Copy string to check if its a Rotate
 LL_RT     LEA           lsl_message,A1
           MOVE.B        #14,D0
           TRAP          #15
+          bsr           ROR
           BRA           FINISH
 
 RL_RT     LEA           lsr_message,A1
           MOVE.B        #14,D0
           TRAP          #15
+          bsr           ROR
           BRA           FINISH
           
 RO_RT     MOVE.B       D2,D3          * Copy string 
@@ -257,11 +264,13 @@ RO_RT     MOVE.B       D2,D3          * Copy string
 LR_RT    LEA           rol_message,A1
          MOVE.B        #14,D0
          TRAP          #15
+         bsr           ROR
          BRA           FINISH   
 
 RR_RT    LEA           ror_message,A1
          MOVE.B        #14,D0
          TRAP          #15   
+         bsr           ROR
          BRA           FINISH
 
 FOU_RT   ANDI          #$0F0,D3        * Checking 2nd most significant nibble 
@@ -273,12 +282,14 @@ FOU_RT   ANDI          #$0F0,D3        * Checking 2nd most significant nibble
          
 LEA_RT   LEA           lea_message,A1
          MOVE.B        #14,D0
-         TRAP          #15   
+         TRAP          #15  
+         BSR           LEA 
          BRA           FINISH
           
 OR_RT    LEA           or_message,A1
          MOVE.B        #14,D0
-         TRAP          #15   
+         TRAP          #15  
+         BSR           OR 
          BRA           FINISH
          
 ZER_RT   MOVE.W        D0,D1           * Copy original string
@@ -462,12 +473,31 @@ Grab_Size_Bits_Seven_Eight  *--- a6 points to where size bits
     andi.w   #$00C0,d3  
     ror   #6,d3
    rts  
+*-----------------------
+Grab_Six_And_Seven  
+    move.w    (a6),d3 
+    andi.w   #$0060,d3  
+    ror   #5,d3
+   rts  
+
+*-----------------------
+Grab_Eight
+   clr   d4
+   move.w    (a6),d4
+    andi.w   #$0080,d4  
+    ror   #5,d4
+   rts  
+*-----------------------
+Grab_Five
+   move.w    (a6),d4
+    andi.w   #$0010,d4  
+    ror   #4,d4
+   rts
 *------------------------
 Grab_Size_Bits_Two
    move.b   (a6),d3
    andi.b   #$30,d3
-   ror   #4,d3
-   
+   ror   #7,d3
    rts
 
 *------------------------
@@ -595,7 +625,7 @@ Decode_ARI_PI
     move.b   #'+',(a4)+
     move.b   #$00,(a4)+
     move.b   #$00,(a4)+
-   rts
+    rts
 
 
 *------------------------
@@ -613,6 +643,10 @@ Decode_ARI_PD
     rts
 *------------------------
 Decode_IMM
+
+
+
+
 *------------------------
 Decode_ABS_LONG    *---code reuse, will make separate procudure if time 
    clr   d1
@@ -731,6 +765,16 @@ DECODE_ABS_WORD
 Absolute_Error
 
 *------------------------
+Decode_Number
+   addi.b   #$30,d4
+   move.b   #'#',(a4)+
+   move.b   d4,(a4)+
+   move.b   #$00,(a4)+
+   move.b   #$00,(a4)+
+    
+   rts
+
+*------------------------
 NOP
    bsr  EXIT_SR
 *------------------------
@@ -780,6 +824,8 @@ MOVE:
 MOVEM
 *------------------------
 ADD
+   bra   MOVE
+   rts
 *------------------------
 ADDA
 *------------------------
@@ -789,27 +835,118 @@ MULS
 *------------------------
 DIVS
 *------------------------
-LEA
+LEA:
+   bsr   Initialize_EA 
+   bsr   Grab_Source_Reg
+   bsr   Grab_Source_Mode_Bits
+   bsr   Mode_Jump_Table
+   bsr   Print_Comma
+   bsr   Grab_Dest_reg 
+   bsr   Grab_Dest_Mode_Bits
+   bsr   Mode_Jump_Table
+   bsr   Print_EA_String
+   rts
+
 *------------------------
-OR
+OR:
+   bsr   Initialize_EA 
+   bsr   Grab_Source_Reg
+   bsr   Grab_Source_Mode_Bits
+   bsr   Mode_Jump_Table
+   bsr   Print_Comma
+   bsr   Grab_Dest_Mode_Bits
+   bsr   Grab_Dest_reg 
+   bsr   Decode_DRD         * CMP requires that the register specified by bits 11, 10, and 9 be data register direct
+   bsr   Print_EA_String
+   rts
+
+* IT LOOKS LIKE ADDRESS_REGISTER_INDIRECT CAUSES AN EXTRA COMMA TO BE PRINTED * 
 *------------------------
 ORI
 *------------------------
-EOR
+EOR:
+   bsr   Initialize_EA 
+   bsr   Grab_Source_Reg
+   bsr   Grab_Source_Mode_Bits
+   bsr   Mode_Jump_Table
+   bsr   Print_Comma
+   bsr   Grab_Dest_Mode_Bits
+   bsr   Grab_Dest_reg 
+   bsr   Decode_DRD         * CMP requires that the register specified by bits 11, 10, and 9 be data register direct
+   bsr   Print_EA_String
+   rts
+    
 *------------------------
 LSR
+   bsr   Register_EA
+   rts
+
 *------------------------
 LSL
+   bsr   Register_EA
+   rts
 *------------------------
 ASR
+   bsr   Register_EA
+   rts
 *------------------------
 ROL
+   bsr   Register_EA
+   rts
 *------------------------
 ROR
+   bsr   Register_EA
+   rts
+*-------------------------
+Register_EA
+*   bsr   Initialize_EA 
+*   bsr   Grab_Dest_reg *grab destination reg 
+*   bsr   Decode_DRD 
+*   bsr   Print_Comma
+*   bsr   Grab_Source_Reg
+*   bsr   Grab_Source_Mode_Bits
+*   bsr   Mode_Jump_Table
+*   bsr   Print_EA_String
+*   rts
+
+   bsr   Initialize_EA
+   bsr   Grab_Eight
+   cmp.b   #$00,d4
+   bgt  Register_EA_D  *its a register not an immediate
+   bsr   Grab_Dest_Reg 
+   bsr   Decode_Number
+   bsr   Print_Comma
+   bsr   Grab_Source_Reg
+   bsr   Decode_DRD  
+   bsr   Print_EA_String
+*B   adda.w   #$2,a6
+   rts
+
+*B   adda.w   #$2,a6
+Register_EA_D
+
+    bsr   Decode_DRD
+    rts
+    
+   
+
+
 *------------------------
 BCLR
 *------------------------
-CMP
+CMP:
+   bsr   Initialize_EA 
+   bsr   Grab_Source_Reg
+   bsr   Grab_Source_Mode_Bits
+   bsr   Mode_Jump_Table
+   bsr   Print_Comma
+   bsr   Grab_Dest_Mode_Bits
+   bsr   Grab_Dest_reg 
+   bsr   Decode_DRD         * CMP requires that the register specified by bits 11, 10, and 9 be data register direct
+   bsr   Print_EA_String
+   rts
+   * NOTE: THIS SUBROUTINE HAS AN EXTRA COMMA IN THE EA STRING FOR SOME REASON *
+
 *------------------------
 CMPI
 *------------------------
@@ -822,8 +959,12 @@ BLT
 BVC
 *------------------------
 JSR
+    BSR EXIT_SR
+    RTS
 *------------------------
 RTS
+    BSR EXIT_SR
+    RTS
 *------------------------
 
 
@@ -844,8 +985,8 @@ bge_message DC.B        'BGE',CR,LF,0
 blt_message DC.B        'BLT',CR,LF,0
 bvc_message DC.B        'BVC',CR,LF,0
 bra_message DC.B        'BRA',CR,LF,0
-eor_message DC.B        'EOR',CR,LF,0
-cmp_message DC.B        'CMP',CR,LF,0
+eor_message DC.B        'EOR ',0
+cmp_message DC.B        'CMP ',0
 asr_message DC.B        'ASR',CR,LF,0
 asl_message DC.B        'ASL',CR,LF,0
 lsr_message DC.B        'LSR',CR,LF,0
@@ -853,7 +994,7 @@ lsl_message DC.B        'LSL',CR,LF,0
 rol_message DC.B        'ROL',CR,LF,0
 ror_message DC.B        'ROR',CR,LF,0
 lea_message DC.B        'LEA',CR,LF,0
-or_message DC.B         'OR',CR,LF,0
+or_message DC.B         'OR ',0
 bcl_message DC.B        'BCLR',CR,LF,0
 add_message DC.B        'ADD',CR,LF,0
 sub_message DC.B        'SUB',CR,LF,0
@@ -874,6 +1015,11 @@ empty_lin   DC.B        '',CR,LF,0
 
 
             END         START
+
+
+
+
+
 
 
 
